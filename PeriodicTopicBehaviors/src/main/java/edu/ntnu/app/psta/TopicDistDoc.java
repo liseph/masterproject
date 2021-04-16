@@ -1,27 +1,26 @@
 package edu.ntnu.app.psta;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class TopicDistDoc implements Variable {
 
-    private final Documents docs;
-    private final int themeIndex;
+    private final int docIndex;
     private final double[] topicDistributionDoc;
     private final int nTopics;
     private VariableList latentWordByTopic;
     private VariableList latentWordByTL;
 
-    public TopicDistDoc(int nTopics, int themeIndex, Documents docs) {
-        this.docs = docs;
+    public TopicDistDoc(int nTopics, int docIndex) {
         this.nTopics = nTopics;
-        this.themeIndex = themeIndex;
-        this.topicDistributionDoc = VariableList.generateRandomDistribution(docs.nDocuments());
+        this.docIndex = docIndex;
+        this.topicDistributionDoc = VariableList.generateRandomDistribution(nTopics);
     }
 
-    public static VariableList generateEmptyTopicDist(int nTopics, Documents docs) {
-        Variable[] variables = new TopicDistDoc[nTopics];
-        for (int i = 0; i < nTopics; i++) {
-            variables[i] = new TopicDistDoc(nTopics, i, docs);
+    public static VariableList generateEmptyTopicDist(int nTopics) {
+        Variable[] variables = new TopicDistDoc[Docs.nDocuments()];
+        for (int i = 0; i < Docs.nDocuments(); i++) {
+            variables[i] = new TopicDistDoc(nTopics, i);
         }
         return new VariableList(variables);
     }
@@ -29,24 +28,24 @@ public class TopicDistDoc implements Variable {
     @Override
     public boolean update() {
         boolean converges = true;
-        for (int d = 0; d < docs.nDocuments(); d++) {
-            double numerator = baseCalcForAllWords(themeIndex, d);
-            int finalD = d; // To use in stream
-            double denominator = IntStream.range(0, nTopics).mapToDouble(z -> baseCalcForAllWords(z, finalD)).sum();
-            double oldVal = topicDistributionDoc[d];
-            double newVal = numerator / denominator;
+        double denominator = IntStream.range(0, nTopics).mapToDouble(z2 -> baseCalcForAllWords(z2, docIndex)).sum();
+        for (int z = 0; z < nTopics; z++) {
+            double numerator = baseCalcForAllWords(z, docIndex);
+            double oldVal = topicDistributionDoc[z];
+            double newVal = denominator != 0 ? numerator / denominator : 0;
             converges = converges && Math.abs(oldVal - newVal) < PSTA.EPSILON;
-            topicDistributionDoc[d] = newVal;
+            topicDistributionDoc[z] = newVal;
         }
         return converges;
     }
 
     private double baseCalc(int z, int d, int w) {
-        return docs.getWordCount(d, w) * latentWordByTopic.get(z).get(d, w) * (1 - latentWordByTL.get(z).get(d, w));
+        return Docs.getWordCount(d, w) * latentWordByTopic.get(d).get(w, z) * (1 - latentWordByTL.get(d).get(w, z));
     }
 
     private double baseCalcForAllWords(int z, int d) {
-        return IntStream.range(0, docs.nWords()).mapToDouble(w -> baseCalc(z, d, w)).sum();
+        Integer[] termIndices = Docs.get(d).getTermIndices();
+        return Arrays.stream(Docs.get(d).getTermIndices()).mapToDouble(w -> baseCalc(z, d, w)).sum();
     }
 
     public void setVars(VariableList latentWordByTopic, VariableList latentWordByTL) {
@@ -55,10 +54,18 @@ public class TopicDistDoc implements Variable {
     }
 
     @Override
-    public double get(int... docIndex) {
-        if (docIndex.length != 1) {
+    public double get(int... topicIndex) {
+        if (topicIndex.length != 1) {
             throw new IllegalArgumentException("Wrong number of values passed to TopicDistDoc.get(). It should be 1.");
         }
-        return topicDistributionDoc[docIndex[0]];
+        return topicDistributionDoc[topicIndex[0]];
+    }
+
+    @Override
+    public String toString() {
+        return "\np(z|d){" +
+                "d=" + docIndex +
+                ", [z]=" + Arrays.toString(topicDistributionDoc) +
+                '}';
     }
 }

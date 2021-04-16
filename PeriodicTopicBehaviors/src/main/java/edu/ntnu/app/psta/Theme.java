@@ -1,5 +1,9 @@
 package edu.ntnu.app.psta;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Theme implements Variable {
@@ -8,20 +12,17 @@ public class Theme implements Variable {
 
     private final double[] wordDistribution;
     private final int id;
-    private final Documents docs;
     private VariableList latentWordByTopic;
-    private VariableList latentWordByTL;
 
-    public Theme(Documents docs) {
+    public Theme() {
         this.id = idCount++;
-        this.wordDistribution = VariableList.generateRandomDistribution(docs.nWords());
-        this.docs = docs;
+        this.wordDistribution = VariableList.generateRandomDistribution(Docs.nWords());
     }
 
-    public static VariableList generateEmptyThemes(int nTopics, Documents docs) {
+    public static VariableList generateEmptyThemes(int nTopics) {
         Variable[] variables = new Theme[nTopics];
         for (int i = 0; i < nTopics; i++) {
-            variables[i] = new Theme(docs);
+            variables[i] = new Theme();
         }
         return new VariableList(variables);
     }
@@ -29,28 +30,27 @@ public class Theme implements Variable {
     @Override
     public boolean update() {
         boolean converges = true;
-        for (int w = 0; w < docs.nWords(); w++) {
-            double numerator = baseCalcForAllDocs(id, w);
-            double denominator = IntStream.range(0, docs.nWords()).mapToDouble(w2 -> baseCalcForAllDocs(id, w2)).sum();
+        double denominator = IntStream.range(0, Docs.nWords()).mapToDouble(w2 -> baseCalcForAllDocs(w2)).sum();
+        for (int w = 0; w < Docs.nWords(); w++) {
+            double numerator = baseCalcForAllDocs(w);
             double oldVal = wordDistribution[w];
-            double newVal = numerator / denominator;
+            double newVal = denominator != 0 ? numerator / denominator : 0;
             converges = converges && Math.abs(oldVal - newVal) < PSTA.EPSILON;
             wordDistribution[w] = newVal;
         }
         return converges;
     }
 
-    private double baseCalc(int z, int d, int w) {
-        return docs.getWordCount(d, w) * latentWordByTopic.get(id).get(d, w);
+    private double baseCalc(int d, int w) {
+        return Docs.getWordCount(d, w) * latentWordByTopic.get(d).get(w, id);
     }
 
-    private double baseCalcForAllDocs(int z, int w) {
-        return IntStream.range(0, docs.nDocuments()).mapToDouble(d -> baseCalc(z, d, w)).sum();
+    private double baseCalcForAllDocs(int w) {
+        return Docs.getIndexOfDocsWithWord(w).mapToDouble(d -> baseCalc(d, w)).sum();
     }
 
-    public void setVars(VariableList latentWordByTopic, VariableList latentWordByTL) {
+    public void setVars(VariableList latentWordByTopic, VariableList ignoreMe) {
         this.latentWordByTopic = latentWordByTopic;
-        this.latentWordByTL = latentWordByTL;
     }
 
     @Override
@@ -63,5 +63,25 @@ public class Theme implements Variable {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        Map<Double, String> wordDistributionMap = new TreeMap<>();
+        String[] vocabulary = Docs.getVocabulary();
+        for (int i = 0; i < Docs.nWords(); i++) {
+            wordDistributionMap.put(wordDistribution[i], vocabulary[i]);
+        }
+        return "\np(w|z){" +
+                "z=" + id +
+                "[word:prob]=" + mapToString(wordDistributionMap) +
+                '}';
+    }
+
+    private String mapToString(Map<Double, String> map) {
+        String mapAsString = map.entrySet().stream()
+                .map(entry -> entry.getValue() + ":" + entry.getKey())
+                .collect(Collectors.joining(", ", "{", "}"));
+        return mapAsString;
     }
 }

@@ -8,13 +8,14 @@ public class Document {
 
     private final int id;
     private final int locationId;
-    private final int timeId;
+    private final long timestamp;
     private final String[] terms;
+    private Integer[] termIndices;
 
-    public Document(double longitude, double latitude, int timestamp, String[] terms) {
+    public Document(int locationId, long timestamp, String[] terms) {
         this.id = idCount++;
-        this.locationId = 0;
-        this.timeId = 0;
+        this.locationId = locationId;
+        this.timestamp = timestamp;
         this.terms = terms;
     }
 
@@ -23,7 +24,7 @@ public class Document {
     }
 
     public int getTimestampId() {
-        return timeId;
+        return Docs.getTimestampId(timestamp);
     }
 
     public Stream<String> getTerms() {
@@ -31,10 +32,18 @@ public class Document {
     }
 
     public boolean hasTimeAndLoc(int t, int l) {
-        return t == timeId && l == locationId;
+        return t == getTimestampId() && l == locationId;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setTermIndices(Integer[] docTermIndices) {
+        this.termIndices = docTermIndices;
+    }
+
+    public Integer[] getTermIndices() {
+        return termIndices;
     }
 }

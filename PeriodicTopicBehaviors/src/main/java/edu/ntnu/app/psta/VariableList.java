@@ -13,6 +13,7 @@ public class VariableList implements Iterable<Variable> {
         this.variables = variables;
     }
 
+
     public static double[] generateRandomDistribution(int length) {
         double[] d = new Random().doubles(length, 0, 1).toArray();
         double total = Arrays.stream(d).sum();
@@ -22,7 +23,7 @@ public class VariableList implements Iterable<Variable> {
     public void updateAll() {
         converged = true;
         for (Variable variable : variables) {
-            converged = converged && variable.update();
+            converged = variable.update() && converged;
         }
     }
 
@@ -47,5 +48,13 @@ public class VariableList implements Iterable<Variable> {
 
     public Variable get(int i) {
         return variables[i];
+    }
+
+    @Override
+    public String toString() {
+        return "List{" +
+                Arrays.toString(variables) +
+                ", converged=" + converged +
+                '}';
     }
 }

@@ -1,5 +1,9 @@
 package edu.ntnu.app.psta;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public class PstaPattern {
     private final VariableList topicDistTLs;
     private final VariableList topicDistDocs;
@@ -21,5 +25,24 @@ public class PstaPattern {
 
     public VariableList getThemes() {
         return themes;
+    }
+
+    public void writeToFile() {
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new FileWriter("../pstaPatterns.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        pw.write("THEMES:");
+        pw.write(themes.toString());
+        pw.write("\nTOPIC DISTRIBUTION PER DOCUMENT:");
+        pw.write(topicDistDocs.toString());
+        pw.write("\nTOPIC DISTRIBUTION PER TIME,LOCATION PAIR:");
+        pw.write(topicDistTLs.toString());
+
+        pw.close();
     }
 }

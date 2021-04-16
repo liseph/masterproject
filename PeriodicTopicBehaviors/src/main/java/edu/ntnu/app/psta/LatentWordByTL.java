@@ -2,30 +2,28 @@ package edu.ntnu.app.psta;
 
 public class LatentWordByTL implements Variable {
 
-    private final Documents docs;
     private final double[][] latentWordByTL;
-    private final VariableList themes;
+    private final VariableList topics;
     private final VariableList topicDistDocs;
     private final VariableList topicDistTLs;
-    private final int themeIndex;
+    private final int docIndex;
 
-    public LatentWordByTL(VariableList themes, VariableList topicDistDocs, VariableList topicDistTLs, int themeIndex, Documents docs) {
-        this.docs = docs;
-        this.themes = themes;
+    public LatentWordByTL(VariableList topics, VariableList topicDistDocs, VariableList topicDistTLs, int docIndex) {
+        this.topics = topics;
         this.topicDistDocs = topicDistDocs;
         this.topicDistTLs = topicDistTLs;
-        this.themeIndex = themeIndex;
-        this.latentWordByTL = new double[docs.nDocuments()][docs.nWords()];
-        for (int i = 0; i < docs.nDocuments(); i++) {
-            this.latentWordByTL[i] = VariableList.generateRandomDistribution(docs.nWords());
+        this.docIndex = docIndex;
+        this.latentWordByTL = new double[Docs.nWords()][topics.length()];
+        for (int i = 0; i < Docs.nWords(); i++) {
+            // No need for initial values as we update the latent variables first.
+            this.latentWordByTL[i] = new double[topics.length()];
         }
     }
 
-    public static VariableList generateEmptyTopicDist(VariableList themes, VariableList topicDistDocs, VariableList topicDistTLs, Documents docs) {
-        int nTopics = themes.length();
-        Variable[] variables = new LatentWordByTL[nTopics];
-        for (int i = 0; i < nTopics; i++) {
-            variables[i] = new LatentWordByTL(themes, topicDistDocs, topicDistTLs, i, docs);
+    public static VariableList generateEmptyTopicDist(VariableList themes, VariableList topicDistDocs, VariableList topicDistTLs) {
+        Variable[] variables = new LatentWordByTL[Docs.nDocuments()];
+        for (int i = 0; i < Docs.nDocuments(); i++) {
+            variables[i] = new LatentWordByTL(themes, topicDistDocs, topicDistTLs, i);
         }
         return new VariableList(variables);
     }
@@ -33,16 +31,18 @@ public class LatentWordByTL implements Variable {
     @Override
     public boolean update() {
         boolean converges = true;
-        for (int d = 0; d < docs.nDocuments(); d++) {
-            for (int w = 0; w < docs.nWords(); w++) {
-                double numerator = PSTA.LambdaTL * topicDistTLs
-                        .get(themeIndex)
-                        .get(docs.get(d).getTimestampId(), docs.get(d).getLocationId());
-                double denominator = (1 - PSTA.LambdaTL) * topicDistDocs.get(themeIndex).get(d) + numerator;
-                double oldVal = latentWordByTL[d][w];
-                double newVal = numerator / denominator;
+        for (int z = 0; z < topics.length(); z++) {
+            for (int w = 0; w < Docs.nWords(); w++) {
+                // The first part, p(w|z), is not a part of the paper, but w is not included at all in the formula..
+                //double numerator = topics.get(z).get(w) * PSTA.LAMBDA_TL * topicDistTLs
+                double numerator = PSTA.LAMBDA_TL * topicDistTLs
+                        .get(Docs.get(docIndex).getTimestampId())
+                        .get(Docs.get(docIndex).getLocationId(), z);
+                double denominator = (1 - PSTA.LAMBDA_TL) * topicDistDocs.get(docIndex).get(z) + numerator;
+                double oldVal = latentWordByTL[w][z];
+                double newVal = denominator != 0 ? numerator / denominator : 0;
                 converges = converges && Math.abs(oldVal - newVal) < PSTA.EPSILON;
-                latentWordByTL[d][w] = newVal;
+                latentWordByTL[w][z] = newVal;
             }
         }
         return converges;
@@ -58,8 +58,8 @@ public class LatentWordByTL implements Variable {
         if (values.length != 2) {
             throw new IllegalArgumentException("Wrong number of values passed to LatentWordByTopic.get(). It should be 2.");
         }
-        int docIndex = values[0];
-        int wordIndex = values[1];
-        return latentWordByTL[docIndex][wordIndex];
+        int wordIndex = values[0];
+        int topicIndex = values[1];
+        return latentWordByTL[wordIndex][topicIndex];
     }
 }
