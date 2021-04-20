@@ -81,6 +81,11 @@ public class PSTA {
         return new PstaResult(themes, topicDistDocs, topicDistTLs);
     }
 
+    // NOTE: Right now, the time series periodicity detection algorithm expects a regularily sampled time series.
+    // Our PstaResult is NOT regularily sampled. This is because in these points, we only got 0 anyways, so it just
+    // took a lot of space. Consider if this is a problem. I read that a few missing values is not a problem, and that
+    // by filling them in, you make it worse... In theory, there shouldn't be that many missing values as we have a
+    // large dataset.
     static public PstaPattern[] analyze(PstaResult pattern) {
         Map<Float, Map<Integer, PstaPattern>> patterns = new HashMap<>();
         for (int l = 0; l < Docs.nLocations(); l++) {

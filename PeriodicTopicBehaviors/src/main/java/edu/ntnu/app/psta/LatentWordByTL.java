@@ -1,5 +1,7 @@
 package edu.ntnu.app.psta;
 
+import java.util.Arrays;
+
 public class LatentWordByTL implements Variable {
 
     private final Float[][] latentWordByTL;
@@ -15,8 +17,9 @@ public class LatentWordByTL implements Variable {
         this.docIndex = docIndex;
         this.latentWordByTL = new Float[Docs.nWords()][topics.length()];
         for (int i = 0; i < Docs.nWords(); i++) {
-            // No need for initial values as we update the latent variables first.
+            // No need for initial values as we update the latent variables first. Must set to 0 as default is null...
             this.latentWordByTL[i] = new Float[topics.length()];
+            Arrays.fill(this.latentWordByTL[i], 0f);
         }
     }
 

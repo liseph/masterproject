@@ -34,4 +34,14 @@ public class PstaPattern {
     public TreeSet<Integer> getLocationTrajectory() {
         return locationTrajectory;
     }
+
+    @Override
+    public String toString() {
+        return "PstaPattern{" +
+                "period=" + period +
+                ", offset=" + offset +
+                ", themeIndex=" + themeIndex +
+                ", locationTrajectory=" + locationTrajectory.toArray() +
+                '}';
+    }
 }
