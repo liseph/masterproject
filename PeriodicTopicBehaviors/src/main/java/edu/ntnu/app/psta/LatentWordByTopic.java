@@ -8,17 +8,17 @@ public class LatentWordByTopic implements Variable {
     private final VariableList topicDistDocs;
     private final VariableList topicDistTLs;
     private final int docIndex;
-    private final double[][] latentWordByTopic;
+    private final Float[][] latentWordByTopic;
 
     public LatentWordByTopic(VariableList themes, VariableList topicDistDocs, VariableList topicDistTLs, int docIndex) {
         this.themes = themes;
         this.topicDistDocs = topicDistDocs;
         this.topicDistTLs = topicDistTLs;
         this.docIndex = docIndex;
-        this.latentWordByTopic = new double[Docs.nWords()][themes.length()];
+        this.latentWordByTopic = new Float[Docs.nWords()][themes.length()];
         for (int i = 0; i < Docs.nWords(); i++) {
             // No need for initial values as we update the latent variables first.
-            this.latentWordByTopic[i] = new double[themes.length()];
+            this.latentWordByTopic[i] = new Float[themes.length()];
         }
     }
 
@@ -36,15 +36,15 @@ public class LatentWordByTopic implements Variable {
         boolean converges = true;
         for (int z = 0; z < themes.length(); z++) {
             for (int w = 0; w < Docs.nWords(); w++) {
-                double numerator = (1 - PSTA.LAMBDA_B) * calcProbTopicByDocAndTL(z, docIndex, w);
+                Float numerator = (1 - PSTA.LAMBDA_B) * calcProbTopicByDocAndTL(z, docIndex, w);
                 int finalW = w; // To use in stream
-                double denominator = PSTA.LAMBDA_B * Docs.backgroundTheme[w] +
+                Float denominator = PSTA.LAMBDA_B * Docs.backgroundTheme[w] +
                         (1 - PSTA.LAMBDA_B) * IntStream
                                 .range(0, themes.length())
-                                .mapToDouble(z2 -> calcProbTopicByDocAndTL(z2, docIndex, finalW))
-                                .sum();
-                double oldVal = latentWordByTopic[w][z];
-                double newVal = denominator != 0 ? numerator / denominator : 0;
+                                .mapToObj(z2 -> calcProbTopicByDocAndTL(z2, docIndex, finalW))
+                                .reduce(0f, Float::sum);
+                Float oldVal = latentWordByTopic[w][z];
+                Float newVal = denominator != 0 ? numerator / denominator : 0;
                 converges = converges && Math.abs(oldVal - newVal) < PSTA.EPSILON;
                 latentWordByTopic[w][z] = newVal;
             }
@@ -52,11 +52,11 @@ public class LatentWordByTopic implements Variable {
         return converges;
     }
 
-    private double calcProbTopicByDocAndTL(int z, int d, int w) {
+    private Float calcProbTopicByDocAndTL(int z, int d, int w) {
         return themes.get(z).get(w) *
                 ((1 - PSTA.LAMBDA_TL) * topicDistDocs.get(d).get(z) +
                         PSTA.LAMBDA_TL *
-                                topicDistTLs.get(Docs.get(d).getTimestampId()).get(Docs.get(d).getLocationId(), z));
+                                topicDistTLs.get(Docs.get(d).getLocationId()).get(Docs.get(d).getTimestampId(), z));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class LatentWordByTopic implements Variable {
     }
 
     @Override
-    public double get(int... values) {
+    public Float get(int... values) {
         if (values.length != 2) {
             throw new IllegalArgumentException("Wrong number of values passed to LatentWordByTopic.get(). It should be 2.");
         }

@@ -14,10 +14,10 @@ public class VariableList implements Iterable<Variable> {
     }
 
 
-    public static double[] generateRandomDistribution(int length) {
-        double[] d = new Random().doubles(length, 0, 1).toArray();
-        double total = Arrays.stream(d).sum();
-        return Arrays.stream(d).map(v -> v / total).toArray();
+    public static Float[] generateRandomDistribution(int length) {
+        Float[] d = new Random().doubles(length, 0, 1).mapToObj(p -> (float) p).toArray(Float[]::new);
+        float total = Arrays.stream(d).reduce(0f, Float::sum);
+        return Arrays.stream(d).map(v -> v / total).toArray(Float[]::new);
     }
 
     public void updateAll() {
@@ -50,8 +50,7 @@ public class VariableList implements Iterable<Variable> {
         return variables[i];
     }
 
-    @Override
-    public String toString() {
+    public String toStringForFile() {
         return "List{" +
                 Arrays.toString(variables) +
                 ", converged=" + converged +

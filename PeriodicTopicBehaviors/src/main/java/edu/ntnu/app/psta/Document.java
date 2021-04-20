@@ -10,7 +10,8 @@ public class Document {
     private final int locationId;
     private final long timestamp;
     private final String[] terms;
-    private Integer[] termIndices;
+    private int timestampIndex = -1;
+    private int[] termIndices;
 
     public Document(int locationId, long timestamp, String[] terms) {
         this.id = idCount++;
@@ -24,7 +25,10 @@ public class Document {
     }
 
     public int getTimestampId() {
-        return Docs.getTimestampId(timestamp);
+        if (timestampIndex != -1)
+            return timestampIndex;
+        timestampIndex = Docs.getTimestampIndex(timestamp);
+        return timestampIndex;
     }
 
     public Stream<String> getTerms() {
@@ -39,11 +43,11 @@ public class Document {
         return id;
     }
 
-    public void setTermIndices(Integer[] docTermIndices) {
-        this.termIndices = docTermIndices;
+    public int[] getTermIndices() {
+        return termIndices;
     }
 
-    public Integer[] getTermIndices() {
-        return termIndices;
+    public void setTermIndices(int[] docTermIndices) {
+        this.termIndices = docTermIndices;
     }
 }

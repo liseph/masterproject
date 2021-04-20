@@ -23,7 +23,8 @@ public class Location {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Location location = (Location) o;
-        return name.equals(location.name) && city.equals(location.city) && country.equals(location.country);
+        // return city.equals(location.city) && country.equals(location.country);
+        return country.equals(location.country);
     }
 
     @Override

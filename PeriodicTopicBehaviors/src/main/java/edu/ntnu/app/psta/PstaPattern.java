@@ -1,48 +1,37 @@
 package edu.ntnu.app.psta;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.TreeSet;
 
 public class PstaPattern {
-    private final VariableList topicDistTLs;
-    private final VariableList topicDistDocs;
-    private final VariableList themes;
+    private final Float period;
+    private final long offset;
+    private final int themeIndex;
+    private final TreeSet<Integer> locationTrajectory;
 
-    public PstaPattern(VariableList themes, VariableList topicDistDocs, VariableList topicDistTLs) {
-        this.themes = themes;
-        this.topicDistDocs = topicDistDocs;
-        this.topicDistTLs = topicDistTLs;
+    public PstaPattern(Float period, long offset, int themeIndex) {
+        this.period = period;
+        this.offset = offset;
+        this.themeIndex = themeIndex;
+        this.locationTrajectory = new TreeSet<>();
     }
 
-    public VariableList getTopicDistTLs() {
-        return topicDistTLs;
+    public void addLocation(int l) {
+        locationTrajectory.add(l);
     }
 
-    public VariableList getTopicDistDocs() {
-        return topicDistDocs;
+    public Float getPeriod() {
+        return period;
     }
 
-    public VariableList getThemes() {
-        return themes;
+    public long getOffset() {
+        return offset;
     }
 
-    public void writeToFile() {
-        PrintWriter pw = null;
-        try {
-            pw = new PrintWriter(new FileWriter("../pstaPatterns.txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
+    public int getThemeIndex() {
+        return themeIndex;
+    }
 
-        pw.write("THEMES:");
-        pw.write(themes.toString());
-        pw.write("\nTOPIC DISTRIBUTION PER DOCUMENT:");
-        pw.write(topicDistDocs.toString());
-        pw.write("\nTOPIC DISTRIBUTION PER TIME,LOCATION PAIR:");
-        pw.write(topicDistTLs.toString());
-
-        pw.close();
+    public TreeSet<Integer> getLocationTrajectory() {
+        return locationTrajectory;
     }
 }

@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 public class TopicDistDoc implements Variable {
 
     private final int docIndex;
-    private final double[] topicDistributionDoc;
+    private final Float[] topicDistributionDoc;
     private final int nTopics;
     private VariableList latentWordByTopic;
     private VariableList latentWordByTL;
@@ -28,24 +28,24 @@ public class TopicDistDoc implements Variable {
     @Override
     public boolean update() {
         boolean converges = true;
-        double denominator = IntStream.range(0, nTopics).mapToDouble(z2 -> baseCalcForAllWords(z2, docIndex)).sum();
+        Float denominator = IntStream.range(0, nTopics).mapToObj(z2 -> baseCalcForAllWords(z2, docIndex)).reduce(0f, Float::sum);
         for (int z = 0; z < nTopics; z++) {
-            double numerator = baseCalcForAllWords(z, docIndex);
-            double oldVal = topicDistributionDoc[z];
-            double newVal = denominator != 0 ? numerator / denominator : 0;
+            Float numerator = baseCalcForAllWords(z, docIndex);
+            Float oldVal = topicDistributionDoc[z];
+            Float newVal = denominator != 0 ? numerator / denominator : 0;
             converges = converges && Math.abs(oldVal - newVal) < PSTA.EPSILON;
             topicDistributionDoc[z] = newVal;
         }
         return converges;
     }
 
-    private double baseCalc(int z, int d, int w) {
+    private Float baseCalc(int z, int d, int w) {
         return Docs.getWordCount(d, w) * latentWordByTopic.get(d).get(w, z) * (1 - latentWordByTL.get(d).get(w, z));
     }
 
-    private double baseCalcForAllWords(int z, int d) {
-        Integer[] termIndices = Docs.get(d).getTermIndices();
-        return Arrays.stream(Docs.get(d).getTermIndices()).mapToDouble(w -> baseCalc(z, d, w)).sum();
+    private Float baseCalcForAllWords(int z, int d) {
+        int[] termIndices = Docs.get(d).getTermIndices();
+        return Arrays.stream(Docs.get(d).getTermIndices()).mapToObj(w -> baseCalc(z, d, w)).reduce(0f, Float::sum);
     }
 
     public void setVars(VariableList latentWordByTopic, VariableList latentWordByTL) {
@@ -54,7 +54,7 @@ public class TopicDistDoc implements Variable {
     }
 
     @Override
-    public double get(int... topicIndex) {
+    public Float get(int... topicIndex) {
         if (topicIndex.length != 1) {
             throw new IllegalArgumentException("Wrong number of values passed to TopicDistDoc.get(). It should be 1.");
         }

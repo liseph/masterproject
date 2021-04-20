@@ -7,8 +7,8 @@ public class Timeseries {
     final private int fs;
     private boolean meanRemoved = false;
 
-    public Timeseries(double[] data, int fs) {
-        this.data = data;
+    public Timeseries(Float[] data, int fs) {
+        this.data = Arrays.stream(data).mapToDouble(f -> f).toArray();
         this.fs = fs;
     }
 

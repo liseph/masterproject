@@ -2,7 +2,7 @@ package edu.ntnu.app.psta;
 
 public class LatentWordByTL implements Variable {
 
-    private final double[][] latentWordByTL;
+    private final Float[][] latentWordByTL;
     private final VariableList topics;
     private final VariableList topicDistDocs;
     private final VariableList topicDistTLs;
@@ -13,10 +13,10 @@ public class LatentWordByTL implements Variable {
         this.topicDistDocs = topicDistDocs;
         this.topicDistTLs = topicDistTLs;
         this.docIndex = docIndex;
-        this.latentWordByTL = new double[Docs.nWords()][topics.length()];
+        this.latentWordByTL = new Float[Docs.nWords()][topics.length()];
         for (int i = 0; i < Docs.nWords(); i++) {
             // No need for initial values as we update the latent variables first.
-            this.latentWordByTL[i] = new double[topics.length()];
+            this.latentWordByTL[i] = new Float[topics.length()];
         }
     }
 
@@ -34,13 +34,13 @@ public class LatentWordByTL implements Variable {
         for (int z = 0; z < topics.length(); z++) {
             for (int w = 0; w < Docs.nWords(); w++) {
                 // The first part, p(w|z), is not a part of the paper, but w is not included at all in the formula..
-                //double numerator = topics.get(z).get(w) * PSTA.LAMBDA_TL * topicDistTLs
-                double numerator = PSTA.LAMBDA_TL * topicDistTLs
-                        .get(Docs.get(docIndex).getTimestampId())
-                        .get(Docs.get(docIndex).getLocationId(), z);
-                double denominator = (1 - PSTA.LAMBDA_TL) * topicDistDocs.get(docIndex).get(z) + numerator;
-                double oldVal = latentWordByTL[w][z];
-                double newVal = denominator != 0 ? numerator / denominator : 0;
+                //Float numerator = topics.get(z).get(w) * PSTA.LAMBDA_TL * topicDistTLs
+                Float numerator = PSTA.LAMBDA_TL * topicDistTLs
+                        .get(Docs.get(docIndex).getLocationId())
+                        .get(Docs.get(docIndex).getTimestampId(), z);
+                Float denominator = (1 - PSTA.LAMBDA_TL) * topicDistDocs.get(docIndex).get(z) + numerator;
+                Float oldVal = latentWordByTL[w][z];
+                Float newVal = denominator != 0 ? numerator / denominator : 0;
                 converges = converges && Math.abs(oldVal - newVal) < PSTA.EPSILON;
                 latentWordByTL[w][z] = newVal;
             }
@@ -54,7 +54,7 @@ public class LatentWordByTL implements Variable {
     }
 
     @Override
-    public double get(int... values) {
+    public Float get(int... values) {
         if (values.length != 2) {
             throw new IllegalArgumentException("Wrong number of values passed to LatentWordByTopic.get(). It should be 2.");
         }

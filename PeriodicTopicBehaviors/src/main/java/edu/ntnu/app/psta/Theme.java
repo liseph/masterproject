@@ -1,6 +1,6 @@
 package edu.ntnu.app.psta;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -10,7 +10,7 @@ public class Theme implements Variable {
 
     private static int idCount = 0;
 
-    private final double[] wordDistribution;
+    private final Float[] wordDistribution;
     private final int id;
     private VariableList latentWordByTopic;
 
@@ -30,23 +30,23 @@ public class Theme implements Variable {
     @Override
     public boolean update() {
         boolean converges = true;
-        double denominator = IntStream.range(0, Docs.nWords()).mapToDouble(w2 -> baseCalcForAllDocs(w2)).sum();
+        Float denominator = IntStream.range(0, Docs.nWords()).mapToObj(w2 -> baseCalcForAllDocs(w2)).reduce(0f, Float::sum);
         for (int w = 0; w < Docs.nWords(); w++) {
-            double numerator = baseCalcForAllDocs(w);
-            double oldVal = wordDistribution[w];
-            double newVal = denominator != 0 ? numerator / denominator : 0;
+            Float numerator = baseCalcForAllDocs(w);
+            Float oldVal = wordDistribution[w];
+            Float newVal = denominator != 0 ? numerator / denominator : 0;
             converges = converges && Math.abs(oldVal - newVal) < PSTA.EPSILON;
             wordDistribution[w] = newVal;
         }
         return converges;
     }
 
-    private double baseCalc(int d, int w) {
+    private Float baseCalc(int d, int w) {
         return Docs.getWordCount(d, w) * latentWordByTopic.get(d).get(w, id);
     }
 
-    private double baseCalcForAllDocs(int w) {
-        return Docs.getIndexOfDocsWithWord(w).mapToDouble(d -> baseCalc(d, w)).sum();
+    private Float baseCalcForAllDocs(int w) {
+        return Docs.getIndexOfDocsWithWord(w).mapToObj(d -> baseCalc(d, w)).reduce(0f, Float::sum);
     }
 
     public void setVars(VariableList latentWordByTopic, VariableList ignoreMe) {
@@ -54,7 +54,7 @@ public class Theme implements Variable {
     }
 
     @Override
-    public double get(int... wordIndex) {
+    public Float get(int... wordIndex) {
         if (wordIndex.length != 1) {
             throw new IllegalArgumentException("Wrong number of values passed to Theme.get(). It should be 1.");
         }
@@ -67,7 +67,7 @@ public class Theme implements Variable {
 
     @Override
     public String toString() {
-        Map<Double, String> wordDistributionMap = new TreeMap<>();
+        Map<Float, String> wordDistributionMap = new TreeMap<>(Collections.reverseOrder());
         String[] vocabulary = Docs.getVocabulary();
         for (int i = 0; i < Docs.nWords(); i++) {
             wordDistributionMap.put(wordDistribution[i], vocabulary[i]);
@@ -78,8 +78,8 @@ public class Theme implements Variable {
                 '}';
     }
 
-    private String mapToString(Map<Double, String> map) {
-        String mapAsString = map.entrySet().stream()
+    private String mapToString(Map<Float, String> map) {
+        String mapAsString = map.entrySet().stream().limit(20)
                 .map(entry -> entry.getValue() + ":" + entry.getKey())
                 .collect(Collectors.joining(", ", "{", "}"));
         return mapAsString;
