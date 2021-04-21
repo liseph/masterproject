@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class PSTA {
+public class Psta {
 
     // Constants
     public static final Float LAMBDA_B = 0.9f; // Empirically, a suitable λB for blog documents can be chosen between 0.9 and 0.95.
@@ -37,7 +37,7 @@ public class PSTA {
         boolean converged = false;
         //while (!converged) {
         System.out.println("START");
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 20; i++) {
             System.out.format("Round %d: ", i + 1);
             long startTime = System.nanoTime();
             // E-step
@@ -76,7 +76,7 @@ public class PSTA {
             if (converged) break;
         }
         System.out.println(converged);
-        Docs.nWords();
+        PstaDocs.nWords();
 
         return new PstaResult(themes, topicDistDocs, topicDistTLs);
     }
@@ -88,13 +88,13 @@ public class PSTA {
     // large dataset.
     static public PstaPattern[] analyze(PstaResult pattern) {
         Map<Float, Map<Integer, PstaPattern>> patterns = new HashMap<>();
-        for (int l = 0; l < Docs.nLocations(); l++) {
+        for (int l = 0; l < PstaDocs.nLocations(); l++) {
             TopicDistTL topicDistTL = (TopicDistTL) pattern.getTopicDistTLs().get(l);
             for (int z = 0; z < pattern.nTopics(); z++) {
                 int finalZ = z;
                 int finalL = l;
                 Float[] themeLifeCycle = IntStream
-                        .range(0, Docs.nTimeslots())
+                        .range(0, PstaDocs.nTimeslots())
                         .mapToObj(t -> calc(topicDistTL, t, finalL, finalZ))
                         .toArray(Float[]::new);
                 Float denominator = Arrays.stream(themeLifeCycle).reduce(0f, Float::sum);
@@ -102,7 +102,7 @@ public class PSTA {
                 Float[] periods = FindPeriodsInTimeseries.execute(new Timeseries(themeLifeCycle, 1));
                 for (Float p : periods) {
                     patterns.putIfAbsent(p, new HashMap<>());
-                    patterns.get(p).putIfAbsent(z, new PstaPattern(p, 0, z));
+                    patterns.get(p).putIfAbsent(z, new PstaPattern(p, 0, z)); // TODO: Fix offset. How do we get that?
                     patterns.get(p).get(z).addLocation(l);
                 }
             }
@@ -111,6 +111,6 @@ public class PSTA {
     }
 
     static private Float calc(Variable topicDistTL, int t, int l, int z) {
-        return topicDistTL.get(t, z) * Docs.getSumWordCount(t, l) / Docs.getSumWordCount();
+        return topicDistTL.get(t, z) * PstaDocs.getSumWordCount(t, l) / PstaDocs.getSumWordCount();
     }
 }

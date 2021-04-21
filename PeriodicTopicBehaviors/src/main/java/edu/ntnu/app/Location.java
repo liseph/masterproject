@@ -1,16 +1,16 @@
-package edu.ntnu.app.psta;
+package edu.ntnu.app;
 
 import java.util.Objects;
 
 public class Location {
 
-    double latitude;
-    double longitude;
+    float latitude;
+    float longitude;
     String name;
     String city;
     String country;
 
-    public Location(double latitude, double longitude, String name, String city, String country) {
+    public Location(float latitude, float longitude, String name, String city, String country) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
@@ -29,6 +29,14 @@ public class Location {
 
     @Override
     public int hashCode() {
-        return Objects.hash(latitude, longitude, name, city, country);
+        return Objects.hash(/*latitude, longitude, name, city, */country);
+    }
+
+    public Float getLatitude() {
+        return latitude;
+    }
+
+    public Float getLongitude() {
+        return longitude;
     }
 }

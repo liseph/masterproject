@@ -1,4 +1,4 @@
-package edu.ntnu.app.psta;
+package edu.ntnu.app;
 
 import java.util.Arrays;
 import java.util.stream.Stream;

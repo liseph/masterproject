@@ -18,8 +18,8 @@ public class TopicDistDoc implements Variable {
     }
 
     public static VariableList generateEmptyTopicDist(int nTopics) {
-        Variable[] variables = new TopicDistDoc[Docs.nDocuments()];
-        for (int i = 0; i < Docs.nDocuments(); i++) {
+        Variable[] variables = new TopicDistDoc[PstaDocs.nDocuments()];
+        for (int i = 0; i < PstaDocs.nDocuments(); i++) {
             variables[i] = new TopicDistDoc(nTopics, i);
         }
         return new VariableList(variables);
@@ -33,19 +33,19 @@ public class TopicDistDoc implements Variable {
             Float numerator = baseCalcForAllWords(z, docIndex);
             Float oldVal = topicDistributionDoc[z];
             Float newVal = denominator != 0 ? numerator / denominator : 0;
-            converges = converges && Math.abs(oldVal - newVal) < PSTA.EPSILON;
+            converges = converges && Math.abs(oldVal - newVal) < Psta.EPSILON;
             topicDistributionDoc[z] = newVal;
         }
         return converges;
     }
 
     private Float baseCalc(int z, int d, int w) {
-        return Docs.getWordCount(d, w) * latentWordByTopic.get(d).get(w, z) * (1 - latentWordByTL.get(d).get(w, z));
+        return PstaDocs.getWordCount(d, w) * latentWordByTopic.get(d).get(w, z) * (1 - latentWordByTL.get(d).get(w, z));
     }
 
     private Float baseCalcForAllWords(int z, int d) {
-        int[] termIndices = Docs.get(d).getTermIndices();
-        return Arrays.stream(Docs.get(d).getTermIndices()).mapToObj(w -> baseCalc(z, d, w)).reduce(0f, Float::sum);
+        int[] termIndices = PstaDocs.get(d).getTermIndices();
+        return Arrays.stream(PstaDocs.get(d).getTermIndices()).mapToObj(w -> baseCalc(z, d, w)).reduce(0f, Float::sum);
     }
 
     public void setVars(VariableList latentWordByTopic, VariableList latentWordByTL) {

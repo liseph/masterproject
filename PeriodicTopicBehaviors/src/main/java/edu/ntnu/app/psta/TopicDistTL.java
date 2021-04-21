@@ -14,15 +14,15 @@ public class TopicDistTL implements Variable {
     public TopicDistTL(int nTopics, int locationIndex) {
         this.nTopics = nTopics;
         this.locationIndex = locationIndex;
-        this.topicDistributionTL = new Float[Docs.nTimeslots()][nTopics];
-        for (int i = 0; i < Docs.nTimeslots(); i++) {
+        this.topicDistributionTL = new Float[PstaDocs.nTimeslots()][nTopics];
+        for (int i = 0; i < PstaDocs.nTimeslots(); i++) {
             this.topicDistributionTL[i] = VariableList.generateRandomDistribution(nTopics);
         }
     }
 
     public static VariableList generateEmptyTopicDist(int nTopics) {
-        Variable[] variables = new TopicDistTL[Docs.nLocations()];
-        for (int i = 0; i < Docs.nLocations(); i++) {
+        Variable[] variables = new TopicDistTL[PstaDocs.nLocations()];
+        for (int i = 0; i < PstaDocs.nLocations(); i++) {
             variables[i] = new TopicDistTL(nTopics, i);
         }
         return new VariableList(variables);
@@ -31,14 +31,14 @@ public class TopicDistTL implements Variable {
     @Override
     public boolean update() {
         boolean converges = true;
-        for (int t = 0; t < Docs.nTimeslots(); t++) {
+        for (int t = 0; t < PstaDocs.nTimeslots(); t++) {
             int finalT = t; // To use in stream
             Float denominator = IntStream.range(0, nTopics).mapToObj(z2 -> calcForAllTLDocsAndWords(z2, finalT, locationIndex)).reduce(0f, Float::sum);
             for (int z = 0; z < nTopics; z++) {
                 Float numerator = calcForAllTLDocsAndWords(z, t, locationIndex);
                 Float oldVal = topicDistributionTL[t][z];
                 Float newVal = denominator != 0 ? numerator / denominator : 0;
-                converges = converges && Math.abs(oldVal - newVal) < PSTA.EPSILON;
+                converges = converges && Math.abs(oldVal - newVal) < Psta.EPSILON;
                 topicDistributionTL[t][z] = newVal;
             }
         }
@@ -46,15 +46,15 @@ public class TopicDistTL implements Variable {
     }
 
     private Float baseCalc(int z, int d, int w) {
-        return Docs.getWordCount(d, w) * latentWordByTopics.get(d).get(w, z) * (1 - latentWordByTLs.get(d).get(w, z));
+        return PstaDocs.getWordCount(d, w) * latentWordByTopics.get(d).get(w, z) * (1 - latentWordByTLs.get(d).get(w, z));
     }
 
     private Float baseCalcForAllWords(int z, int d) {
-        return Arrays.stream(Docs.get(d).getTermIndices()).mapToObj(w -> baseCalc(z, d, w)).reduce(0f, Float::sum);
+        return Arrays.stream(PstaDocs.get(d).getTermIndices()).mapToObj(w -> baseCalc(z, d, w)).reduce(0f, Float::sum);
     }
 
     private Float calcForAllTLDocsAndWords(int z, int t, int l) {
-        return Docs.getIndexOfDocsWithTL(t, l).map(d -> baseCalcForAllWords(z, d)).reduce(0f, Float::sum);
+        return PstaDocs.getIndexOfDocsWithTL(t, l).map(d -> baseCalcForAllWords(z, d)).reduce(0f, Float::sum);
     }
 
     public void setVars(VariableList latentWordByTopic, VariableList latentWordByTL) {

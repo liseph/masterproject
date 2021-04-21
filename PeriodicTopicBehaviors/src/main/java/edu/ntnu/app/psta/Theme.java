@@ -16,7 +16,7 @@ public class Theme implements Variable {
 
     public Theme() {
         this.id = idCount++;
-        this.wordDistribution = VariableList.generateRandomDistribution(Docs.nWords());
+        this.wordDistribution = VariableList.generateRandomDistribution(PstaDocs.nWords());
     }
 
     public static VariableList generateEmptyThemes(int nTopics) {
@@ -30,23 +30,23 @@ public class Theme implements Variable {
     @Override
     public boolean update() {
         boolean converges = true;
-        Float denominator = IntStream.range(0, Docs.nWords()).mapToObj(w2 -> baseCalcForAllDocs(w2)).reduce(0f, Float::sum);
-        for (int w = 0; w < Docs.nWords(); w++) {
+        Float denominator = IntStream.range(0, PstaDocs.nWords()).mapToObj(w2 -> baseCalcForAllDocs(w2)).reduce(0f, Float::sum);
+        for (int w = 0; w < PstaDocs.nWords(); w++) {
             Float numerator = baseCalcForAllDocs(w);
             Float oldVal = wordDistribution[w];
             Float newVal = denominator != 0 ? numerator / denominator : 0;
-            converges = converges && Math.abs(oldVal - newVal) < PSTA.EPSILON;
+            converges = converges && Math.abs(oldVal - newVal) < Psta.EPSILON;
             wordDistribution[w] = newVal;
         }
         return converges;
     }
 
     private Float baseCalc(int d, int w) {
-        return Docs.getWordCount(d, w) * latentWordByTopic.get(d).get(w, id);
+        return latentWordByTopic.get(d).get(w, id) * PstaDocs.getWordCount(d, w);
     }
 
     private Float baseCalcForAllDocs(int w) {
-        return Docs.getIndexOfDocsWithWord(w).mapToObj(d -> baseCalc(d, w)).reduce(0f, Float::sum);
+        return PstaDocs.getIndexOfDocsWithWord(w).mapToObj(d -> baseCalc(d, w)).reduce(0f, Float::sum);
     }
 
     public void setVars(VariableList latentWordByTopic, VariableList ignoreMe) {
@@ -68,8 +68,8 @@ public class Theme implements Variable {
     @Override
     public String toString() {
         Map<Float, String> wordDistributionMap = new TreeMap<>(Collections.reverseOrder());
-        String[] vocabulary = Docs.getVocabulary();
-        for (int i = 0; i < Docs.nWords(); i++) {
+        String[] vocabulary = PstaDocs.getVocabulary();
+        for (int i = 0; i < PstaDocs.nWords(); i++) {
             wordDistributionMap.put(wordDistribution[i], vocabulary[i]);
         }
         return "\np(w|z){" +
