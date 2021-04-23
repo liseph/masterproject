@@ -9,11 +9,11 @@ public class Document {
     private final int id;
     private final int locationId;
     private final long timestamp;
-    private final String[] terms;
+    private final String terms;
     private int timestampIndex = -1;
     private int[] termIndices;
 
-    public Document(int locationId, long timestamp, String[] terms) {
+    public Document(int locationId, long timestamp, String terms) {
         this.id = idCount++;
         this.locationId = locationId;
         this.timestamp = timestamp;
@@ -31,8 +31,8 @@ public class Document {
         return timestampIndex;
     }
 
-    public Stream<String> getTerms() {
-        return Arrays.stream(terms);
+    public String getTerms() {
+        return terms;
     }
 
     public boolean hasTimeAndLoc(int t, int l) {

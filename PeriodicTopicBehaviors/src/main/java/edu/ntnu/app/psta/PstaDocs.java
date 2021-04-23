@@ -33,7 +33,8 @@ public class PstaDocs extends Docs {
         IntStream.range(0, docs.length).forEach(i -> {
             long t1 = System.nanoTime();
             Document doc = docs[i];
-            int[] docTermIndices = doc.getTerms().mapToInt(word -> Arrays.binarySearch(voc, word)).toArray();
+
+            int[] docTermIndices = Arrays.stream(doc.getTerms().split(" ")).mapToInt(word -> Arrays.binarySearch(voc, word)).toArray();
             long t2 = System.nanoTime() - t1;
             doc.setTermIndices(docTermIndices); // Store this as we need it for later
             int sumWordCount = docTermIndices.length;

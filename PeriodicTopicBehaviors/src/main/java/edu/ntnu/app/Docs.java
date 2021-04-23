@@ -28,6 +28,7 @@ public class Docs {
 
     // Format: long \n lat \n name \n city \n country code \n timestamp_ms \n text \n long \n etc...
     // i.e. every 6 lines belong to one document. The method assumes there are exactly N*6 lines.
+    // We also assume that the documents are sorted by timestamp.
     private static Document[] readFile(String pathName) throws IOException, NullPointerException {
         List<Document> data = new ArrayList<>();
         FileInputStream inputStream = null;
@@ -40,7 +41,7 @@ public class Docs {
                 long lineTimestamp = Long.parseLong(sc.nextLine());
                 Float lineLong = Float.parseFloat(sc.nextLine());
                 Float lineLat = Float.parseFloat(sc.nextLine());
-                String[] lineText = sc.nextLine().split(" ");
+                String lineText = sc.nextLine();
                 String lineName = sc.nextLine();
                 String lineCity = sc.nextLine();
                 String lineCountry = sc.nextLine();
@@ -63,7 +64,7 @@ public class Docs {
     }
 
     // Method to create a document from the input information. Creates a new location and time object if it does not exist, and adds its terms to the vocabulary.
-    private static Document createDocument(Float lineLong, Float lineLat, String lineName, String lineCity, String lineCountry, long lineTimestamp, String[] lineText) {
+    private static Document createDocument(Float lineLong, Float lineLat, String lineName, String lineCity, String lineCountry, long lineTimestamp, String lineText) {
         // Append new location to locations list if it does not exist. If it does exist, simply store the index.
         Location l = new Location(lineLat, lineLong, lineName, lineCity, lineCountry);
         if (!locations.contains(l))
