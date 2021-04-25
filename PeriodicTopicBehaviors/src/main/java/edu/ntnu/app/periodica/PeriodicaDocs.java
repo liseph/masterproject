@@ -38,7 +38,7 @@ public class PeriodicaDocs extends Docs {
         referenceSpots = spots;
         tsDocs = new TimestampDocument[nTimeslots()];
         for (int t = 0, d = 0; t < nTimeslots() && d < nDocuments(); t++) {
-            tsDocs[t] = new TimestampDocument(t, spots.length);
+            tsDocs[t] = new TimestampDocument(t);
             while (d < nDocuments() && docs[d].getTimestampId() == t) {
                 int o = getReferenceSpotId(docs[d].getLocationId());
                 tsDocs[t].addDoc(docs[d], o);
@@ -47,6 +47,7 @@ public class PeriodicaDocs extends Docs {
         }
         docsAreDivided = true;
     }
+
     private static int getReferenceSpotId(int l) {
         Location loc = locations.get(l);
         for (ReferenceSpot spot : referenceSpots) {
@@ -66,17 +67,19 @@ public class PeriodicaDocs extends Docs {
         return tsDocs[t].getTextsAsOne();
     }
 
-    public static int nRefSpots() { return referenceSpots.length; }
+    public static int nRefSpots() {
+        return referenceSpots.length;
+    }
 }
 
 // A class to store all documents within the same timestamp and reference spot
 class TimestampDocument {
-    private List<List<Document>> tsoDocs;
-    private int timestampId;
+    private final List<List<Document>> tsoDocs;
+    private final int timestampId;
 
-    public TimestampDocument(int timestampId, int nRefSpots) {
+    public TimestampDocument(int timestampId) {
         this.tsoDocs = new ArrayList<>();
-        for (int i = 0; i < nRefSpots; i++) tsoDocs.add(new ArrayList<>());
+        for (int i = 0; i < PeriodicaDocs.nRefSpots(); i++) tsoDocs.add(new ArrayList<>());
         this.timestampId = timestampId;
     }
 
@@ -85,6 +88,10 @@ class TimestampDocument {
     }
 
     public List<Document> getDocs(int o) {
+        return tsoDocs.get(o);
+    }
+
+    public List<Document> getDocsInRefSpot(int o) {
         return tsoDocs.get(o);
     }
 

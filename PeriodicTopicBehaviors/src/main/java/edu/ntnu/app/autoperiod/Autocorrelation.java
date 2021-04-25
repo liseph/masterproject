@@ -116,7 +116,7 @@ public class Autocorrelation {
                 while (i + 1 < autocorrelation.length && autocorrelation[i] < autocorrelation[i + 1]) i++;
                 while (i > 0 && autocorrelation[i] < autocorrelation[i - 1]) i--;
                 double p = ((double) i) / fs;
-                if (p != 0 && p > periodThreshold && !periods.stream().anyMatch(ps -> ps == p)) {
+                if (p != 0 && p > periodThreshold && periods.stream().noneMatch(ps -> ps == p)) {
                     periods.add(p);
                 }
             }

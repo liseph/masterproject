@@ -7,11 +7,11 @@ import java.util.PriorityQueue;
 import java.util.stream.IntStream;
 
 public class ReferenceSpot {
-    private static int idCount = 1;
     private static final int LONGITUDE = 0;
     private static final int LATITUDE = 1;
     private static final int GRANULARITY = 1;
     private static final double DENSITYTHRESHOLD = 0.15;
+    private static int idCount = 1;
     private static float xStart;
     private static float yStart;
 
@@ -29,10 +29,6 @@ public class ReferenceSpot {
     private ReferenceSpot() {
         this.id = 0;
         cells = null;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public static ReferenceSpot[] findReferenceSpots() {
@@ -102,8 +98,8 @@ public class ReferenceSpot {
         float C1 = 1 / (n * sqr(gamma));
         float C2 = (float) (1 / (2 * Math.PI));
         float func = IntStream.range(0, n)
-                        .mapToObj(i -> C2 * (float) Math.exp(-calcSquaredDist(longC, latC, points[i]) / (2 * sqr(gamma))))
-                        .reduce(0f, Float::sum);
+                .mapToObj(i -> C2 * (float) Math.exp(-calcSquaredDist(longC, latC, points[i]) / (2 * sqr(gamma))))
+                .reduce(0f, Float::sum);
         return C1 * func;
     }
 
@@ -135,6 +131,10 @@ public class ReferenceSpot {
 
     private static Float sqr(float v) {
         return v * v;
+    }
+
+    public int getId() {
+        return id;
     }
 
     private void addCellIfNotExists(int i, int j) {
