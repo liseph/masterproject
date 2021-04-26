@@ -7,6 +7,7 @@ import edu.ntnu.app.Location;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -22,13 +23,13 @@ public class PeriodicaDocs extends Docs {
         Docs.initialize(pathName);
     }
 
-    public static Float[][] getXYValues() {
+    public static double[][] getXYValues() {
         Location[] locations = Docs.getLocations();
         return Arrays.stream(docs)
-                .map(d -> d.getLocationId())
+                .map(Document::getLocationId)
                 .map(locId -> locations[locId])
-                .map(loc -> new Float[]{loc.getLongitude(), loc.getLatitude()})
-                .toArray(Float[][]::new);
+                .map(loc -> new double[]{loc.getLongitude(), loc.getLatitude()})
+                .toArray(double[][]::new);
     }
 
     // Function to be called only once after generating the reference spots. Will divide the documents by timestamp and reference spot.
@@ -60,7 +61,7 @@ public class PeriodicaDocs extends Docs {
 
     public static String[] getTextsPerTsPerRefSpot() {
         //return Arrays.stream(docs).map(doc -> doc.getTerms()).toArray(String[]::new);
-        return Arrays.stream(tsDocs).flatMap(tsDoc -> tsDoc.getTexts()).toArray(String[]::new);
+        return Arrays.stream(tsDocs).flatMap(TimestampDocument::getTexts).toArray(String[]::new);
     }
 
     public static String getTextInTimestampAsOne(int t) {
@@ -100,17 +101,17 @@ class TimestampDocument {
     }
 
     public String getTextsAsOne() {
-        return tsoDocs.stream().flatMap(ds -> ds.stream()).map(d -> d.getTerms()).collect(Collectors.joining(". "));
+        return tsoDocs.stream().flatMap(Collection::stream).map(Document::getTerms).collect(Collectors.joining(". "));
     }
 
     private String getTextPerRefSpot(int o) {
         if (o < tsoDocs.size())
-            return tsoDocs.get(o).stream().map(d -> d.getTerms()).collect(Collectors.joining(". "));
+            return tsoDocs.get(o).stream().map(Document::getTerms).collect(Collectors.joining(". "));
         return "";
     }
 
     public Stream<String> getTexts() {
-        String[] s = IntStream.range(0, tsoDocs.size()).mapToObj(o -> getTextPerRefSpot(o)).toArray(String[]::new);
+        String[] s = IntStream.range(0, tsoDocs.size()).mapToObj(this::getTextPerRefSpot).toArray(String[]::new);
         return Arrays.stream(s);
     }
 }

@@ -10,7 +10,7 @@ public class Theme implements Variable {
 
     private static int idCount = 0;
 
-    private final Float[] wordDistribution;
+    private final double[] wordDistribution;
     private final int id;
     private VariableList latentWordByTopic;
 
@@ -30,23 +30,23 @@ public class Theme implements Variable {
     @Override
     public boolean update() {
         boolean converges = true;
-        Float denominator = IntStream.range(0, PstaDocs.nWords()).mapToObj(w2 -> baseCalcForAllDocs(w2)).reduce(0f, Float::sum);
+        double denominator = IntStream.range(0, PstaDocs.nWords()).mapToDouble(w2 -> baseCalcForAllDocs(w2)).sum();
         for (int w = 0; w < PstaDocs.nWords(); w++) {
-            Float numerator = baseCalcForAllDocs(w);
-            Float oldVal = wordDistribution[w];
-            Float newVal = denominator != 0 ? numerator / denominator : 0;
+            double numerator = baseCalcForAllDocs(w);
+            double oldVal = wordDistribution[w];
+            double newVal = denominator != 0 ? numerator / denominator : 0;
             converges = converges && Math.abs(oldVal - newVal) < Psta.EPSILON;
             wordDistribution[w] = newVal;
         }
         return converges;
     }
 
-    private Float baseCalc(int d, int w) {
+    private double baseCalc(int d, int w) {
         return latentWordByTopic.get(d).get(w, id) * PstaDocs.getWordCount(d, w);
     }
 
-    private Float baseCalcForAllDocs(int w) {
-        return PstaDocs.getIndexOfDocsWithWord(w).mapToObj(d -> baseCalc(d, w)).reduce(0f, Float::sum);
+    private double baseCalcForAllDocs(int w) {
+        return PstaDocs.getIndexOfDocsWithWord(w).mapToDouble(d -> baseCalc(d, w)).sum();
     }
 
     public void setVars(VariableList latentWordByTopic, VariableList ignoreMe) {
@@ -54,7 +54,7 @@ public class Theme implements Variable {
     }
 
     @Override
-    public Float get(int... wordIndex) {
+    public double get(int... wordIndex) {
         if (wordIndex.length != 1) {
             throw new IllegalArgumentException("Wrong number of values passed to Theme.get(). It should be 1.");
         }
@@ -67,7 +67,7 @@ public class Theme implements Variable {
 
     @Override
     public String toString() {
-        Map<Float, String> wordDistributionMap = new TreeMap<>(Collections.reverseOrder());
+        Map<Double, String> wordDistributionMap = new TreeMap<>(Collections.reverseOrder());
         String[] vocabulary = PstaDocs.getVocabulary();
         for (int i = 0; i < PstaDocs.nWords(); i++) {
             wordDistributionMap.put(wordDistribution[i], vocabulary[i]);
@@ -78,7 +78,7 @@ public class Theme implements Variable {
                 '}';
     }
 
-    private String mapToString(Map<Float, String> map) {
+    private String mapToString(Map<Double, String> map) {
         String mapAsString = map.entrySet().stream().limit(20)
                 .map(entry -> entry.getValue() + ":" + entry.getKey())
                 .collect(Collectors.joining(", ", "{", "}"));

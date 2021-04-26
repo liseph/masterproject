@@ -5,5 +5,5 @@ public interface Variable {
 
     void setVars(VariableList p1, VariableList p2);
 
-    Float get(int... values);
+    double get(int... values);
 }

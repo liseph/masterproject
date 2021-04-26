@@ -20,30 +20,29 @@ public class Periodica {
         ReferenceSpot[] referenceSpots = ReferenceSpot.findReferenceSpots();
         PeriodicaDocs.divideDocsByTimestampAndReferenceSpot(referenceSpots); // For topic analysis
         Topics.analyzeTopics();
-        Map<Integer, Map<Float, List<Integer>>> topicPeriodMap = new HashMap<>();
+        Map<Integer, Map<Double, List<Integer>>> topicPeriodMap = new HashMap<>();
         for (int z = 0; z < nTOPICS; z++) {
             topicPeriodMap.put(z, new HashMap<>());
             for (int o = 0; o < referenceSpots.length; o++) {
-                Float[] topicPresence = Topics.getTopicPresence(z, o);
-                Float[] periods = FindPeriodsInTimeseries.execute(new Timeseries(topicPresence, 1));
-                for (Float p : periods) {
+                double[] topicPresence = Topics.getTopicPresence(z, o);
+                double[] periods = FindPeriodsInTimeseries.execute(new Timeseries(topicPresence, 1));
+                for (double p : periods) {
                     topicPeriodMap.get(z).putIfAbsent(p, new ArrayList<>());
                     topicPeriodMap.get(z).get(p).add(o);
                 }
             }
         }
         List<PeriodicaResult> results = new ArrayList<>();
-        topicPeriodMap.forEach((topicId, periodMap) -> {
-            periodMap.forEach((period, referenceSpotList) -> {
-                int[][] symbolizedSequence = Topics.getSymbolizedSequence(topicId, referenceSpotList);
-                List<Segment> result = minePeriodicBehaviours(symbolizedSequence, period);
-                results.add(new PeriodicaResult(result));
-            });
-        });
+        topicPeriodMap.forEach((topicId, periodMap) ->
+                periodMap.forEach((period, referenceSpotList) -> {
+                    int[][] symbolizedSequence = Topics.getSymbolizedSequence(topicId, referenceSpotList);
+                    List<Segment> result = minePeriodicBehaviours(symbolizedSequence, period);
+                    results.add(new PeriodicaResult(result));
+                }));
         return results.toArray(PeriodicaResult[]::new);
     }
 
-    private static List<Segment> minePeriodicBehaviours(int[][] symbolizedSequence, Float period) {
+    private static List<Segment> minePeriodicBehaviours(int[][] symbolizedSequence, double period) {
         // Segment and init clusters
         int nSegments = (int) (symbolizedSequence.length / period);
         List<Segment> segments = new ArrayList<>();
@@ -52,14 +51,16 @@ public class Periodica {
             segments.add(s);
         }
         // Calculate difference between all clusters
-        List<Float> diffs = new ArrayList<>((nSegments * nSegments - nSegments) / 2);
-        float minDiff = Float.POSITIVE_INFINITY;
+        int initialCap = (nSegments * nSegments - nSegments) / 2;
+        List<Double> diffs = new ArrayList<>(initialCap);
+        while (diffs.size() < initialCap) diffs.add(0.0);
+        double minDiff = Double.POSITIVE_INFINITY;
         int cS = 0;
         int cT = 1;
         for (int i = 0; i < nSegments; i++) {
             for (int j = i + 1; j < nSegments; j++) {
                 if (i == j) continue;
-                float diff = calcDiff(segments.get(i), segments.get(j));
+                double diff = calcDiff(segments.get(i), segments.get(j));
                 diffs.set(getIndex(i, j, nSegments), diff);
                 if (diff < minDiff) {
                     minDiff = diff;
@@ -84,16 +85,16 @@ public class Periodica {
             // Update diff between new cluster, cS, and the other clusters
             for (int j = 0; j < nSegments; j++) {
                 if (cS == j) continue;
-                float diff = calcDiff(segments.get(cS), segments.get(j));
+                double diff = calcDiff(segments.get(cS), segments.get(j));
                 diffs.set(getIndex(cS, j, nSegments), diff);
             }
 
             // TODO: Consider if I can do this more efficiently, e.g. using a PriorityQueue.
-            minDiff = Float.POSITIVE_INFINITY;
+            minDiff = Double.POSITIVE_INFINITY;
             for (int i = 0; i < nSegments; i++) {
                 for (int j = i + 1; j < nSegments; j++) {
                     if (i == j) continue;
-                    float diff = diffs.get(getIndex(i, j, nSegments));
+                    double diff = diffs.get(getIndex(i, j, nSegments));
                     if (diff < minDiff) {
                         minDiff = diff;
                         cS = i;
@@ -106,7 +107,7 @@ public class Periodica {
     }
 
     // Returns the Kullback-Leibler divergence between two segments
-    private static float calcDiff(Segment s1, Segment s2) {
+    private static double calcDiff(Segment s1, Segment s2) {
         double result = 0;
         double[][] distMatrix1 = s1.getDistMatrix();
         double[][] distMatrix2 = s2.getDistMatrix();
@@ -115,7 +116,7 @@ public class Periodica {
                 result += smooth(distMatrix1[t][o]) * Math.log(smooth(distMatrix1[t][o]) / smooth(distMatrix2[t][o]));
             }
         }
-        return (float) result;
+        return result;
     }
 
     private static double smooth(double d) {
@@ -136,13 +137,13 @@ class Segment {
     private final int period;
     private final double[][] distMatrix;
 
-    public Segment(int id, float period, int[][] symbolizedSequence) {
+    public Segment(int id, double period, int[][] symbolizedSequence) {
         this.ids = new ArrayList<>();
         this.ids.add(id);
         this.period = (int) period;
         this.distMatrix = new double[(int) period][PeriodicaDocs.nRefSpots()];
         for (int t = 0; t < this.period; t++) {
-            for (int o = 0; o < symbolizedSequence[id * this.period + t].length; t++) {
+            for (int o : symbolizedSequence[id * this.period + t]) {
                 distMatrix[t][o] = 1; // Only one segment
                 // TODO: It makes sense that it should not sum to 1, but does it still work when it doesn't sum to 1?
             }
@@ -153,8 +154,8 @@ class Segment {
     public void merge(Segment segment) {
         int cs = ids.size();
         int ct = segment.ids.size();
-        float sScale = (float) cs / (cs + ct);
-        float tScale = (float) ct / (cs + ct);
+        double sScale = (double) cs / (cs + ct);
+        double tScale = (double) ct / (cs + ct);
         for (int i = 0; i < period; i++) {
             int finalI = i;
             distMatrix[i] = IntStream

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Topics {
-    private static Float[][][] topicDistributions; // [topic][ref spot][timestamp]
+    private static double[][][] topicDistributions; // [topic][ref spot][timestamp]
     private static ParallelTopicModel model;
 
     public static void analyzeTopics() throws IOException {
@@ -39,7 +39,7 @@ public class Topics {
         // Estimate the topic distribution per document, given the current Gibbs state.
         int nTs = PeriodicaDocs.nTimeslots();
         int nO = PeriodicaDocs.nRefSpots();
-        int nZ = instances.size();
+        int nZ = Periodica.nTOPICS;
         double[][][] topicProbabilities = new double[nTs][nO][nZ];
         for (int d = 0; d < instances.size(); d++) {
             int oIndex = d / nTs;
@@ -48,18 +48,18 @@ public class Topics {
         }
 
         // Transpose array from [timestamp][ref spot][topic] to [topic][ref spot][timestamp]
-        topicDistributions = new Float[nZ][nO][nTs];
+        topicDistributions = new double[nZ][nO][nTs];
         for (int z = 0; z < nZ; z++) {
             for (int o = 0; o < nO; o++) {
                 for (int t = 0; t < nTs; t++) {
-                    topicDistributions[z][o][t] = (float) topicProbabilities[t][o][z];
+                    topicDistributions[z][o][t] = topicProbabilities[t][o][z];
                 }
             }
         }
     }
 
     // Instead of binary as in the original Periodica, we use probability of the topic in that ref spot in that ts.
-    public static Float[] getTopicPresence(int z, int o) {
+    public static double[] getTopicPresence(int z, int o) {
         return topicDistributions[z][o];
     }
 

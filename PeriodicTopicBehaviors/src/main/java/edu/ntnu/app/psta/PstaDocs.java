@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public class PstaDocs extends Docs {
 
-    public static Float[] backgroundTheme;
+    public static double[] backgroundTheme;
     private static Map<Integer, MutableInt>[] wordDocCounts;
     private static int sumWordCounts;
     private static int[][] sumWordCountsTL;
@@ -68,7 +68,7 @@ public class PstaDocs extends Docs {
             long t5 = System.nanoTime() - t4 - t3 - t2 - t1;
         });
         System.out.println("Calculating background topic...");
-        backgroundTheme = new Float[nWords()];
+        backgroundTheme = new double[nWords()];
         for (int i = 0; i < nWords(); i++) {
             int wordCountInAllDocs = getWordCount(i);
             int sumAllWordCounts = getSumWordCount();

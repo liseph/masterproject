@@ -11,12 +11,12 @@ import java.util.stream.IntStream;
 public class Psta {
 
     // Constants
-    public static final Float LAMBDA_B = 0.9f; // Empirically, a suitable λB for blog documents can be chosen between 0.9 and 0.95.
-    public static final Float LAMBDA_TL = 0.5f; // Empirically, a suitable λTL for blog documents can be chosen between 0.5 and 0.7.
-    public static final Float EPSILON = 1E-2f;
-    public static final Float HOUR_MS = 3.6E+6f;
-    public static final Float DAY_MS = 8.64E+7f;
-    public static final Float TIME_CONVERT = DAY_MS;
+    public static final double LAMBDA_B = 0.9f; // Empirically, a suitable λB for blog documents can be chosen between 0.9 and 0.95.
+    public static final double LAMBDA_TL = 0.5f; // Empirically, a suitable λTL for blog documents can be chosen between 0.5 and 0.7.
+    public static final double EPSILON = 1E-2f;
+    public static final double HOUR_MS = 3.6E+6f;
+    public static final double DAY_MS = 8.64E+7f;
+    public static final double TIME_CONVERT = DAY_MS;
 
 
     static public PstaResult execute(int nTopics) {
@@ -37,7 +37,7 @@ public class Psta {
         boolean converged = false;
         //while (!converged) {
         System.out.println("START");
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             System.out.format("Round %d: ", i + 1);
             long startTime = System.nanoTime();
             // E-step
@@ -87,30 +87,30 @@ public class Psta {
     // by filling them in, you make it worse... In theory, there shouldn't be that many missing values as we have a
     // large dataset.
     static public PstaPattern[] analyze(PstaResult pattern) {
-        Map<Float, Map<Integer, PstaPattern>> patterns = new HashMap<>();
+        Map<Double, Map<Integer, PstaPattern>> patterns = new HashMap<>();
         for (int l = 0; l < PstaDocs.nLocations(); l++) {
             TopicDistTL topicDistTL = (TopicDistTL) pattern.getTopicDistTLs().get(l);
             for (int z = 0; z < pattern.nTopics(); z++) {
                 int finalZ = z;
                 int finalL = l;
-                Float[] themeLifeCycle = IntStream
+                double[] themeLifeCycle = IntStream
                         .range(0, PstaDocs.nTimeslots())
-                        .mapToObj(t -> calc(topicDistTL, t, finalL, finalZ))
-                        .toArray(Float[]::new);
-                Float denominator = Arrays.stream(themeLifeCycle).reduce(0f, Float::sum);
-                themeLifeCycle = Arrays.stream(themeLifeCycle).map(p -> p / denominator).toArray(Float[]::new);
-                Float[] periods = FindPeriodsInTimeseries.execute(new Timeseries(themeLifeCycle, 1));
-                for (Float p : periods) {
+                        .mapToDouble(t -> calc(topicDistTL, t, finalL, finalZ))
+                        .toArray();
+                double denominator = Arrays.stream(themeLifeCycle).sum();
+                themeLifeCycle = Arrays.stream(themeLifeCycle).map(p -> p / denominator).toArray();
+                double[] periods = FindPeriodsInTimeseries.execute(new Timeseries(themeLifeCycle, 1));
+                for (double p : periods) {
                     patterns.putIfAbsent(p, new HashMap<>());
                     patterns.get(p).putIfAbsent(z, new PstaPattern(p, 0, z)); // TODO: Fix offset. How do we get that?
                     patterns.get(p).get(z).addLocation(l);
                 }
             }
         }
-        return patterns.values().stream().map(m -> m.values()).toArray(PstaPattern[]::new);
+        return patterns.values().stream().map(Map::values).toArray(PstaPattern[]::new);
     }
 
-    static private Float calc(Variable topicDistTL, int t, int l, int z) {
+    static private double calc(Variable topicDistTL, int t, int l, int z) {
         return topicDistTL.get(t, z) * PstaDocs.getSumWordCount(t, l) / PstaDocs.getSumWordCount();
     }
 }

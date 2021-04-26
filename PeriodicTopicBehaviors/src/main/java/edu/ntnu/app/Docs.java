@@ -72,7 +72,7 @@ public class Docs {
         int locationIndex = locations.indexOf(l);
 
         // Add all the terms of the document to the vocabulary.
-        vocabulary.addAll(Arrays.asList(lineText));
+        vocabulary.addAll(Arrays.asList(lineText.split(" ")));
 
         // Convert timestamp to days (or hours) since UNIX Epoch, store all timestamps found
         long ts = (long) (lineTimestamp / Psta.TIME_CONVERT);

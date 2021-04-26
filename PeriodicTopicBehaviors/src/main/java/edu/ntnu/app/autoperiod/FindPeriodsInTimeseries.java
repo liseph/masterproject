@@ -6,18 +6,18 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class FindPeriodsInTimeseries {
 
-    static public Float[] execute(Timeseries ts) {
+    static public double[] execute(Timeseries ts) {
         return execute(ts, 0.1);
     }
 
-    static public Float[] execute(Timeseries ts, double periodThreshold) {
+    static public double[] execute(Timeseries ts, double periodThreshold) {
         ts.removeMean();
         Periodogram periodogram = Periodogram.calculatePeriodogram(ts);
         double spectrumThreshold = generateThreshold(ts);
         double[] possiblePeriods = periodogram.extractPossiblePeriods(spectrumThreshold, periodThreshold);
 
         Autocorrelation autocorrelation = Autocorrelation.calculateAutocorrelation(ts);
-        Float[] periods = Arrays.stream(autocorrelation.findPeriodsOnHill(possiblePeriods, periodThreshold)).mapToObj(p -> p).toArray(Float[]::new);
+        double[] periods = autocorrelation.findPeriodsOnHill(possiblePeriods, periodThreshold);
 
         return periods;
     }

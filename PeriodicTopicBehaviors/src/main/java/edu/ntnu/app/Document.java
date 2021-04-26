@@ -1,8 +1,5 @@
 package edu.ntnu.app;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 public class Document {
     private static int idCount = 0;
 

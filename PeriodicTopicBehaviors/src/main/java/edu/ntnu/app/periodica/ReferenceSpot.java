@@ -12,8 +12,8 @@ public class ReferenceSpot {
     private static final int GRANULARITY = 1;
     private static final double DENSITYTHRESHOLD = 0.15;
     private static int idCount = 1;
-    private static float xStart;
-    private static float yStart;
+    private static double xStart;
+    private static double yStart;
 
     private final int id;
     private final List<Cell> cells;
@@ -32,16 +32,16 @@ public class ReferenceSpot {
     }
 
     public static ReferenceSpot[] findReferenceSpots() {
-        Float[][] points = PeriodicaDocs.getXYValues();
+        double[][] points = PeriodicaDocs.getXYValues();
         int n = points.length;
 
-        xStart = Float.POSITIVE_INFINITY;
-        float xEnd = Float.NEGATIVE_INFINITY;
-        yStart = Float.POSITIVE_INFINITY;
-        float yEnd = Float.NEGATIVE_INFINITY;
-        for (Float[] point : points) {
-            float lo = point[LONGITUDE];
-            float la = point[LATITUDE];
+        xStart = Double.POSITIVE_INFINITY;
+        double xEnd = Double.NEGATIVE_INFINITY;
+        yStart = Double.POSITIVE_INFINITY;
+        double yEnd = Double.NEGATIVE_INFINITY;
+        for (double[] point : points) {
+            double lo = point[LONGITUDE];
+            double la = point[LATITUDE];
             if (lo < xStart) xStart = lo;
             else if (lo > xEnd) xEnd = lo;
             if (la < yStart) yStart = la;
@@ -51,19 +51,19 @@ public class ReferenceSpot {
         int x = (int) (GRANULARITY * (xEnd - xStart));
         int y = (int) (GRANULARITY * (yEnd - yStart));
 
-        float[][] densities = new float[x][y];
-        float gamma = calculateGamma(points, n);
+        double[][] densities = new double[x][y];
+        double gamma = calculateGamma(points, n);
         int nVals = (int) (DENSITYTHRESHOLD * n); // Find top 15% density threshold
-        PriorityQueue<Float> maxHeap = new PriorityQueue<>(); // TODO: Use quickselect to do this?
+        PriorityQueue<Double> maxHeap = new PriorityQueue<>(); // TODO: Use quickselect to do this?
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                densities[i][j] = calcDensityEstimate(xStart + ((float) i) / GRANULARITY, yStart + ((float) j) / GRANULARITY, points, n, gamma);
+                densities[i][j] = calcDensityEstimate(xStart + ((double) i) / GRANULARITY, yStart + ((double) j) / GRANULARITY, points, n, gamma);
                 maxHeap.add(densities[i][j]);
                 if (maxHeap.size() > nVals) maxHeap.poll();
             }
         }
 
-        float lowestVal = maxHeap.peek();
+        double lowestVal = maxHeap.peek();
         // Find clusters of values with density above threshold. Once we find one cell, we create a cluster and find
         // find all cells that belong to that cluster.
         List<ReferenceSpot> spots = new ArrayList<>();
@@ -94,42 +94,42 @@ public class ReferenceSpot {
         return spots.toArray(ReferenceSpot[]::new);
     }
 
-    private static float calcDensityEstimate(float longC, float latC, Float[][] points, int n, float gamma) {
-        float C1 = 1 / (n * sqr(gamma));
-        float C2 = (float) (1 / (2 * Math.PI));
-        float func = IntStream.range(0, n)
-                .mapToObj(i -> C2 * (float) Math.exp(-calcSquaredDist(longC, latC, points[i]) / (2 * sqr(gamma))))
-                .reduce(0f, Float::sum);
+    private static double calcDensityEstimate(double longC, double latC, double[][] points, int n, double gamma) {
+        double C1 = 1.0 / (n * sqr(gamma));
+        double C2 = 1.0 / (2 * Math.PI);
+        double func = IntStream.range(0, n)
+                .mapToDouble(i -> C2 * Math.exp(-calcSquaredDist(longC, latC, points[i]) / (2 * sqr(gamma))))
+                .sum();
         return C1 * func;
     }
 
     // Calculate the squared distance from the middle of a cell to a point.
-    private static float calcSquaredDist(float longC, float latC, Float[] point) {
+    private static double calcSquaredDist(double longC, double latC, double[] point) {
         return sqr(longC + 0.5f - point[LONGITUDE]) + sqr(latC + 0.5f - point[LATITUDE]);
     }
 
-    private static float calculateGamma(Float[][] points, int n) {
+    private static double calculateGamma(double[][] points, int n) {
         // Calculate standard deviation
-        float meanX = 0f;
-        float meanY = 0f;
+        double meanX = 0f;
+        double meanY = 0f;
         for (int i = 0; i < n; i++) {
             meanX += points[i][LONGITUDE];
             meanY += points[i][LATITUDE];
         }
         meanX = meanX / n;
         meanY = meanY / n;
-        float sigmaX = 0f;
-        float sigmaY = 0f;
+        double sigmaX = 0f;
+        double sigmaY = 0f;
         for (int i = 0; i < n; i++) {
             sigmaX += sqr(points[i][LONGITUDE] - meanX);
             sigmaY += sqr(points[i][LATITUDE] - meanY);
         }
-        sigmaX = (float) Math.sqrt(sigmaX / n);
-        sigmaY = (float) Math.sqrt(sigmaY / n);
-        return (float) (0.5 * Math.sqrt(sqr(sigmaX) + sqr(sigmaY)) * Math.pow(n, -1f / 6));
+        sigmaX = Math.sqrt(sigmaX / n);
+        sigmaY = Math.sqrt(sigmaY / n);
+        return 0.5 * Math.sqrt(sqr(sigmaX) + sqr(sigmaY)) * Math.pow(n, -1.0 / 6);
     }
 
-    private static Float sqr(float v) {
+    private static double sqr(double v) {
         return v * v;
     }
 
@@ -150,7 +150,7 @@ public class ReferenceSpot {
 
     // Returns whether a point is contained in this reference point. For id=0, this is always true as this method is
     // called for id=0 after it has been called for all other reference points.
-    public boolean containsPoint(float longitude, float latitude) {
+    public boolean containsPoint(double longitude, double latitude) {
         if (id != 0) {
             int lo = (int) ((longitude - xStart) / GRANULARITY);
             int la = (int) ((latitude - yStart) / GRANULARITY);
