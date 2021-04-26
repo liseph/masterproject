@@ -13,7 +13,6 @@ public class VariableList implements Iterable<Variable> {
         this.variables = variables;
     }
 
-
     public static double[] generateRandomDistribution(int length) {
         double[] d = new Random().doubles(length, 0, 1).toArray();
         double total = Arrays.stream(d).sum();
