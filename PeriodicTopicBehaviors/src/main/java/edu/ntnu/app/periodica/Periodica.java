@@ -12,9 +12,10 @@ import java.util.stream.IntStream;
 
 public class Periodica {
 
-    public static final int nTOPICS = 20;
+    public static final int nTOPICS = 4;
     public static final double EPSILON = 1E-2;
     public static final double LAMBDA = 1E-1;
+    public static final double REPERRORLIMIT = 2E-1;
 
     static public PeriodicaResult[] execute() throws IOException {
         ReferenceSpot[] referenceSpots = ReferenceSpot.findReferenceSpots();
@@ -23,7 +24,7 @@ public class Periodica {
         Map<Integer, Map<Double, List<Integer>>> topicPeriodMap = new HashMap<>();
         for (int z = 0; z < nTOPICS; z++) {
             topicPeriodMap.put(z, new HashMap<>());
-            for (int o = 0; o < referenceSpots.length; o++) {
+            for (int o = 1; o < referenceSpots.length; o++) {
                 double[] topicPresence = Topics.getTopicPresence(z, o);
                 double[] periods = FindPeriodsInTimeseries.execute(new Timeseries(topicPresence, 1));
                 for (double p : periods) {
@@ -36,18 +37,18 @@ public class Periodica {
         topicPeriodMap.forEach((topicId, periodMap) ->
                 periodMap.forEach((period, referenceSpotList) -> {
                     int[][] symbolizedSequence = Topics.getSymbolizedSequence(topicId, referenceSpotList);
-                    List<Segment> result = minePeriodicBehaviours(symbolizedSequence, period);
-                    results.add(new PeriodicaResult(result));
+                    List<SegmentCluster> result = minePeriodicBehaviours(symbolizedSequence, period);
+                    results.add(new PeriodicaResult(result, period, topicId));
                 }));
         return results.toArray(PeriodicaResult[]::new);
     }
 
-    private static List<Segment> minePeriodicBehaviours(int[][] symbolizedSequence, double period) {
+    private static List<SegmentCluster> minePeriodicBehaviours(int[][] symbolizedSequence, double period) {
         // Segment and init clusters
         int nSegments = (int) (symbolizedSequence.length / period);
-        List<Segment> segments = new ArrayList<>();
+        List<SegmentCluster> segments = new ArrayList<>();
         for (int i = 0; i < nSegments; i++) {
-            Segment s = new Segment(i, period, symbolizedSequence);
+            SegmentCluster s = new SegmentCluster(i, period, symbolizedSequence, nSegments);
             segments.add(s);
         }
         // Calculate difference between all clusters
@@ -59,7 +60,6 @@ public class Periodica {
         int cT = 1;
         for (int i = 0; i < nSegments; i++) {
             for (int j = i + 1; j < nSegments; j++) {
-                if (i == j) continue;
                 double diff = calcDiff(segments.get(i), segments.get(j));
                 diffs.set(getIndex(i, j, nSegments), diff);
                 if (diff < minDiff) {
@@ -69,11 +69,14 @@ public class Periodica {
                 }
             }
         }
-        // Merge clusters with the smallest difference
-        int K = 5; // TODO: Implement representation error
-        while (nSegments > K) {
+        // Merge clusters with the smallest difference until representation error makes a sudden jump
+        double repError = segments.stream().mapToDouble(s -> s.getRepError()).sum() / nSegments;
+        double newRepError = repError;
+        while (repError - newRepError < Periodica.REPERRORLIMIT) {
             segments.get(cS).merge(segments.get(cT));
             segments.remove(cT);
+            if (segments.size() == 1) break;
+
             // Remove diffs for cluster cT. Remove from last to first to not fuck up indexes
             for (int i = nSegments - 1; i >= 0; i--) {
                 if (i == cT) continue;
@@ -90,10 +93,10 @@ public class Periodica {
             }
 
             // TODO: Consider if I can do this more efficiently, e.g. using a PriorityQueue.
+            // Fetch next clusters to merge
             minDiff = Double.POSITIVE_INFINITY;
             for (int i = 0; i < nSegments; i++) {
                 for (int j = i + 1; j < nSegments; j++) {
-                    if (i == j) continue;
                     double diff = diffs.get(getIndex(i, j, nSegments));
                     if (diff < minDiff) {
                         minDiff = diff;
@@ -102,12 +105,24 @@ public class Periodica {
                     }
                 }
             }
+
+            // Calculate the new representation error if we merge cS and cT in the next iteration.
+            repError = newRepError;
+            double repErrorMerged = segments.get(cS).calculateNewRepresentationError(segments.get(cT));
+            int finalCS = cS;
+            int finalCT = cT;
+            double repErrorRest = IntStream
+                    .range(0, segments.size())
+                    .filter(id -> id != finalCS && id != finalCT)
+                    .mapToDouble(id -> segments.get(id).getRepError())
+                    .sum();
+            newRepError = (repErrorMerged + repErrorRest) / nSegments;
         }
         return segments;
     }
 
     // Returns the Kullback-Leibler divergence between two segments
-    private static double calcDiff(Segment s1, Segment s2) {
+    private static double calcDiff(SegmentCluster s1, SegmentCluster s2) {
         double result = 0;
         double[][] distMatrix1 = s1.getDistMatrix();
         double[][] distMatrix2 = s2.getDistMatrix();
@@ -127,54 +142,8 @@ public class Periodica {
     private static int getIndex(int row, int col, int N) {
         if (row < col)
             return row * (N - 1) - (row - 1) * ((row - 1) + 1) / 2 + col - row - 1;
-        return col * (N - 1) - (col - 1) * ((col - 1) + 1) / 2 + row - col - 1;
-    }
-
-}
-
-class Segment {
-    private final List<Integer> ids;
-    private final int period;
-    private final double[][] distMatrix;
-
-    public Segment(int id, double period, int[][] symbolizedSequence) {
-        this.ids = new ArrayList<>();
-        this.ids.add(id);
-        this.period = (int) period;
-        this.distMatrix = new double[(int) period][PeriodicaDocs.nRefSpots()];
-        for (int t = 0; t < this.period; t++) {
-            for (int o : symbolizedSequence[id * this.period + t]) {
-                distMatrix[t][o] = 1; // Only one segment
-                // TODO: It makes sense that it should not sum to 1, but does it still work when it doesn't sum to 1?
-            }
-        }
-    }
-
-    // Merge this segment with input segment
-    public void merge(Segment segment) {
-        int cs = ids.size();
-        int ct = segment.ids.size();
-        double sScale = (double) cs / (cs + ct);
-        double tScale = (double) ct / (cs + ct);
-        for (int i = 0; i < period; i++) {
-            int finalI = i;
-            distMatrix[i] = IntStream
-                    .range(0, PeriodicaDocs.nRefSpots())
-                    .mapToDouble(o -> sScale * distMatrix[finalI][o] + tScale * segment.distMatrix[finalI][o])
-                    .toArray();
-        }
-        ids.addAll(segment.ids);
-    }
-
-    public List<Integer> getIds() {
-        return ids;
-    }
-
-    public double[][] getDistMatrix() {
-        return distMatrix;
-    }
-
-    public int getPeriod() {
-        return period;
+        else if (col < row)
+            return col * (N - 1) - (col - 1) * ((col - 1) + 1) / 2 + row - col - 1;
+        throw new IllegalArgumentException("row cannot be equal to col in getIndex function");
     }
 }

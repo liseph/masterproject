@@ -51,16 +51,15 @@ public class PeriodicaDocs extends Docs {
 
     private static int getReferenceSpotId(int l) {
         Location loc = locations.get(l);
-        for (ReferenceSpot spot : referenceSpots) {
-            if (spot.containsPoint(loc.getLongitude(), loc.getLatitude())) {
-                return spot.getId();
+        for (int o = 1; o < PeriodicaDocs.nRefSpots(); o++) {
+            if (referenceSpots[o].containsPoint(loc.getLongitude(), loc.getLatitude())) {
+                return o;
             }
         }
         return 0; // Id of reference spot representation of all areas not covered by reference spots.
     }
 
     public static String[] getTextsPerTsPerRefSpot() {
-        //return Arrays.stream(docs).map(doc -> doc.getTerms()).toArray(String[]::new);
         return Arrays.stream(tsDocs).flatMap(TimestampDocument::getTexts).toArray(String[]::new);
     }
 
@@ -75,7 +74,7 @@ public class PeriodicaDocs extends Docs {
 
 // A class to store all documents within the same timestamp and reference spot
 class TimestampDocument {
-    private final List<List<Document>> tsoDocs;
+    private final List<List<Document>> tsoDocs; // [ref spot][doc], ref spot = 0 is background spot
     private final int timestampId;
 
     public TimestampDocument(int timestampId) {
@@ -105,13 +104,10 @@ class TimestampDocument {
     }
 
     private String getTextPerRefSpot(int o) {
-        if (o < tsoDocs.size())
-            return tsoDocs.get(o).stream().map(Document::getTerms).collect(Collectors.joining(". "));
-        return "";
+        return tsoDocs.get(o).stream().map(Document::getTerms).collect(Collectors.joining(". "));
     }
 
     public Stream<String> getTexts() {
-        String[] s = IntStream.range(0, tsoDocs.size()).mapToObj(this::getTextPerRefSpot).toArray(String[]::new);
-        return Arrays.stream(s);
+        return IntStream.range(0, tsoDocs.size()).mapToObj(this::getTextPerRefSpot);
     }
 }

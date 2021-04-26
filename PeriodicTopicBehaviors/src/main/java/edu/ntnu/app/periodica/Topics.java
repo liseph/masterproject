@@ -6,16 +6,20 @@ import cc.mallet.pipe.SerialPipes;
 import cc.mallet.pipe.TokenSequence2FeatureSequence;
 import cc.mallet.pipe.iterator.StringArrayIterator;
 import cc.mallet.topics.ParallelTopicModel;
+import cc.mallet.types.Alphabet;
+import cc.mallet.types.IDSorter;
 import cc.mallet.types.InstanceList;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class Topics {
     private static double[][][] topicDistributions; // [topic][ref spot][timestamp]
     private static ParallelTopicModel model;
+    private static Alphabet dataAlphabet;
 
     public static void analyzeTopics() throws IOException {
         ArrayList<Pipe> pipeList = new ArrayList<>();
@@ -23,18 +27,21 @@ public class Topics {
         pipeList.add(new TokenSequence2FeatureSequence());
 
         InstanceList instances = new InstanceList(new SerialPipes(pipeList));
-        // One doc = all docs within time t and ref spot o so docs[i] => i = o*len(t) + t.
+        // One doc = all docs within time t and ref spot o in 1D array, so docs[i] => i = o*len(t) + t.
         String[] docs = PeriodicaDocs.getTextsPerTsPerRefSpot();
         instances.addThruPipe(new StringArrayIterator(docs));
 
         model = new ParallelTopicModel(Periodica.nTOPICS, 1.0, 0.01);
+        model.setRandomSeed(1000);
         model.addInstances(instances);
         model.setNumThreads(2);
 
         // Run the model for 50 iterations and stop (this is for testing only,
         //  for real applications, use 1000 to 2000 iterations)
-        model.setNumIterations(50);
+        model.setNumIterations(1000);
         model.estimate();
+
+        dataAlphabet = instances.getDataAlphabet();
 
         // Estimate the topic distribution per document, given the current Gibbs state.
         int nTs = PeriodicaDocs.nTimeslots();
@@ -73,5 +80,22 @@ public class Topics {
                     .toArray();
         }
         return result;
+    }
+
+    public static String getTopicString(Integer topic) {
+        Iterator<IDSorter> iterator = model.getSortedWords().get(topic).iterator();
+        int rank = 0;
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        while (iterator.hasNext() && rank < 5) {
+            IDSorter idCountPair = iterator.next();
+            sb.append(dataAlphabet.lookupObject(idCountPair.getID()));
+            sb.append(": ");
+            sb.append(idCountPair.getWeight());
+            sb.append(", ");
+            rank++;
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }

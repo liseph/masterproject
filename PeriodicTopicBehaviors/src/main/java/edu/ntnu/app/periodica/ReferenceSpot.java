@@ -64,7 +64,7 @@ public class ReferenceSpot {
         }
 
         double lowestVal = maxHeap.peek();
-        // Find clusters of values with density above threshold. Once we find one cell, we create a cluster and find
+        // Find clusters of values with density above threshold. Once we find one cell, we create a cluster and
         // find all cells that belong to that cluster.
         List<ReferenceSpot> spots = new ArrayList<>();
         for (int i = 0; i < x; i++) {
@@ -90,7 +90,7 @@ public class ReferenceSpot {
             }
         }
         // Add a reference spot that indicates all areas outside the reference spots, will have id=0.
-        spots.add(new ReferenceSpot());
+        spots.add(0, new ReferenceSpot());
         return spots.toArray(ReferenceSpot[]::new);
     }
 
