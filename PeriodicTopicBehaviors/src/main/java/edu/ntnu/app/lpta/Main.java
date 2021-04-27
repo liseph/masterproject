@@ -10,7 +10,7 @@ public class Main {
         LptaDocs.initialize("../dataset1000.txt");
 
         System.out.println("Executing...");
-        LptaResult result = Lpta.execute(2, 2);
+        LptaResult result = Lpta.execute(2, 2, new double[]{2,3});
 
         System.out.println("Analyzing...");
         LptaPattern[] patterns = Lpta.analyze(result);

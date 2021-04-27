@@ -1,11 +1,11 @@
 package edu.ntnu.app.lpta;
 
 public class LptaResult {
-    private final Topics topics;
-    private final TopicDistDocs topicDistDocs;
-    private final TimeDistTopicLocs timeDistTopicLocs;
+    private final double[][] topics;
+    private final double[][] topicDistDocs;
+    private final double[][][] timeDistTopicLocs;
 
-    public LptaResult(Topics topics, TopicDistDocs topicDistDocs, TimeDistTopicLocs timeDistTopicLocs) {
+    public LptaResult(double[][] topics, double[][] topicDistDocs, double[][][] timeDistTopicLocs) {
         this.topics = topics;
         this.topicDistDocs = topicDistDocs;
         this.timeDistTopicLocs = timeDistTopicLocs;

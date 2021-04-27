@@ -47,4 +47,8 @@ public class Document {
     public void setTermIndices(int[] docTermIndices) {
         this.termIndices = docTermIndices;
     }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
 }
