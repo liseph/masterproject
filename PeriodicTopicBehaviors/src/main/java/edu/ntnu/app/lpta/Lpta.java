@@ -1,21 +1,24 @@
 package edu.ntnu.app.lpta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Lpta {
 
-    public static final double EPSILON = 1E-2f;
+    public static final double EPSILON = 1E-1;
 
-    public static LptaResult execute(int nPeriodicTopics, int nBurstyTopics, double[] periods) {
+    public static void execute(int nPeriodicTopics, double[] periods) {
         // Latent variable
-        LatentWordByTopics.initialize(nPeriodicTopics, nBurstyTopics);
+        LatentWordByTopics.initialize(nPeriodicTopics);
 
         // Unknown variables, initialization assumes LatentWordByTopics have already been initialized
-        Topics.initialize(nPeriodicTopics, nBurstyTopics);
-        TopicDistDocs.initialize(nPeriodicTopics, nBurstyTopics);
-        TimeDistTopicLocs.initialize(nPeriodicTopics, nBurstyTopics, periods);
+        Topics.initialize(nPeriodicTopics);
+        TopicDistDocs.initialize(nPeriodicTopics);
+        TimeDistTopicLocs.initialize(nPeriodicTopics, periods);
 
         boolean converged = false;
         System.out.println("START EM ALGORITHM");
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 500; i++) {
             System.out.format("Round %d: ", i + 1);
             long startTime = System.nanoTime();
 
@@ -44,11 +47,22 @@ public class Lpta {
             converged = b1 && b2 && b3 && b4;
             if (converged) break;
         }
-
-        return new LptaResult(Topics.getDistribution(), TopicDistDocs.getDistribution(), TimeDistTopicLocs.getDistribution());
     }
 
-    public static LptaPattern[] analyze(LptaResult result) {
-        return new LptaPattern[0];
+    public static List<LptaPattern> analyze(int nTopics, double[] periods) {
+        List<LptaPattern> patterns = new ArrayList<>();
+        for (int z = 0; z < nTopics; z++) {
+            LptaPattern pattern = new LptaPattern(periods[z], z);
+            for (int l = 0; l < LptaDocs.nLocations(); l++) {
+                if (TimeDistTopicLocs.getStdDeviation(l, z) >= TimeDistTopicLocs.STD_DEVIATION_MIN) {
+                    pattern.addLocation(l, TimeDistTopicLocs.getMean(l, z));
+                }
+            }
+            if (pattern.getLocationTrajectory().length == 0) continue;
+            pattern.setTimeDist(TimeDistTopicLocs.getTimeDist(z, pattern.getLocationTrajectory()));
+            pattern.setOffset();
+            patterns.add(pattern);
+        }
+        return patterns;
     }
 }

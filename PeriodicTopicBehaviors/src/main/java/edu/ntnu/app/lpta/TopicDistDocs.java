@@ -9,11 +9,11 @@ public class TopicDistDocs {
     private static int nTopics;
     private static boolean hasConverged = false;
 
-    public static void initialize(int nPeriodicTopics, int nBurstyTopics) {
+    public static void initialize(int nPeriodicTopics) {
         if (!LatentWordByTopics.isInitialized()) {
             throw new IllegalStateException("Cannot initialize TopicDistDocs before LatentWordByTopics.");
         }
-        nTopics = nPeriodicTopics + nBurstyTopics + 1;
+        nTopics = nPeriodicTopics + 1;
         topicDistDoc = new double[LptaDocs.nDocuments()][nTopics];
         update();
 
@@ -33,7 +33,7 @@ public class TopicDistDocs {
     }
 
     private static double calcAllWords(int d, int z) {
-        return IntStream.range(0, LptaDocs.nWords()).mapToDouble(w -> calc(d, w, z)).sum();
+        return Arrays.stream(LptaDocs.getDoc(d).getTermIndices()).mapToDouble(w -> calc(d, w, z)).sum();
     }
 
     private static double calc(int d, int w, int z) {
