@@ -58,7 +58,7 @@ public class LatentWordByTopic implements Variable {
         return themes.get(z).get(w) *
                 ((1 - Psta.LAMBDA_TL) * topicDistDocs.get(d).get(z) +
                         Psta.LAMBDA_TL *
-                                topicDistTLs.get(PstaDocs.get(d).getLocationId()).get(PstaDocs.get(d).getTimestampId(), z));
+                                topicDistTLs.get(PstaDocs.getDoc(d).getLocationId()).get(PstaDocs.getDoc(d).getTimestampId(), z));
     }
 
     @Override

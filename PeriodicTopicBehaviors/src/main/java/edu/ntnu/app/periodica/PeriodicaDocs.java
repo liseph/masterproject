@@ -7,7 +7,6 @@ import edu.ntnu.app.Location;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -24,10 +23,9 @@ public class PeriodicaDocs extends Docs {
     }
 
     public static double[][] getXYValues() {
-        Location[] locations = Docs.getLocations();
-        return Arrays.stream(docs)
+        return docs.stream()
                 .map(Document::getLocationId)
-                .map(locId -> locations[locId])
+                .map(PeriodicaDocs::getLocation)
                 .map(loc -> new double[]{loc.getLongitude(), loc.getLatitude()})
                 .toArray(double[][]::new);
     }
@@ -39,10 +37,11 @@ public class PeriodicaDocs extends Docs {
         referenceSpots = spots;
         tsDocs = new TimestampDocument[nTimeslots()];
         for (int t = 0, d = 0; t < nTimeslots() && d < nDocuments(); t++) {
-            tsDocs[t] = new TimestampDocument(t);
-            while (d < nDocuments() && docs[d].getTimestampId() == t) {
-                int o = getReferenceSpotId(docs[d].getLocationId());
-                tsDocs[t].addDoc(docs[d], o);
+            tsDocs[t] = new TimestampDocument();
+            Document doc = getDoc(d);
+            while (d < nDocuments() && doc.getTimestampId() == t) {
+                int o = getReferenceSpotId(doc.getLocationId());
+                tsDocs[t].addDoc(doc, o);
                 d++;
             }
         }
@@ -50,7 +49,7 @@ public class PeriodicaDocs extends Docs {
     }
 
     private static int getReferenceSpotId(int l) {
-        Location loc = locations.get(l);
+        Location loc = getLocation(l);
         for (int o = 1; o < PeriodicaDocs.nRefSpots(); o++) {
             if (referenceSpots[o].containsPoint(loc.getLongitude(), loc.getLatitude())) {
                 return o;
@@ -63,10 +62,6 @@ public class PeriodicaDocs extends Docs {
         return Arrays.stream(tsDocs).flatMap(TimestampDocument::getTexts).toArray(String[]::new);
     }
 
-    public static String getTextInTimestampAsOne(int t) {
-        return tsDocs[t].getTextsAsOne();
-    }
-
     public static int nRefSpots() {
         return referenceSpots.length;
     }
@@ -75,32 +70,14 @@ public class PeriodicaDocs extends Docs {
 // A class to store all documents within the same timestamp and reference spot
 class TimestampDocument {
     private final List<List<Document>> tsoDocs; // [ref spot][doc], ref spot = 0 is background spot
-    private final int timestampId;
 
-    public TimestampDocument(int timestampId) {
+    public TimestampDocument() {
         this.tsoDocs = new ArrayList<>();
         for (int i = 0; i < PeriodicaDocs.nRefSpots(); i++) tsoDocs.add(new ArrayList<>());
-        this.timestampId = timestampId;
     }
 
     public void addDoc(Document doc, int o) {
         tsoDocs.get(o).add(doc);
-    }
-
-    public List<Document> getDocs(int o) {
-        return tsoDocs.get(o);
-    }
-
-    public List<Document> getDocsInRefSpot(int o) {
-        return tsoDocs.get(o);
-    }
-
-    public int getTimestampId() {
-        return timestampId;
-    }
-
-    public String getTextsAsOne() {
-        return tsoDocs.stream().flatMap(Collection::stream).map(Document::getTerms).collect(Collectors.joining(". "));
     }
 
     private String getTextPerRefSpot(int o) {

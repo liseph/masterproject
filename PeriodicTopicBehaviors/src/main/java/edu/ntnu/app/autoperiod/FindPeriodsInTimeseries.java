@@ -17,9 +17,8 @@ public class FindPeriodsInTimeseries {
         double[] possiblePeriods = periodogram.extractPossiblePeriods(spectrumThreshold, periodThreshold);
 
         Autocorrelation autocorrelation = Autocorrelation.calculateAutocorrelation(ts);
-        double[] periods = autocorrelation.findPeriodsOnHill(possiblePeriods, periodThreshold);
 
-        return periods;
+        return autocorrelation.findPeriodsOnHill(possiblePeriods, periodThreshold);
     }
 
     // Generate threshold as the 99th percentile highest Pxx value for a permuted (non-periodic) sequence.
@@ -30,7 +29,7 @@ public class FindPeriodsInTimeseries {
         for (int i = 0; i < 100; i++) {
             shuffleArray(cp);
             Periodogram periodogram = Periodogram.calculatePeriodogram(cp, ts.getFs());
-            double maxPxxValue = Arrays.stream(periodogram.getPxx()).max().getAsDouble();
+            double maxPxxValue = Arrays.stream(periodogram.getPxx()).max().orElseThrow();
             if (maxPxxValue > threshold && maxPxxValue < highestValue) {
                 threshold = maxPxxValue;
             } else if (maxPxxValue > highestValue) {

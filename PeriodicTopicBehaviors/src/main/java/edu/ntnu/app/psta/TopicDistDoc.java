@@ -44,7 +44,7 @@ public class TopicDistDoc implements Variable {
     }
 
     private double baseCalcForAllWords(int z, int d) {
-        return Arrays.stream(PstaDocs.get(d).getTermIndices()).mapToDouble(w -> baseCalc(z, d, w)).sum();
+        return Arrays.stream(PstaDocs.getDoc(d).getTermIndices()).mapToDouble(w -> baseCalc(z, d, w)).sum();
     }
 
     public void setVars(VariableList latentWordByTopic, VariableList latentWordByTL) {

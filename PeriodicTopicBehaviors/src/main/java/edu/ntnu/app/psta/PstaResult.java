@@ -19,31 +19,17 @@ public class PstaResult {
         return topicDistTLs;
     }
 
-    public VariableList getTopicDistDocs() {
-        return topicDistDocs;
-    }
-
-    public VariableList getThemes() {
-        return themes;
-    }
-
     public void writeToFile() {
-        PrintWriter pw = null;
-        try {
-            pw = new PrintWriter(new FileWriter("../pstaPatterns1.txt"));
+        try (PrintWriter pw = new PrintWriter(new FileWriter("../pstaPatterns1.txt"))) {
+            pw.write("THEMES:");
+            pw.write(themes.toStringForFile());
+            pw.write("\nTOPIC DISTRIBUTION PER DOCUMENT:");
+            pw.write(topicDistDocs.toStringForFile());
+            pw.write("\nTOPIC DISTRIBUTION PER TIME,LOCATION PAIR:");
+            pw.write(topicDistTLs.toStringForFile());
         } catch (IOException e) {
             e.printStackTrace();
-            return;
         }
-
-        pw.write("THEMES:");
-        pw.write(themes.toStringForFile());
-        pw.write("\nTOPIC DISTRIBUTION PER DOCUMENT:");
-        pw.write(topicDistDocs.toStringForFile());
-        pw.write("\nTOPIC DISTRIBUTION PER TIME,LOCATION PAIR:");
-        pw.write(topicDistTLs.toStringForFile());
-
-        pw.close();
     }
 
     public int nTopics() {

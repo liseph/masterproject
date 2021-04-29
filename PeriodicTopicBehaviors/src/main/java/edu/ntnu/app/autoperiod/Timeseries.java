@@ -12,14 +12,12 @@ public class Timeseries {
         this.fs = fs;
     }
 
-    public boolean removeMean() {
+    public void removeMean() {
         if (!meanRemoved) {
             double avg = Arrays.stream(data).average().orElse(Double.NaN);
             Arrays.setAll(data, ix -> data[ix] - avg);
             meanRemoved = true;
-            return true;
         }
-        return false;
     }
 
     public double[] getData() {

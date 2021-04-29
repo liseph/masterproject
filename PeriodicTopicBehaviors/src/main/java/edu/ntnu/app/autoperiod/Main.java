@@ -40,7 +40,7 @@ public class Main {
     public double[] readFile(String pathName) throws IOException, URISyntaxException, NullPointerException {
         Path path = Paths.get(pathName);
         Stream<String> lines = Files.lines(path);
-        double[] data = lines.mapToDouble(d -> Double.parseDouble(d)).toArray();
+        double[] data = lines.mapToDouble(Double::parseDouble).toArray();
         lines.close();
         return data;
     }

@@ -14,9 +14,6 @@ public class Psta {
     public static final double LAMBDA_B = 0.9f; // Empirically, a suitable λB for blog documents can be chosen between 0.9 and 0.95.
     public static final double LAMBDA_TL = 0.5f; // Empirically, a suitable λTL for blog documents can be chosen between 0.5 and 0.7.
     public static final double EPSILON = 1E-2f;
-    public static final double HOUR_MS = 3.6E+6f;
-    public static final double DAY_MS = 8.64E+7f;
-    public static final double TIME_CONVERT = DAY_MS;
 
 
     static public PstaResult execute(int nTopics) {
@@ -76,7 +73,6 @@ public class Psta {
             if (converged) break;
         }
         System.out.println(converged);
-        PstaDocs.nWords();
 
         return new PstaResult(themes, topicDistDocs, topicDistTLs);
     }

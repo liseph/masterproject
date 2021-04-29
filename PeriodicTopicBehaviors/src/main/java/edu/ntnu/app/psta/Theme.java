@@ -30,7 +30,7 @@ public class Theme implements Variable {
     @Override
     public boolean update() {
         boolean converges = true;
-        double denominator = IntStream.range(0, PstaDocs.nWords()).mapToDouble(w2 -> baseCalcForAllDocs(w2)).sum();
+        double denominator = IntStream.range(0, PstaDocs.nWords()).mapToDouble(this::baseCalcForAllDocs).sum();
         for (int w = 0; w < PstaDocs.nWords(); w++) {
             double numerator = baseCalcForAllDocs(w);
             double oldVal = wordDistribution[w];
@@ -61,16 +61,11 @@ public class Theme implements Variable {
         return wordDistribution[wordIndex[0]];
     }
 
-    public int getId() {
-        return id;
-    }
-
     @Override
     public String toString() {
         Map<Double, String> wordDistributionMap = new TreeMap<>(Collections.reverseOrder());
-        String[] vocabulary = PstaDocs.getVocabulary();
         for (int i = 0; i < PstaDocs.nWords(); i++) {
-            wordDistributionMap.put(wordDistribution[i], vocabulary[i]);
+            wordDistributionMap.put(wordDistribution[i], PstaDocs.getWord(i));
         }
         return "\np(w|z){" +
                 "z=" + id +
@@ -79,9 +74,8 @@ public class Theme implements Variable {
     }
 
     private String mapToString(Map<Double, String> map) {
-        String mapAsString = map.entrySet().stream().limit(20)
+        return map.entrySet().stream().limit(20)
                 .map(entry -> entry.getValue() + ":" + entry.getKey())
                 .collect(Collectors.joining(", ", "{", "}"));
-        return mapAsString;
     }
 }

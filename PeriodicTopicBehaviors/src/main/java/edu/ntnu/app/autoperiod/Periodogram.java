@@ -3,7 +3,6 @@ package edu.ntnu.app.autoperiod;
 import hageldave.ezfftw.dp.FFT;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static edu.ntnu.app.autoperiod.Autocorrelation.getNextRegular;
@@ -60,70 +59,9 @@ public class Periodogram {
         return new Periodogram(pxx, f);
     }
 
-    public static Periodogram calculatePeriodogramWelch(double[] data, int fs) {
-        int n = data.length;
-
-        int psdSize = n / 2 + 1;
-
-        double[] window = generateHanningWindow(n);
-        double windowScale = sqr(Arrays.stream(window).sum());
-
-        // consider if I should remove mean here
-        double[] windowedSegment = new double[n];
-        for (int i = 0; i < n; i++) {
-            windowedSegment[i] = data[i] * window[i];
-        }
-        // Apply the FFT
-        double[] realOut = new double[n];
-        double[] imagOut = new double[n];
-        FFT.fft(windowedSegment, realOut, imagOut, n);
-        double[] fftSegment = new double[n];
-        for (int i = 0; i < n; i++) {
-            fftSegment[i] = sqr(realOut[i]) + sqr(imagOut[i]);
-        }
-
-        double powerDensityNormalization = 1 / windowScale;
-        double powerDensityTransformation = 1 / (double) fs;
-
-        double[] fftWelchEstimateOneSided = new double[psdSize];
-        System.arraycopy(fftSegment, 0, fftWelchEstimateOneSided, 0, psdSize);
-        double[] pxx = Arrays.stream(fftWelchEstimateOneSided).map(v -> Math.abs(v) * powerDensityNormalization * powerDensityTransformation).toArray();
-        // Double frequencies except DC and Nyquist
-        for (int i = 2; i < psdSize - 1; i++) {
-            pxx[i] *= 2;
-        }
-        // Get frequencies f, inspired by https://github.com/numpy/numpy/blob/main/numpy/fft/helper.py#L123-L169
-        double freqScale = 1 / ((double) n * 1 / fs);
-        double[] freq = new double[n];
-        int N = (n - 1) / 2 + 1;
-        for (int i = 0; i < N; i++)
-            freq[i] = i * freqScale;
-        for (int i = N, j = -n / 2; i < n && j < 0; i++, j++) {
-            freq[i] = j * freqScale;
-        }
-        double[] f = new double[psdSize];
-        System.arraycopy(freq, 0, f, 0, psdSize);
-        f[psdSize - 1] = Math.abs(f[psdSize - 1]);
-
-        return new Periodogram(pxx, f);
-    }
-
-    private static double[] generateHanningWindow(int size) {
-        double[] signal = new double[size];
-        for (int i = 0; i < size; i++) {
-            signal[i] = 0.5 * (1.0 - Math.cos(2.0 * Math.PI * i / (size - 1)));
-        }
-        return signal;
-    }
-
     public double[] getPxx() {
         return Pxx;
     }
-
-    public double[] getF() {
-        return f;
-    }
-
 
     // Filter out periods based on thresholds
     public double[] extractPossiblePeriods(double spectrumThreshold, double periodThreshold) {

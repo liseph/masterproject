@@ -39,8 +39,8 @@ public class LatentWordByTL implements Variable {
                 // The first part, p(w|z), is not a part of the paper, but w is not included at all in the formula..
                 //double numerator = topics.get(z).get(w) * PSTA.LAMBDA_TL * topicDistTLs
                 double numerator = Psta.LAMBDA_TL * topicDistTLs
-                        .get(PstaDocs.get(docIndex).getLocationId())
-                        .get(PstaDocs.get(docIndex).getTimestampId(), z);
+                        .get(PstaDocs.getDoc(docIndex).getLocationId())
+                        .get(PstaDocs.getDoc(docIndex).getTimestampId(), z);
                 double denominator = (1 - Psta.LAMBDA_TL) * topicDistDocs.get(docIndex).get(z) + numerator;
                 double oldVal = latentWordByTL[w][z];
                 double newVal = denominator != 0 ? numerator / denominator : 0;

@@ -41,7 +41,7 @@ public class VariableList implements Iterable<Variable> {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<Variable> iterator() {
         return Arrays.stream(variables).iterator();
     }
 

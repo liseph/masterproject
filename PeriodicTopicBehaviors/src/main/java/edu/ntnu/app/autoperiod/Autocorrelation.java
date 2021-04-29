@@ -110,7 +110,7 @@ public class Autocorrelation {
                 if (autocorrelation.length < i + j + 2)
                     break;
                 tmp = autocorrelation[i + j + 2] - 2 * autocorrelation[i + j + 1] + autocorrelation[i + j];
-                acceleration = acceleration < tmp ? acceleration : tmp;
+                acceleration = Math.min(acceleration, tmp);
             }
             if (acceleration <= 0) {
                 while (i + 1 < autocorrelation.length && autocorrelation[i] < autocorrelation[i + 1]) i++;
@@ -122,9 +122,5 @@ public class Autocorrelation {
             }
         }
         return periods.stream().mapToDouble(d -> d).toArray();
-    }
-
-    public double[] getAutocorrelation() {
-        return autocorrelation;
     }
 }

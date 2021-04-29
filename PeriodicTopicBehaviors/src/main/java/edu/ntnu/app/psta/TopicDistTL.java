@@ -50,7 +50,7 @@ public class TopicDistTL implements Variable {
     }
 
     private double baseCalcForAllWords(int z, int d) {
-        return Arrays.stream(PstaDocs.get(d).getTermIndices()).mapToDouble(w -> baseCalc(z, d, w)).sum();
+        return Arrays.stream(PstaDocs.getDoc(d).getTermIndices()).mapToDouble(w -> baseCalc(z, d, w)).sum();
     }
 
     private double calcForAllTLDocsAndWords(int z, int t, int l) {
@@ -70,10 +70,6 @@ public class TopicDistTL implements Variable {
         int timeIndex = values[0];
         int topicIndex = values[1];
         return topicDistributionTL[timeIndex][topicIndex];
-    }
-
-    public double[][] getTopicDistributionTL() {
-        return topicDistributionTL;
     }
 
     @Override

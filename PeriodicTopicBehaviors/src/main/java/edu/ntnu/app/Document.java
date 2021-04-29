@@ -32,10 +32,6 @@ public class Document {
         return terms;
     }
 
-    public boolean hasTimeAndLoc(int t, int l) {
-        return t == getTimestampId() && l == locationId;
-    }
-
     public int getId() {
         return id;
     }

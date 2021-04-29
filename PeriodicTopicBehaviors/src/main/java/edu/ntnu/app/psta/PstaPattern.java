@@ -1,5 +1,6 @@
 package edu.ntnu.app.psta;
 
+import java.util.Arrays;
 import java.util.TreeSet;
 
 public class PstaPattern {
@@ -23,25 +24,13 @@ public class PstaPattern {
         return period;
     }
 
-    public long getOffset() {
-        return offset;
-    }
-
-    public int getThemeIndex() {
-        return themeIndex;
-    }
-
-    public TreeSet<Integer> getLocationTrajectory() {
-        return locationTrajectory;
-    }
-
     @Override
     public String toString() {
         return "PstaPattern{" +
                 "period=" + period +
                 ", offset=" + offset +
                 ", themeIndex=" + themeIndex +
-                ", locationTrajectory=" + locationTrajectory.toArray() +
+                ", locationTrajectory=" + Arrays.toString(locationTrajectory.toArray()) +
                 '}';
     }
 }

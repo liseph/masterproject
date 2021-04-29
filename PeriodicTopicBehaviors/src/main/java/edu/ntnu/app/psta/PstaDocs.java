@@ -22,25 +22,22 @@ public class PstaDocs extends Docs {
     public static void initialize(String pathName) throws IOException {
         Docs.initialize(pathName);
         // Calculate some statistics to use in calculations of topics
-        wordDocCounts = new Map[docs.length];
+        wordDocCounts = new Map[nDocuments()];
         sumWordCounts = 0;
         sumWordCountsTL = new int[Docs.nTimeslots()][Docs.nLocations()];
-        wordCounts = new int[vocabulary.size()];
+        wordCounts = new int[nWords()];
         indexOfDocsWithWord = new Set[nWords()];
         indexOfDocsWithTL = new HashMap<>();
         System.out.println("Calculating word counts...");
-        String[] voc = vocabulary.toArray(String[]::new);
-        IntStream.range(0, docs.length).forEach(i -> {
-            long t1 = System.nanoTime();
-            Document doc = docs[i];
+        Object[] voc = getVocabulary().toArray();
+        IntStream.range(0, nDocuments()).forEach(i -> {
+            Document doc = getDoc(i);
 
             int[] docTermIndices = Arrays.stream(doc.getTerms().split(" ")).mapToInt(word -> Arrays.binarySearch(voc, word)).toArray();
-            long t2 = System.nanoTime() - t1;
             doc.setTermIndices(docTermIndices); // Store this as we need it for later
             int sumWordCount = docTermIndices.length;
             sumWordCounts += sumWordCount;
             sumWordCountsTL[doc.getTimestampId()][doc.getLocationId()] += sumWordCount;
-            long t3 = System.nanoTime() - t2 - t1;
             wordDocCounts[i] = new HashMap<>();
             Arrays.stream(docTermIndices).forEach(index -> {
                 wordCounts[index]++;
@@ -50,22 +47,12 @@ public class PstaDocs extends Docs {
                 if (count == null) wordDocCounts[i].put(index, new MutableInt());
                 else count.increment();
             });
-            long t4 = System.nanoTime() - t3 - t2 - t1;
             // Calculating TL word indices, Map<t, Map<l, List<Index>>>
             int t = doc.getTimestampId();
             int l = doc.getLocationId();
-            Map<Integer, List<Integer>> outer = indexOfDocsWithTL.get(t);
-            if (outer == null) {
-                outer = new HashMap<>();
-                indexOfDocsWithTL.put(t, outer);
-            }
-            List<Integer> inner = outer.get(l);
-            if (inner == null) {
-                inner = new ArrayList<>();
-                outer.put(l, inner);
-            }
+            Map<Integer, List<Integer>> outer = indexOfDocsWithTL.computeIfAbsent(t, k -> new HashMap<>());
+            List<Integer> inner = outer.computeIfAbsent(l, k -> new ArrayList<>());
             inner.add(i);
-            long t5 = System.nanoTime() - t4 - t3 - t2 - t1;
         });
         System.out.println("Calculating background topic...");
         backgroundTheme = new double[nWords()];
