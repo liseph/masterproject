@@ -36,20 +36,16 @@ public class LatentWordByTopic implements Variable {
     @Override
     public boolean update() {
         boolean converges = true;
-        for (int z = 0; z < themes.length(); z++) {
-            for (int w = 0; w < PstaDocs.nWords(); w++) {
-                double numerator = (1 - Psta.LAMBDA_B) * calcProbTopicByDocAndTL(z, docIndex, w);
-                int finalW = w; // To use in stream
-                double denominator = Psta.LAMBDA_B * PstaDocs.backgroundTheme[w] +
-                        (1 - Psta.LAMBDA_B) * IntStream
-                                .range(0, themes.length())
-                                .mapToDouble(z2 -> calcProbTopicByDocAndTL(z2, docIndex, finalW))
-                                .sum();
-                double oldVal = latentWordByTopic[w][z];
-                double newVal = denominator != 0 ? numerator / denominator : 0;
-                converges = converges && Math.abs(oldVal - newVal) < Psta.EPSILON;
-                latentWordByTopic[w][z] = newVal;
-            }
+        for (int w = 0; w < PstaDocs.nWords(); w++) {
+            int finalW = w; // To use in stream
+            double[] base = IntStream.range(0, themes.length())
+                    .mapToDouble(z2 -> calcProbTopicByDocAndTL(z2, docIndex, finalW))
+                    .toArray();
+            double denominator = Psta.LAMBDA_B * PstaDocs.backgroundTheme[w] +
+                    (1 - Psta.LAMBDA_B) * Arrays.stream(base).sum();
+            double[] newVal = Arrays.stream(base).map(val -> (1 - Psta.LAMBDA_B) * val / denominator).toArray();
+            converges = converges && IntStream.range(0, themes.length()).allMatch(z -> Math.abs(newVal[z] - latentWordByTopic[finalW][z]) < Psta.EPSILON);
+            latentWordByTopic[w] = newVal;
         }
         return converges;
     }
@@ -60,6 +56,7 @@ public class LatentWordByTopic implements Variable {
                         Psta.LAMBDA_TL *
                                 topicDistTLs.get(PstaDocs.getDoc(d).getLocationId()).get(PstaDocs.getDoc(d).getTimestampId(), z));
     }
+
 
     @Override
     public void setVars(VariableList p1, VariableList p2) {

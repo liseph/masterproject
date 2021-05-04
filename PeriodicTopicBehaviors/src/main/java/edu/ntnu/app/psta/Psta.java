@@ -3,24 +3,28 @@ package edu.ntnu.app.psta;
 import edu.ntnu.app.autoperiod.FindPeriodsInTimeseries;
 import edu.ntnu.app.autoperiod.Timeseries;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class Psta {
 
     // Constants
-    public static final double LAMBDA_B = 0.9f; // Empirically, a suitable λB for blog documents can be chosen between 0.9 and 0.95.
-    public static final double LAMBDA_TL = 0.5f; // Empirically, a suitable λTL for blog documents can be chosen between 0.5 and 0.7.
-    public static final double EPSILON = 1E-2f;
+    public static final double LAMBDA_B = 0.9; // Empirically, a suitable λB for blog documents can be chosen between 0.9 and 0.95.
+    public static final double LAMBDA_TL = 0.5; // Empirically, a suitable λTL for blog documents can be chosen between 0.5 and 0.7.
+    public static final double EPSILON = 1E-2;
+
+    public static final Random seedGenerator = new Random(1000);
+
+    static VariableList themes;
+    static VariableList topicDistDocs;
+    static VariableList topicDistTLs;
 
 
     static public PstaResult execute(int nTopics) {
         // Unknown values
-        VariableList themes = Theme.generateEmptyThemes(nTopics);
-        VariableList topicDistDocs = TopicDistDoc.generateEmptyTopicDist(nTopics);
-        VariableList topicDistTLs = TopicDistTL.generateEmptyTopicDist(nTopics);
+        themes = Theme.generateEmptyThemes(nTopics);
+        topicDistDocs = TopicDistDoc.generateEmptyTopicDist(nTopics);
+        topicDistTLs = TopicDistTL.generateEmptyTopicDist(nTopics);
 
         // Latent variables
         VariableList latentWordByTopic = LatentWordByTopic.generateEmptyTopicDist(themes, topicDistDocs, topicDistTLs);
@@ -34,7 +38,7 @@ public class Psta {
         boolean converged = false;
         //while (!converged) {
         System.out.println("START");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 200; i++) {
             System.out.format("Round %d: ", i + 1);
             long startTime = System.nanoTime();
             // E-step
@@ -77,11 +81,7 @@ public class Psta {
         return new PstaResult(themes, topicDistDocs, topicDistTLs);
     }
 
-    // NOTE: Right now, the time series periodicity detection algorithm expects a regularily sampled time series.
-    // Our PstaResult is NOT regularily sampled. This is because in these points, we only got 0 anyways, so it just
-    // took a lot of space. Consider if this is a problem. I read that a few missing values is not a problem, and that
-    // by filling them in, you make it worse... In theory, there shouldn't be that many missing values as we have a
-    // large dataset.
+    // NOTE: The time series periodicity detection algorithm expects a regularly sampled time series.
     static public PstaPattern[] analyze(PstaResult pattern) {
         Map<Double, Map<Integer, PstaPattern>> patterns = new HashMap<>();
         for (int l = 0; l < PstaDocs.nLocations(); l++) {
@@ -96,14 +96,45 @@ public class Psta {
                 double denominator = Arrays.stream(themeLifeCycle).sum();
                 themeLifeCycle = Arrays.stream(themeLifeCycle).map(p -> p / denominator).toArray();
                 double[] periods = FindPeriodsInTimeseries.execute(new Timeseries(themeLifeCycle, 1));
-                for (double p : periods) {
-                    patterns.putIfAbsent(p, new HashMap<>());
-                    patterns.get(p).putIfAbsent(z, new PstaPattern(p, 0, z)); // TODO: Fix offset. How do we get that?
-                    patterns.get(p).get(z).addLocation(l);
+                if (periods.length > 0) {
+                    long[] offsets = findOffsetsFromPeaks(themeLifeCycle, periods);
+                    for (int pid = 0; pid < periods.length; pid++) {
+                        double p = periods[pid];
+                        patterns.putIfAbsent(p, new HashMap<>());
+                        patterns.get(p).putIfAbsent(z, new PstaPattern(p, z));
+                        patterns.get(p).get(z).addLocation(l, offsets[pid]);
+                    }
                 }
             }
         }
-        return patterns.values().stream().map(Map::values).toArray(PstaPattern[]::new);
+        return patterns.values().stream().flatMap(m -> m.values().stream()).toArray(PstaPattern[]::new);
+    }
+
+    private static long[] findOffsetsFromPeaks(double[] themeLifeCycle, double[] periods) {
+        int n = themeLifeCycle.length;
+        long[] result = new long[periods.length];
+        // Find all peaks
+        List<Integer> peakIds = new ArrayList<>();
+        if (themeLifeCycle[0] > themeLifeCycle[1]) peakIds.add(0);
+        for (int i = 1; i < n - 1; i++) {
+            if (themeLifeCycle[i - 1] < themeLifeCycle[i] && themeLifeCycle[i] > themeLifeCycle[i + 1]) {
+                peakIds.add(i);
+                i++; // No need to check next id as its value will be lower than this value
+            }
+        }
+        if (themeLifeCycle[n - 1] > themeLifeCycle[n - 2]) peakIds.add(n - 1);
+        // Find offset per period
+        for (int pid = 0; pid < periods.length; pid++) {
+            for (int i = 0; i < peakIds.size(); i++) {
+                int j = i + 1;
+                while (j < peakIds.size() && peakIds.get(j) - peakIds.get(i) < periods[pid]) j++;
+                if (j < peakIds.size() && peakIds.get(j) - peakIds.get(i) == periods[pid]) {
+                    result[pid] = peakIds.get(i);
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     static private double calc(Variable topicDistTL, int t, int l, int z) {

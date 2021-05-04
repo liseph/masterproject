@@ -10,13 +10,15 @@ public class Theme implements Variable {
 
     private static int idCount = 0;
 
+
     private final double[] wordDistribution;
     private final int id;
     private VariableList latentWordByTopic;
 
     public Theme() {
         this.id = idCount++;
-        this.wordDistribution = VariableList.generateRandomDistribution(PstaDocs.nWords());
+        long SEED = Psta.seedGenerator.nextLong();
+        this.wordDistribution = VariableList.generateRandomDistribution(PstaDocs.nWords(), SEED);
     }
 
     public static VariableList generateEmptyThemes(int nTopics) {
@@ -67,9 +69,9 @@ public class Theme implements Variable {
         for (int i = 0; i < PstaDocs.nWords(); i++) {
             wordDistributionMap.put(wordDistribution[i], PstaDocs.getWord(i));
         }
-        return "\np(w|z){" +
+        return "p(w|z){" +
                 "z=" + id +
-                "[word:prob]=" + mapToString(wordDistributionMap) +
+                ", [word:prob]=" + mapToString(wordDistributionMap) +
                 '}';
     }
 

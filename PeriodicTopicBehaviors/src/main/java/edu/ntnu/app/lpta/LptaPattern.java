@@ -82,7 +82,7 @@ public class LptaPattern {
         @Override
         public String toString() {
             Location l = LptaDocs.getLocation(location);
-            return "" + location +
+            return "" + mean +
                     "(" + l.getLongitude() +
                     "," + l.getLatitude() +
                     ")";

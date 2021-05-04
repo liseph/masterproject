@@ -37,6 +37,7 @@ public class LatentWordByTL implements Variable {
         for (int z = 0; z < topics.length(); z++) {
             for (int w = 0; w < PstaDocs.nWords(); w++) {
                 // The first part, p(w|z), is not a part of the paper, but w is not included at all in the formula..
+                // If I include it however, it does not converge...
                 //double numerator = topics.get(z).get(w) * PSTA.LAMBDA_TL * topicDistTLs
                 double numerator = Psta.LAMBDA_TL * topicDistTLs
                         .get(PstaDocs.getDoc(docIndex).getLocationId())

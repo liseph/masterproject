@@ -11,10 +11,10 @@ public class Main {
 
         System.out.println("Initializing...");
         //LptaDocs.initialize("../datasetAllEn.txt");
-        LptaDocs.initialize("../dataset1000.txt");
+        LptaDocs.initialize("../datasetSynth1000.txt");
 
         System.out.println("Executing...");
-        double[] periods = new double[]{6, 15};
+        double[] periods = new double[]{7, 15};
         Lpta.execute(nTOPICS, periods);
 
         System.out.println("Analyzing...");

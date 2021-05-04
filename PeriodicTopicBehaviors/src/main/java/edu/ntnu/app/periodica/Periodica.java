@@ -12,13 +12,15 @@ import java.util.stream.IntStream;
 
 public class Periodica {
 
-    public static final int nTOPICS = 4;
-    public static final double EPSILON = 1E-2;
-    public static final double LAMBDA = 1E-1;
+    public static final int nTOPICS = 2;
+    public static final double TOPIC_PRESENCE_LIM = 2E-1;
+    public static final double SMOOTH_PAR = 1E-1;
     public static final double REPERRORLIMIT = 2E-1;
 
+    public static ReferenceSpot[] referenceSpots;
+
     static public PeriodicaResult[] execute() throws IOException {
-        ReferenceSpot[] referenceSpots = ReferenceSpot.findReferenceSpots();
+        referenceSpots = ReferenceSpot.findReferenceSpots();
         PeriodicaDocs.divideDocsByTimestampAndReferenceSpot(referenceSpots); // For topic analysis
         Topics.analyzeTopics();
         Map<Integer, Map<Double, List<Integer>>> topicPeriodMap = new HashMap<>();
@@ -72,7 +74,7 @@ public class Periodica {
         // Merge clusters with the smallest difference until representation error makes a sudden jump
         double repError = segments.stream().mapToDouble(s -> s.getRepError()).sum() / nSegments;
         double newRepError = repError;
-        while (repError - newRepError < Periodica.REPERRORLIMIT) {
+        while (Math.abs(repError - newRepError) < Periodica.REPERRORLIMIT) {
             segments.get(cS).merge(segments.get(cT));
             segments.remove(cT);
             if (segments.size() == 1) break;
@@ -135,7 +137,7 @@ public class Periodica {
     }
 
     private static double smooth(double d) {
-        return (1 - LAMBDA) * d + LAMBDA * 1 / PeriodicaDocs.nRefSpots();
+        return (1 - SMOOTH_PAR) * d + SMOOTH_PAR * 1 / PeriodicaDocs.nRefSpots();
     }
 
     // Assumes row != col

@@ -38,5 +38,6 @@ out/
 ## Div
 ##############################
 *.txt
+*.csv
 .ipynb_checkpoints/
 GeoTwitter/

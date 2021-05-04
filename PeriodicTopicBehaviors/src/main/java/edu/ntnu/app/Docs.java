@@ -7,9 +7,9 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Docs {
-    public static final double HOUR_MS = 3.6E+6f;
-    public static final double DAY_MS = 8.64E+7f;
-    public static final double TIME_CONVERT = HOUR_MS;
+    public static final double HOUR_MS = 3.6E+6;
+    public static final double DAY_MS = 8.64E+7;
+    public static final double TIME_CONVERT = DAY_MS;
 
     public static List<Document> docs;
     private static List<Location> locations;

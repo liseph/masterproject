@@ -38,7 +38,7 @@ public class Topics {
 
         // Run the model for 50 iterations and stop (this is for testing only,
         //  for real applications, use 1000 to 2000 iterations)
-        model.setNumIterations(1000);
+        model.setNumIterations(1500);
         model.estimate();
 
         dataAlphabet = instances.getDataAlphabet();
@@ -67,7 +67,7 @@ public class Topics {
 
     // Instead of binary as in the original Periodica, we use probability of the topic in that ref spot in that ts.
     public static double[] getTopicPresence(int z, int o) {
-        return topicDistributions[z][o];
+        return topicDistributions[z][o].clone();
     }
 
     public static int[][] getSymbolizedSequence(Integer topicId, List<Integer> referenceSpots) {
@@ -75,9 +75,10 @@ public class Topics {
         for (int t = 0; t < PeriodicaDocs.nTimeslots(); t++) {
             int finalT = t;
             result[t] = referenceSpots.stream()
-                    .filter(o -> topicDistributions[topicId][o][finalT] > Periodica.EPSILON)
+                    .filter(o -> topicDistributions[topicId][o][finalT] > Periodica.TOPIC_PRESENCE_LIM)
                     .mapToInt(i -> i)
                     .toArray();
+            if (result[t].length == 0) result[t] = new int[]{0}; // All areas outside ref spots
         }
         return result;
     }

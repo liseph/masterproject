@@ -17,7 +17,6 @@ public class FindPeriodsInTimeseries {
         double[] possiblePeriods = periodogram.extractPossiblePeriods(spectrumThreshold, periodThreshold);
 
         Autocorrelation autocorrelation = Autocorrelation.calculateAutocorrelation(ts);
-
         return autocorrelation.findPeriodsOnHill(possiblePeriods, periodThreshold);
     }
 

@@ -24,7 +24,7 @@ public class Location {
         if (o == null || getClass() != o.getClass()) return false;
         Location location = (Location) o;
         // return city.equals(location.city) && country.equals(location.country);
-        return country.equals(location.country);
+        return country.equals(location.country) && city.equals(location.city);
     }
 
     @Override
@@ -38,5 +38,10 @@ public class Location {
 
     public Float getLongitude() {
         return longitude;
+    }
+
+    @Override
+    public String toString() {
+        return name + ", " + city + ", " + country;
     }
 }

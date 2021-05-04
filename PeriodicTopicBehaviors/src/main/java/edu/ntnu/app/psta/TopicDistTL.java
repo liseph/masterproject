@@ -16,7 +16,8 @@ public class TopicDistTL implements Variable {
         this.locationIndex = locationIndex;
         this.topicDistributionTL = new double[PstaDocs.nTimeslots()][nTopics];
         for (int i = 0; i < PstaDocs.nTimeslots(); i++) {
-            this.topicDistributionTL[i] = VariableList.generateRandomDistribution(nTopics);
+            long SEED = Psta.seedGenerator.nextLong();
+            this.topicDistributionTL[i] = VariableList.generateRandomDistribution(nTopics, SEED);
         }
     }
 

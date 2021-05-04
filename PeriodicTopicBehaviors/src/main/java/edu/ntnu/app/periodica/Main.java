@@ -8,16 +8,16 @@ public class Main {
         System.out.println("PERIODICA");
 
         System.out.println("Initializing...");
-        PeriodicaDocs.initialize("../dataset1000.txt");
+        PeriodicaDocs.initialize("../datasetSynth1000.txt");
 
         System.out.println("Executing...");
-        Object[] patterns = Periodica.execute();
+        PeriodicaResult[] patterns = Periodica.execute();
 
         if (patterns.length == 0) {
             System.out.println("NO RESULTS");
         } else {
             System.out.println("RESULTS:");
-            for (Object p : patterns) {
+            for (PeriodicaResult p : patterns) {
                 System.out.println(p);
             }
         }

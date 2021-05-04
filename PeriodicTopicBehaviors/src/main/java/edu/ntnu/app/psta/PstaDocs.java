@@ -59,7 +59,7 @@ public class PstaDocs extends Docs {
         for (int i = 0; i < nWords(); i++) {
             int wordCountInAllDocs = getWordCount(i);
             int sumAllWordCounts = getSumWordCount();
-            backgroundTheme[i] = wordCountInAllDocs * 1.0f / sumAllWordCounts;
+            backgroundTheme[i] = wordCountInAllDocs * 1.0 / sumAllWordCounts;
         }
     }
 

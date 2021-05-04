@@ -1,15 +1,14 @@
 package edu.ntnu.app.periodica;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.PriorityQueue;
+import edu.ntnu.app.Location;
+
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class ReferenceSpot {
     private static final int LONGITUDE = 0;
     private static final int LATITUDE = 1;
-    private static final int GRANULARITY = 1;
+    private static final int GRANULARITY = 1; // The higher the value, the more cells
     private static final double DENSITYTHRESHOLD = 0.15;
     private static int idCount = 1;
     private static double xStart;
@@ -51,27 +50,28 @@ public class ReferenceSpot {
         int x = (int) (GRANULARITY * (xEnd - xStart));
         int y = (int) (GRANULARITY * (yEnd - yStart));
 
-        double[][] densities = new double[x][y];
+        Double[][] densities = new Double[x][y];
         double gamma = calculateGamma(points, n);
-        int nVals = (int) (DENSITYTHRESHOLD * n); // Find top 15% density threshold
+        int nVals = (int) (DENSITYTHRESHOLD * x * y); // Find top 15% density threshold
         PriorityQueue<Double> maxHeap = new PriorityQueue<>(); // TODO: Use quickselect to do this?
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                densities[i][j] = calcDensityEstimate(xStart + ((double) i) / GRANULARITY, yStart + ((double) j) / GRANULARITY, points, n, gamma);
-                maxHeap.add(densities[i][j]);
-                if (maxHeap.size() > nVals) maxHeap.poll();
-            }
-        }
+        IntStream.range(0, x).forEach(i -> {
+            densities[i] = IntStream
+                    .range(0, y)
+                    .mapToDouble(j -> calcDensityEstimate(xStart + ((double) i) / GRANULARITY, yStart + ((double) j) / GRANULARITY, points, n, gamma))
+                    .boxed()
+                    .toArray(Double[]::new);
+            Collections.addAll(maxHeap, densities[i]);
+            while (maxHeap.size() > nVals) maxHeap.poll();
+        });
 
         double lowestVal = maxHeap.peek();
         // Find clusters of values with density above threshold. Once we find one cell, we create a cluster and
         // find all cells that belong to that cluster.
         List<ReferenceSpot> spots = new ArrayList<>();
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                int finalI = i;
-                int finalJ = j;
-                if (densities[i][j] > lowestVal && spots.stream().noneMatch(spot -> spot.containsCell(finalI, finalJ))) {
+        long start = System.nanoTime();
+        IntStream.range(0, x).forEach(i -> {
+            IntStream.range(0, y).forEach(j -> {
+                if (densities[i][j] > lowestVal && spots.stream().noneMatch(spot -> spot.containsCell(i, j))) {
                     // Find cluster
                     ReferenceSpot spot = new ReferenceSpot(i, j);
                     int tmpi;
@@ -80,15 +80,18 @@ public class ReferenceSpot {
                     while (c != null) {
                         tmpi = c.i;
                         tmpj = c.j;
-                        if (densities[tmpi][tmpj - 1] > lowestVal) spot.addCellIfNotExists(tmpi, tmpj - 1);
-                        if (densities[tmpi][tmpj + 1] > lowestVal) spot.addCellIfNotExists(tmpi, tmpj + 1);
-                        if (densities[tmpi + 1][tmpj] > lowestVal) spot.addCellIfNotExists(tmpi + 1, tmpj);
+                        if (tmpj > 0 && densities[tmpi][tmpj - 1] > lowestVal) spot.addCellIfNotExists(tmpi, tmpj - 1);
+                        if (tmpj < y - 1 && densities[tmpi][tmpj + 1] > lowestVal)
+                            spot.addCellIfNotExists(tmpi, tmpj + 1);
+                        if (tmpi < x - 1 && densities[tmpi + 1][tmpj] > lowestVal)
+                            spot.addCellIfNotExists(tmpi + 1, tmpj);
                         c = spot.getNext();
                     }
                     spots.add(spot);
                 }
-            }
-        }
+            });
+        });
+        long tot = System.nanoTime() - start;
         // Add a reference spot that indicates all areas outside the reference spots, will have id=0.
         spots.add(0, new ReferenceSpot());
         return spots.toArray(ReferenceSpot[]::new);
@@ -97,29 +100,31 @@ public class ReferenceSpot {
     private static double calcDensityEstimate(double longC, double latC, double[][] points, int n, double gamma) {
         double C1 = 1.0 / (n * sqr(gamma));
         double C2 = 1.0 / (2 * Math.PI);
+        double C3 = 2 * sqr(gamma);
         double func = IntStream.range(0, n)
-                .mapToDouble(i -> C2 * Math.exp(-calcSquaredDist(longC, latC, points[i]) / (2 * sqr(gamma))))
+                .mapToDouble(i -> C2 * Math.exp(-calcSquaredDist(longC, latC, points[i]) / C3))
                 .sum();
         return C1 * func;
     }
 
-    // Calculate the squared distance from the middle of a cell to a point.
+    // Calculate the squared distance between a cell and a point
     private static double calcSquaredDist(double longC, double latC, double[] point) {
-        return sqr(longC + 0.5f - point[LONGITUDE]) + sqr(latC + 0.5f - point[LATITUDE]);
+        // Add 0.5 to calculate the distance from the middle of the cell
+        return sqr(longC + 0.5 - point[LONGITUDE]) + sqr(latC + 0.5 - point[LATITUDE]);
     }
 
     private static double calculateGamma(double[][] points, int n) {
         // Calculate standard deviation
-        double meanX = 0f;
-        double meanY = 0f;
+        double meanX = 0;
+        double meanY = 0;
         for (int i = 0; i < n; i++) {
             meanX += points[i][LONGITUDE];
             meanY += points[i][LATITUDE];
         }
         meanX = meanX / n;
         meanY = meanY / n;
-        double sigmaX = 0f;
-        double sigmaY = 0f;
+        double sigmaX = 0;
+        double sigmaY = 0;
         for (int i = 0; i < n; i++) {
             sigmaX += sqr(points[i][LONGITUDE] - meanX);
             sigmaY += sqr(points[i][LATITUDE] - meanY);
@@ -163,6 +168,11 @@ public class ReferenceSpot {
         if (counter < cells.size())
             return cells.get(counter++);
         counter = 0;
+        return null;
+    }
+
+    // TODO: Finish this function to be able to debug if the ref spots are correct.
+    public Location[] getLocationsInRefSpot() {
         return null;
     }
 }

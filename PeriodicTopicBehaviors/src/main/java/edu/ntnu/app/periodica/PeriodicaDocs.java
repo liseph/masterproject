@@ -43,6 +43,7 @@ public class PeriodicaDocs extends Docs {
                 int o = getReferenceSpotId(doc.getLocationId());
                 tsDocs[t].addDoc(doc, o);
                 d++;
+                if (d < nDocuments()) doc = getDoc(d);
             }
         }
         docsAreDivided = true;
@@ -59,7 +60,10 @@ public class PeriodicaDocs extends Docs {
     }
 
     public static String[] getTextsPerTsPerRefSpot() {
-        return Arrays.stream(tsDocs).flatMap(TimestampDocument::getTexts).toArray(String[]::new);
+        String[] s = Arrays.stream(tsDocs)
+                .flatMap(TimestampDocument::getTexts)
+                .toArray(String[]::new);
+        return s;
     }
 
     public static int nRefSpots() {
@@ -81,7 +85,7 @@ class TimestampDocument {
     }
 
     private String getTextPerRefSpot(int o) {
-        return tsoDocs.get(o).stream().map(Document::getTerms).collect(Collectors.joining(". "));
+        return tsoDocs.get(o).stream().map(Document::getTerms).collect(Collectors.joining(" "));
     }
 
     public Stream<String> getTexts() {

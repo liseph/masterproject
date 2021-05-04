@@ -5,10 +5,10 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        System.out.println("LPTA");
+        System.out.println("PSTA");
 
         System.out.println("Initializing...");
-        PstaDocs.initialize("../dataset1000.txt");
+        PstaDocs.initialize("../datasetSynth1000.txt");
 
         System.out.println("Executing...");
         PstaResult pattern = Psta.execute(2);
@@ -21,6 +21,10 @@ public class Main {
             System.out.println("RESULTS:");
             for (PstaPattern p : patterns) {
                 System.out.println(p);
+            }
+            System.out.println("THEMES:");
+            for (Variable theme : Psta.themes) {
+                System.out.println(theme);
             }
         }
     }

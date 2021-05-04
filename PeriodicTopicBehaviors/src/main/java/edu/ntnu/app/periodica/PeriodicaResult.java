@@ -1,5 +1,6 @@
 package edu.ntnu.app.periodica;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +19,11 @@ public class PeriodicaResult {
     public String toString() {
         return "PeriodicaResult{" +
                 "period=" + period +
-                ", segments=" + getSegmentIds(segments) +
                 ", topic=id" + topic +
                 ", " + Topics.getTopicString(topic) +
+                ", distMatrices=" + Arrays.toString(
+                segments.stream().map(seg -> Arrays.toString(Arrays.stream(seg.getDistMatrix()).map(dm -> Arrays.toString(dm)).toArray())).toArray()) +
+                ", segments=" + getSegmentIds(segments) +
                 "}";
     }
 

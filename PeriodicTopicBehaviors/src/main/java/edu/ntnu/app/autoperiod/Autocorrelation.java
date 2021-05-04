@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Autocorrelation {
 
+    static private int nobs;
     final private double[] autocorrelation;
     final private int fs;
 
@@ -25,7 +26,7 @@ public class Autocorrelation {
     // https://github.com/statsmodels/statsmodels/blob/d42dc3f3c63edf0e2eb08f9297705ed9333c4357/statsmodels/tsa/stattools.py#L383
     public static Autocorrelation calculateAutocorrelation(Timeseries ts) {
         double[] data = ts.getData();
-        int nobs = data.length;
+        nobs = data.length;
         int n = getNextRegular(2 * nobs + 1);
 
         // Pad data with 0's for the FFT function.
@@ -116,7 +117,7 @@ public class Autocorrelation {
                 while (i + 1 < autocorrelation.length && autocorrelation[i] < autocorrelation[i + 1]) i++;
                 while (i > 0 && autocorrelation[i] < autocorrelation[i - 1]) i--;
                 double p = ((double) i) / fs;
-                if (p != 0 && p > periodThreshold && periods.stream().noneMatch(ps -> ps == p)) {
+                if (p != 0 && p > periodThreshold && p < nobs / 2 && periods.stream().noneMatch(ps -> ps == p)) {
                     periods.add(p);
                 }
             }

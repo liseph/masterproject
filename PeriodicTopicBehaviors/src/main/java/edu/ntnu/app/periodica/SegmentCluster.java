@@ -20,19 +20,11 @@ class SegmentCluster {
         this.period = (int) period;
         this.symbolizedSequence = symbolizedSequence;
         this.distMatrix = new double[(int) period][PeriodicaDocs.nRefSpots()];
-        for (int segmentId = 0; segmentId < nSegments; segmentId++) {
-            for (int t = 0; t < this.period; t++) {
-                for (int o : symbolizedSequence[segmentId * this.period + t]) {
-                    distMatrix[t][o] += 1;
-                }
+        for (int t = 0; t < this.period; t++) {
+            for (int o : symbolizedSequence[id * this.period + t]) {
+                distMatrix[t][o] += 1;
             }
         }
-        // Divide by number of segments
-        IntStream.range(0, this.period).parallel().forEach(t -> {
-            IntStream.range(0, PeriodicaDocs.nRefSpots()).parallel().forEach(o -> {
-                distMatrix[t][o] /= nSegments;
-            });
-        });
         this.repError = calculateRepresentationError();
     }
 
@@ -74,7 +66,7 @@ class SegmentCluster {
             }
         }
         newRepError /= denominator;
-        return newRepError;
+        return denominator != 0 ? newRepError : 0;
     }
 
     public double getRepError() {

@@ -14,7 +14,8 @@ public class TopicDistDoc implements Variable {
     public TopicDistDoc(int nTopics, int docIndex) {
         this.nTopics = nTopics;
         this.docIndex = docIndex;
-        this.topicDistributionDoc = VariableList.generateRandomDistribution(nTopics);
+        long SEED = Psta.seedGenerator.nextLong();
+        this.topicDistributionDoc = VariableList.generateRandomDistribution(nTopics, SEED);
     }
 
     public static VariableList generateEmptyTopicDist(int nTopics) {
