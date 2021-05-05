@@ -113,4 +113,8 @@ public class Docs {
     public static Location getLocation(int l) {
         return locations.get(l);
     }
+
+    public static List<Location> getLocations() {
+        return locations;
+    }
 }

@@ -47,7 +47,7 @@ public class LatentWordByTopics {
                 if (hasConverged) {
                     hasConverged = IntStream
                             .range(0, nTopics)
-                            .allMatch(z -> Math.abs(newVals[z] - latentWordByTopics[d][wIndex][z]) < Lpta.EPSILON);
+                            .allMatch(z -> Math.abs(newVals[z] - latentWordByTopics[d][wIndex][z]) < Lpta.CONVERGES_LIM);
                 }
                 latentWordByTopics[d][wIndex] = newVals;
             });

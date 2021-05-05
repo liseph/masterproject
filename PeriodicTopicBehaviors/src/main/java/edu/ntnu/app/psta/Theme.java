@@ -10,7 +10,6 @@ public class Theme implements Variable {
 
     private static int idCount = 0;
 
-
     private final double[] wordDistribution;
     private final int id;
     private VariableList latentWordByTopic;
@@ -37,7 +36,7 @@ public class Theme implements Variable {
             double numerator = baseCalcForAllDocs(w);
             double oldVal = wordDistribution[w];
             double newVal = denominator != 0 ? numerator / denominator : 0;
-            converges = converges && Math.abs(oldVal - newVal) < Psta.EPSILON;
+            converges = converges && Math.abs(oldVal - newVal) < Psta.CONVERGES_LIM;
             wordDistribution[w] = newVal;
         }
         return converges;

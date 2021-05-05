@@ -20,6 +20,11 @@ public class Main {
             for (PeriodicaResult p : patterns) {
                 System.out.println(p);
             }
+            System.out.println("Ref points:");
+            for (ReferenceSpot s : Periodica.referenceSpots) {
+                System.out.println("" + s.getId() + s.getLocationsInRefSpot().toString());
+
+            }
         }
     }
 }

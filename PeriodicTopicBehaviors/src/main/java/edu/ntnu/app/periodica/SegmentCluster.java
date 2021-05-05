@@ -1,9 +1,6 @@
 package edu.ntnu.app.periodica;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public
@@ -24,6 +21,11 @@ class SegmentCluster {
             for (int o : symbolizedSequence[id * this.period + t]) {
                 distMatrix[t][o] += 1;
             }
+        }
+        for (int t = 0; t < this.period; t++) {
+            double tot = Arrays.stream(distMatrix[t]).sum();
+            if (tot > 1)
+                distMatrix[t] = Arrays.stream(distMatrix[t]).map(val -> val / tot).toArray();
         }
         this.repError = calculateRepresentationError();
     }
@@ -83,5 +85,28 @@ class SegmentCluster {
 
     public int getPeriod() {
         return period;
+    }
+
+    public String getLocationTrajectory() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        for (int t = 0; t < distMatrix.length; t++) {
+            if (distMatrix[t][0] == 1.0) continue;
+            builder.append("t");
+            builder.append(t);
+            builder.append(":");
+            for (int o = 1; o < distMatrix[t].length; o++) {
+                if (distMatrix[t][o] > 0) {
+                    builder.append(String.format("%d(%.2f)", o, distMatrix[t][o]));
+                }
+            }
+            builder.append(", ");
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
+    public boolean isOnlyBackground() {
+        return Arrays.stream(distMatrix).allMatch(topics -> topics[0] == 1.0);
     }
 }

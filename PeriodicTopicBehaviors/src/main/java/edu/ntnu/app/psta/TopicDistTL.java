@@ -39,7 +39,7 @@ public class TopicDistTL implements Variable {
                 double numerator = calcForAllTLDocsAndWords(z, t, locationIndex);
                 double oldVal = topicDistributionTL[t][z];
                 double newVal = denominator != 0 ? numerator / denominator : 0;
-                converges = converges && Math.abs(oldVal - newVal) < Psta.EPSILON;
+                converges = converges && Math.abs(oldVal - newVal) < Psta.CONVERGES_LIM;
                 topicDistributionTL[t][z] = newVal;
             }
         }

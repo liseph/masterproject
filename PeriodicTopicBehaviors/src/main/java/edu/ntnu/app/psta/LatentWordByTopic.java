@@ -44,7 +44,7 @@ public class LatentWordByTopic implements Variable {
             double denominator = Psta.LAMBDA_B * PstaDocs.backgroundTheme[w] +
                     (1 - Psta.LAMBDA_B) * Arrays.stream(base).sum();
             double[] newVal = Arrays.stream(base).map(val -> (1 - Psta.LAMBDA_B) * val / denominator).toArray();
-            converges = converges && IntStream.range(0, themes.length()).allMatch(z -> Math.abs(newVal[z] - latentWordByTopic[finalW][z]) < Psta.EPSILON);
+            converges = converges && IntStream.range(0, themes.length()).allMatch(z -> Math.abs(newVal[z] - latentWordByTopic[finalW][z]) < Psta.CONVERGES_LIM);
             latentWordByTopic[w] = newVal;
         }
         return converges;

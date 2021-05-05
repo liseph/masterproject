@@ -27,7 +27,7 @@ public class TopicDistDocs {
             double[] newVals = Arrays.stream(numerator).map(val -> val / denominator).toArray();
             hasConverged = hasConverged && IntStream
                     .range(0, nTopics)
-                    .allMatch(z -> Math.abs(newVals[z] - topicDistDoc[d][z]) < Lpta.EPSILON);
+                    .allMatch(z -> Math.abs(newVals[z] - topicDistDoc[d][z]) < Lpta.CONVERGES_LIM);
             topicDistDoc[d] = newVals;
         });
     }

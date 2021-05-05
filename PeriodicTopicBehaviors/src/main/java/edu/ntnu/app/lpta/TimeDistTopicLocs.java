@@ -45,7 +45,7 @@ public class TimeDistTopicLocs {
                 if (hasConverged) {
                     hasConverged = IntStream
                             .range(0, LptaDocs.nTimeslots())
-                            .allMatch(t -> Math.abs(newVal[t] - timeDistTopicLocs[z][l][t]) < Lpta.EPSILON);
+                            .allMatch(t -> Math.abs(newVal[t] - timeDistTopicLocs[z][l][t]) < Lpta.CONVERGES_LIM);
                 }
                 timeDistTopicLocs[z][l] = newVal;
             });

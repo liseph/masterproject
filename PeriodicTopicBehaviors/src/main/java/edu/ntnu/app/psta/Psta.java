@@ -11,14 +11,12 @@ public class Psta {
     // Constants
     public static final double LAMBDA_B = 0.9; // Empirically, a suitable λB for blog documents can be chosen between 0.9 and 0.95.
     public static final double LAMBDA_TL = 0.5; // Empirically, a suitable λTL for blog documents can be chosen between 0.5 and 0.7.
-    public static final double EPSILON = 1E-2;
-
+    public static final double CONVERGES_LIM = 1E-2;
     public static final Random seedGenerator = new Random(1000);
 
     static VariableList themes;
     static VariableList topicDistDocs;
     static VariableList topicDistTLs;
-
 
     static public PstaResult execute(int nTopics) {
         // Unknown values

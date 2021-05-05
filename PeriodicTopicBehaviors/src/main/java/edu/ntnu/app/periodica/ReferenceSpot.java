@@ -172,8 +172,16 @@ public class ReferenceSpot {
     }
 
     // TODO: Finish this function to be able to debug if the ref spots are correct.
-    public Location[] getLocationsInRefSpot() {
-        return null;
+    public List<Location> getLocationsInRefSpot() {
+        List<Location> result = new ArrayList<>();
+        if (id != 0) {
+            for (Location l : PeriodicaDocs.getLocations()) {
+                if (containsPoint(l.getLongitude(), l.getLatitude())) {
+                    result.add(l);
+                }
+            }
+        }
+        return result;
     }
 }
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Lpta {
 
-    public static final double EPSILON = 1E-1;
+    public static final double CONVERGES_LIM = 1E-1;
 
     public static void execute(int nPeriodicTopics, double[] periods) {
         // Latent variable

@@ -34,7 +34,7 @@ public class TopicDistDoc implements Variable {
             double numerator = baseCalcForAllWords(z, docIndex);
             double oldVal = topicDistributionDoc[z];
             double newVal = denominator != 0 ? numerator / denominator : 0;
-            converges = converges && Math.abs(oldVal - newVal) < Psta.EPSILON;
+            converges = converges && Math.abs(oldVal - newVal) < Psta.CONVERGES_LIM;
             topicDistributionDoc[z] = newVal;
         }
         return converges;

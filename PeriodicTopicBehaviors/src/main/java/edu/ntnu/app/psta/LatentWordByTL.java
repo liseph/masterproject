@@ -45,7 +45,7 @@ public class LatentWordByTL implements Variable {
                 double denominator = (1 - Psta.LAMBDA_TL) * topicDistDocs.get(docIndex).get(z) + numerator;
                 double oldVal = latentWordByTL[w][z];
                 double newVal = denominator != 0 ? numerator / denominator : 0;
-                converges = converges && Math.abs(oldVal - newVal) < Psta.EPSILON;
+                converges = converges && Math.abs(oldVal - newVal) < Psta.CONVERGES_LIM;
                 latentWordByTL[w][z] = newVal;
             }
         }

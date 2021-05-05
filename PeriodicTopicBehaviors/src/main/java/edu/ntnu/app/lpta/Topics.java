@@ -30,7 +30,7 @@ public class Topics {
             double[] newVals = Arrays.stream(numerator).map(val -> val / denominator).toArray();
             hasConverged = hasConverged && IntStream
                     .range(0, LptaDocs.nWords())
-                    .allMatch(w -> Math.abs(newVals[w] - topics[z][w]) < Lpta.EPSILON);
+                    .allMatch(w -> Math.abs(newVals[w] - topics[z][w]) < Lpta.CONVERGES_LIM);
             topics[z] = newVals;
         });
     }

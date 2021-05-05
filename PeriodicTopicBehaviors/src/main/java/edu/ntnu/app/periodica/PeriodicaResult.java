@@ -19,10 +19,12 @@ public class PeriodicaResult {
     public String toString() {
         return "PeriodicaResult{" +
                 "period=" + period +
-                ", topic=id" + topic +
-                ", " + Topics.getTopicString(topic) +
+                ", topic=" + topic + Topics.getTopicString(topic) +
+                ", #clusters=" + segments.size() +
+                ", movement=" + Arrays.toString(
+                segments.stream().map(SegmentCluster::getLocationTrajectory).toArray()) +
                 ", distMatrices=" + Arrays.toString(
-                segments.stream().map(seg -> Arrays.toString(Arrays.stream(seg.getDistMatrix()).map(dm -> Arrays.toString(dm)).toArray())).toArray()) +
+                segments.stream().map(seg -> Arrays.toString(Arrays.stream(seg.getDistMatrix()).map(Arrays::toString).toArray())).toArray()) +
                 ", segments=" + getSegmentIds(segments) +
                 "}";
     }

@@ -8,22 +8,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Periodica {
 
-    public static final int nTOPICS = 2;
-    public static final double TOPIC_PRESENCE_LIM = 2E-1;
+    public static final int nTOPICS = 10;
+    public static final double TOPIC_PRESENCE_LIM = 4E-1;
     public static final double SMOOTH_PAR = 1E-1;
-    public static final double REPERRORLIMIT = 2E-1;
+    public static final double REP_ERROR_LIM = 2E-1;
 
     public static ReferenceSpot[] referenceSpots;
 
     static public PeriodicaResult[] execute() throws IOException {
+        System.out.println("Find ref spots...");
         referenceSpots = ReferenceSpot.findReferenceSpots();
         PeriodicaDocs.divideDocsByTimestampAndReferenceSpot(referenceSpots); // For topic analysis
+        System.out.println("Analyze topics...");
         Topics.analyzeTopics();
         Map<Integer, Map<Double, List<Integer>>> topicPeriodMap = new HashMap<>();
+        System.out.println("Find periods for each ref spot and topic...");
         for (int z = 0; z < nTOPICS; z++) {
             topicPeriodMap.put(z, new HashMap<>());
             for (int o = 1; o < referenceSpots.length; o++) {
@@ -35,12 +39,18 @@ public class Periodica {
                 }
             }
         }
+        System.out.println("Mine periodic behaviours...");
         List<PeriodicaResult> results = new ArrayList<>();
         topicPeriodMap.forEach((topicId, periodMap) ->
                 periodMap.forEach((period, referenceSpotList) -> {
                     int[][] symbolizedSequence = Topics.getSymbolizedSequence(topicId, referenceSpotList);
                     List<SegmentCluster> result = minePeriodicBehaviours(symbolizedSequence, period);
-                    results.add(new PeriodicaResult(result, period, topicId));
+                    // Discard the clusters with less than two segments, as that is probably not periodic...
+                    // Also discard the clusters that only have background probabilities...
+                    // If this leads to the result having no segments, discard the result.
+                    result = result.stream().filter(res -> res.getSegmentIds().size() > 2 && !res.isOnlyBackground()).collect(Collectors.toList());
+                    if (!result.isEmpty())
+                        results.add(new PeriodicaResult(result, period, topicId));
                 }));
         return results.toArray(PeriodicaResult[]::new);
     }
@@ -74,7 +84,7 @@ public class Periodica {
         // Merge clusters with the smallest difference until representation error makes a sudden jump
         double repError = segments.stream().mapToDouble(s -> s.getRepError()).sum() / nSegments;
         double newRepError = repError;
-        while (Math.abs(repError - newRepError) < Periodica.REPERRORLIMIT) {
+        while (Math.abs(repError - newRepError) < Periodica.REP_ERROR_LIM) {
             segments.get(cS).merge(segments.get(cT));
             segments.remove(cT);
             if (segments.size() == 1) break;

@@ -12,6 +12,7 @@ import cc.mallet.types.InstanceList;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -49,9 +50,12 @@ public class Topics {
         int nZ = Periodica.nTOPICS;
         double[][][] topicProbabilities = new double[nTs][nO][nZ];
         for (int d = 0; d < instances.size(); d++) {
-            int oIndex = d / nTs;
-            int tIndex = d - oIndex * nTs;
-            topicProbabilities[tIndex][oIndex] = model.getTopicProbabilities(d);
+            for (int t = 0; t < nTs; t++) {
+                for (int o = 0; o < nO; o++) {
+                    topicProbabilities[t][o] = model.getTopicProbabilities(d);
+                    d++;
+                }
+            }
         }
 
         // Transpose array from [timestamp][ref spot][topic] to [topic][ref spot][timestamp]
@@ -65,9 +69,10 @@ public class Topics {
         }
     }
 
-    // Instead of binary as in the original Periodica, we use probability of the topic in that ref spot in that ts.
+    // Define the presence of a topic to be 1 if its probability is greater than 1/nTopics
     public static double[] getTopicPresence(int z, int o) {
-        return topicDistributions[z][o].clone();
+        double threshold = 1.0 / model.numTopics;
+        return Arrays.stream(topicDistributions[z][o]).map(val -> val > Periodica.TOPIC_PRESENCE_LIM ? val : 0).toArray();
     }
 
     public static int[][] getSymbolizedSequence(Integer topicId, List<Integer> referenceSpots) {
