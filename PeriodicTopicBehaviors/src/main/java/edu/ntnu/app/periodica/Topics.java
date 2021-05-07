@@ -93,7 +93,7 @@ public class Topics {
         int rank = 0;
         StringBuilder sb = new StringBuilder();
         sb.append("{");
-        while (iterator.hasNext() && rank < 5) {
+        while (iterator.hasNext() && rank < 10) {
             IDSorter idCountPair = iterator.next();
             sb.append(dataAlphabet.lookupObject(idCountPair.getID()));
             sb.append(": ");

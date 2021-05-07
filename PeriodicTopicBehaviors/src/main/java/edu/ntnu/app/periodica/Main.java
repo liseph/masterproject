@@ -8,7 +8,7 @@ public class Main {
         System.out.println("PERIODICA");
 
         System.out.println("Initializing...");
-        PeriodicaDocs.initialize("../datasetSynth1000.txt");
+        PeriodicaDocs.initialize("../datasets/datasetSynth1000Improved.txt");
 
         System.out.println("Executing...");
         PeriodicaResult[] patterns = Periodica.execute();

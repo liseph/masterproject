@@ -74,16 +74,15 @@ public class ReferenceSpot {
                 if (densities[i][j] > lowestVal && spots.stream().noneMatch(spot -> spot.containsCell(i, j))) {
                     // Find cluster
                     ReferenceSpot spot = new ReferenceSpot(i, j);
-                    int tmpi;
-                    int tmpj;
                     Cell c = spot.getNext();
                     while (c != null) {
-                        tmpi = c.i;
-                        tmpj = c.j;
-                        if (tmpj > 0 && densities[tmpi][tmpj - 1] > lowestVal) spot.addCellIfNotExists(tmpi, tmpj - 1);
-                        if (tmpj < y - 1 && densities[tmpi][tmpj + 1] > lowestVal)
+                        int tmpi = c.i;
+                        int tmpj = c.j;
+                        if (tmpj > 0 && densities[tmpi][tmpj - 1] > lowestVal && spots.stream().noneMatch(s -> s.containsCell(tmpi, tmpj - 1)))
+                            spot.addCellIfNotExists(tmpi, tmpj - 1);
+                        if (tmpj < y - 1 && densities[tmpi][tmpj + 1] > lowestVal && spots.stream().noneMatch(s -> s.containsCell(tmpi, tmpj + 1)))
                             spot.addCellIfNotExists(tmpi, tmpj + 1);
-                        if (tmpi < x - 1 && densities[tmpi + 1][tmpj] > lowestVal)
+                        if (tmpi < x - 1 && densities[tmpi + 1][tmpj] > lowestVal && spots.stream().noneMatch(s -> s.containsCell(tmpi + 1, tmpj)))
                             spot.addCellIfNotExists(tmpi + 1, tmpj);
                         c = spot.getNext();
                     }
@@ -110,7 +109,7 @@ public class ReferenceSpot {
     // Calculate the squared distance between a cell and a point
     private static double calcSquaredDist(double longC, double latC, double[] point) {
         // Add 0.5 to calculate the distance from the middle of the cell
-        return sqr(longC + 0.5 - point[LONGITUDE]) + sqr(latC + 0.5 - point[LATITUDE]);
+        return sqr(0.5 + (int) longC - point[LONGITUDE]) + sqr(0.5 + (int) latC - point[LATITUDE]);
     }
 
     private static double calculateGamma(double[][] points, int n) {
@@ -183,34 +182,35 @@ public class ReferenceSpot {
         }
         return result;
     }
+
+    class Cell {
+        final int i;
+        final int j;
+
+        public Cell(int i, int j) {
+            this.i = i;
+            this.j = j;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Cell cell = (Cell) o;
+            return i == cell.i && j == cell.j;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(i, j);
+        }
+
+        @Override
+        public String toString() {
+            return "{i=" + i +
+                    ", j=" + j +
+                    '}';
+        }
+    }
 }
 
-class Cell {
-    final int i;
-    final int j;
-
-    public Cell(int i, int j) {
-        this.i = i;
-        this.j = j;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cell cell = (Cell) o;
-        return i == cell.i && j == cell.j;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(i, j);
-    }
-
-    @Override
-    public String toString() {
-        return "{i=" + i +
-                ", j=" + j +
-                '}';
-    }
-}
