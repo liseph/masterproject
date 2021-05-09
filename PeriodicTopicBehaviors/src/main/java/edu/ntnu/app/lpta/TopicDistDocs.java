@@ -10,12 +10,12 @@ public class TopicDistDocs {
     private static boolean hasConverged = false;
 
     public static void initialize(int nPeriodicTopics) {
-        if (!LatentWordByTopics.isInitialized()) {
-            throw new IllegalStateException("Cannot initialize TopicDistDocs before LatentWordByTopics.");
-        }
         nTopics = nPeriodicTopics + 1;
         topicDistDoc = new double[LptaDocs.nDocuments()][nTopics];
-        update();
+        double[] zs = IntStream.range(0, nTopics).mapToDouble(i -> 1.0 / nTopics).toArray();
+        IntStream.range(0, LptaDocs.nDocuments()).forEach(d -> {
+            topicDistDoc[d] = zs;
+        });
 
     }
 
@@ -24,6 +24,7 @@ public class TopicDistDocs {
         IntStream.range(0, LptaDocs.nDocuments()).forEach(d -> {
             double[] numerator = IntStream.range(0, nTopics).mapToDouble(z -> calcAllWords(d, z)).toArray();
             double denominator = Arrays.stream(numerator).sum();
+            if (denominator == 0) System.out.println("NaN TopicDistDocs");
             double[] newVals = Arrays.stream(numerator).map(val -> val / denominator).toArray();
             hasConverged = hasConverged && IntStream
                     .range(0, nTopics)

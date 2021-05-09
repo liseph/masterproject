@@ -9,17 +9,15 @@ public class Topics {
 
     private static double[][] topics; // Periodic topics, bursty topics and then background topic.
     private static boolean hasConverged = false;
-    private static int nPeriodicTopics;
     private static int nTopics;
 
     public static void initialize(int nPeriodicTops) {
-        if (!LatentWordByTopics.isInitialized()) {
-            throw new IllegalStateException("Cannot initialize Topics before LatentWordByTopics.");
-        }
         nTopics = nPeriodicTops + 1;
-        nPeriodicTopics = nPeriodicTops;
         topics = new double[nTopics][LptaDocs.nWords()];
-        update();
+        double[] zs = IntStream.range(0, LptaDocs.nWords()).mapToDouble(i -> 1.0 / LptaDocs.nWords()).toArray();
+        IntStream.range(0, nTopics).forEach(z -> {
+            topics[z] = zs;
+        });
     }
 
     public static void update() {
@@ -95,7 +93,7 @@ public class Topics {
 
         @Override
         public String toString() {
-            return term + ':' + probVal;
+            return String.format("%s: %.4f", term, probVal);
         }
     }
 }

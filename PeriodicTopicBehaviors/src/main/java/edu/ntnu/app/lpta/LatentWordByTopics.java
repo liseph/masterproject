@@ -1,34 +1,21 @@
 package edu.ntnu.app.lpta;
 
 import java.util.Arrays;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 public class LatentWordByTopics {
 
     private static double[][][] latentWordByTopics;
-    private static boolean isInitialized = false;
     private static boolean hasConverged = false;
     private static int nTopics;
 
     public static void initialize(int nPeriodicTopics) {
-        if (isInitialized) return;
         nTopics = nPeriodicTopics + 1;
         latentWordByTopics = new double[LptaDocs.nDocuments()][][];
-        for (int d = 0; d < LptaDocs.nDocuments(); d++) {
-            int nWordsInDoc = LptaDocs.getDoc(d).getTermIndices().length;
-            latentWordByTopics[d] = new double[nWordsInDoc][];
-            for (int w = 0; w < nWordsInDoc; w++) {
-                double[] zs = new Random(1000).doubles(nTopics, 0, 1).toArray();
-                double total = Arrays.stream(zs).sum();
-                latentWordByTopics[d][w] = Arrays.stream(zs).map(v -> v / total).toArray();
-            }
-        }
-        isInitialized = true;
-    }
-
-    public static boolean isInitialized() {
-        return isInitialized;
+        IntStream.range(0, LptaDocs.nDocuments()).forEach(d -> {
+            int termIndices = LptaDocs.getDoc(d).getTermIndices().length;
+            latentWordByTopics[d] = new double[termIndices][nTopics];
+        });
     }
 
     public static boolean hasConverged() {
@@ -43,7 +30,13 @@ public class LatentWordByTopics {
                 int w = termIndices[wIndex];
                 double[] numerator = IntStream.range(0, nTopics).mapToDouble(z -> calc(d, w, z)).toArray();
                 double denominator = Arrays.stream(numerator).sum();
-                double[] newVals = Arrays.stream(numerator).map(val -> val / denominator).toArray();
+                double[] newVals;
+                if (denominator != 0)
+                    newVals = Arrays.stream(numerator).map(val -> val / denominator).toArray();
+                else {
+                    System.out.println("NaN LatentWordByTopics");
+                    newVals = IntStream.range(0, nTopics).mapToDouble(i -> ((double) i) / nTopics).toArray();
+                }
                 if (hasConverged) {
                     hasConverged = IntStream
                             .range(0, nTopics)
@@ -55,8 +48,7 @@ public class LatentWordByTopics {
     }
 
     private static double calc(int d, int w, int z) {
-        double v = TimeDistTopicLocs.get(z, d) * Topics.get(z, w) * TopicDistDocs.get(d, z);
-        return v;
+        return TimeDistTopicLocs.get(z, d) * Topics.get(z, w) * TopicDistDocs.get(d, z);
     }
 
     public static double get(int d, int w, int z) {

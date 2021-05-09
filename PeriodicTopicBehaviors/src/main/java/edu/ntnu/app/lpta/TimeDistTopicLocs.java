@@ -18,9 +18,6 @@ public class TimeDistTopicLocs {
     private static int nPeriodicTopics;
 
     public static void initialize(int nPeriodicTops, double[] ps) {
-        if (!LatentWordByTopics.isInitialized()) {
-            throw new IllegalStateException("Cannot initialize TimeDistTopicLocs before LatentWordByTopics.");
-        }
         nPeriodicTopics = nPeriodicTops;
         periods = ps;
         timeDistTopicLocs = new double[nPeriodicTopics][LptaDocs.nLocations()][LptaDocs.nTimeslots()];
@@ -28,7 +25,13 @@ public class TimeDistTopicLocs {
         stdDeviations = new double[LptaDocs.nLocations()][nPeriodicTopics];
         // Background topic is constant uniform, set only once here.
         backgroundTopic = 1.0 / LptaDocs.nTimeslots();
-        update();
+        // Set time distribution to uniform distribution, no need to set means and std deviations, they are updated later.
+        double[] zs = IntStream.range(0, LptaDocs.nTimeslots()).mapToDouble(i -> 1.0 / LptaDocs.nTimeslots()).toArray();
+        IntStream.range(0, nPeriodicTopics).forEach(z -> {
+            IntStream.range(0, LptaDocs.nLocations()).forEach(l -> {
+                timeDistTopicLocs[z][l] = zs;
+            });
+        });
     }
 
     public static void update() {
@@ -39,8 +42,8 @@ public class TimeDistTopicLocs {
 
     private static void updateDist() {
         hasConverged = true;
-        IntStream.range(0, LptaDocs.nLocations()).forEach(l -> {
-            IntStream.range(0, nPeriodicTopics).forEach(z -> {
+        IntStream.range(0, nPeriodicTopics).forEach(z -> {
+            IntStream.range(0, LptaDocs.nLocations()).forEach(l -> {
                 double[] newVal = IntStream.range(0, LptaDocs.nTimeslots()).mapToDouble(t -> calcPeriodic(z, l, t)).toArray();
                 if (hasConverged) {
                     hasConverged = IntStream
@@ -55,6 +58,7 @@ public class TimeDistTopicLocs {
     private static double calcPeriodic(int z, int l, int t) {
         double p = periods[z];
         double probK = p / LptaDocs.nTimeslots(); // TODO: Is choice of K uniform? Yes if the number of docs per timestamp is constant?
+        // TODO: Change this to getDocsInLocAndTimeWithTopic?
         if (stdDeviations[l][z] < STD_DEVIATION_MIN)
             return probK * LptaDocs.getDocsInLoc(l).length / LptaDocs.nDocuments(); // Too few samples to calculate a probability.
         double tVal = LptaDocs.getTimestamp(t);

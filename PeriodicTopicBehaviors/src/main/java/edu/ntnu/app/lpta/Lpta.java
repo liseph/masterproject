@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Lpta {
 
-    public static final double CONVERGES_LIM = 1E-1;
+    public static final double CONVERGES_LIM = 1E-2;
 
     public static void execute(int nPeriodicTopics, double[] periods) {
         // Latent variable
         LatentWordByTopics.initialize(nPeriodicTopics);
 
-        // Unknown variables, initialization assumes LatentWordByTopics have already been initialized
+        // Unknown variables
         Topics.initialize(nPeriodicTopics);
         TopicDistDocs.initialize(nPeriodicTopics);
         TimeDistTopicLocs.initialize(nPeriodicTopics, periods);
@@ -54,9 +54,17 @@ public class Lpta {
         for (int z = 0; z < nTopics; z++) {
             LptaPattern pattern = new LptaPattern(periods[z], z);
             for (int l = 0; l < LptaDocs.nLocations(); l++) {
-                if (TimeDistTopicLocs.getStdDeviation(l, z) >= TimeDistTopicLocs.STD_DEVIATION_MIN) {
-                    pattern.addLocation(l, TimeDistTopicLocs.getMean(l, z));
+                double stdDev = TimeDistTopicLocs.getStdDeviation(l, z);
+                double mean = TimeDistTopicLocs.getMean(l, z);
+                if (mean != 0 && stdDev == 0) {
+                    System.out.println("hei");
                 }
+                if (mean == 0 && stdDev != 0) {
+                    System.out.println("heihop");
+                }
+                if (mean != 0 || stdDev >= TimeDistTopicLocs.STD_DEVIATION_MIN)
+                    pattern.addLocation(l, TimeDistTopicLocs.getMean(l, z), stdDev);
+
             }
             if (pattern.getLocationTrajectory().length == 0) continue;
             pattern.setTimeDist(TimeDistTopicLocs.getTimeDist(z, pattern.getLocationTrajectory()));

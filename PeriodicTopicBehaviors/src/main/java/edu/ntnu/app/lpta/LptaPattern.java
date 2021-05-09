@@ -1,7 +1,5 @@
 package edu.ntnu.app.lpta;
 
-import edu.ntnu.app.Location;
-
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -19,8 +17,8 @@ public class LptaPattern {
         this.locationTrajectory = new TreeSet<>();
     }
 
-    public void addLocation(int l, double mean) {
-        locationTrajectory.add(new LocationMean(l, mean));
+    public void addLocation(int l, double mean, double stdDev) {
+        locationTrajectory.add(new LocationMean(l, mean, stdDev));
     }
 
     public double getPeriod() {
@@ -60,10 +58,12 @@ public class LptaPattern {
     class LocationMean implements Comparable<LocationMean> {
         private final int location;
         private final double mean;
+        private final double stdDev;
 
-        public LocationMean(int location, double mean) {
+        public LocationMean(int location, double mean, double stdDev) {
             this.location = location;
             this.mean = mean;
+            this.stdDev = stdDev;
         }
 
         public int getLocation() {
@@ -76,16 +76,13 @@ public class LptaPattern {
 
         @Override
         public int compareTo(LocationMean locationMean) {
-            return Double.compare(this.mean, locationMean.mean);
+            int compare = Double.compare(this.mean, locationMean.mean);
+            return compare != 0 ? compare : Integer.compare(this.location, locationMean.location);
         }
 
         @Override
         public String toString() {
-            Location l = LptaDocs.getLocation(location);
-            return "" + mean +
-                    "(" + l.getLongitude() +
-                    "," + l.getLatitude() +
-                    ")";
+            return String.format("(%.2f, %.2f): %s", mean, stdDev, LptaDocs.getLocation(location).toString());
         }
     }
 }

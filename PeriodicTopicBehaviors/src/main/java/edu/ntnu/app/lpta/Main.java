@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.util.List;
 
 public class Main {
-    public static final int nTOPICS = 10;
-    public static final double[] PERIODS = new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 15};
+    //public static final double[] PERIODS = new double[]{4, 7, 25};
+    public static final double[] PERIODS = new double[]{7, 15};
+    public static final int nTOPICS = PERIODS.length;
 
     public static void main(String[] args) throws IOException {
         System.out.println("GeoLPTA");
 
         System.out.println("Initializing...");
-        //LptaDocs.initialize("../datasetAllEn.txt");
-        LptaDocs.initialize("../datasetSynth1000.txt");
+        LptaDocs.initialize("../datasets/datasetSynth1000Improved.txt");
 
         System.out.println("Executing...");
         Lpta.execute(nTOPICS, PERIODS);
