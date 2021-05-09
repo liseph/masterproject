@@ -8,22 +8,21 @@ import java.util.stream.IntStream;
 
 public class Theme implements Variable {
 
-    private static int idCount = 0;
-
     private final double[] wordDistribution;
     private final int id;
     private VariableList latentWordByTopic;
 
-    public Theme() {
-        this.id = idCount++;
-        long SEED = Psta.seedGenerator.nextLong();
-        this.wordDistribution = VariableList.generateRandomDistribution(PstaDocs.nWords(), SEED);
+    public Theme(int id) {
+        this.id = id;
+        this.wordDistribution = IntStream.range(0, PstaDocs.nWords()).mapToDouble(w -> 1.0 / Main.nTOPICS).toArray();
+        // long SEED = Psta.seedGenerator.nextLong();
+        // this.wordDistribution = VariableList.generateRandomDistribution(PstaDocs.nWords(), SEED);
     }
 
     public static VariableList generateEmptyThemes(int nTopics) {
         Variable[] variables = new Theme[nTopics];
         for (int i = 0; i < nTopics; i++) {
-            variables[i] = new Theme();
+            variables[i] = new Theme(i);
         }
         return new VariableList(variables);
     }
@@ -75,7 +74,7 @@ public class Theme implements Variable {
     }
 
     private String mapToString(Map<Double, String> map) {
-        return map.entrySet().stream().limit(20)
+        return map.entrySet().stream().limit(10)
                 .map(entry -> entry.getValue() + ":" + entry.getKey())
                 .collect(Collectors.joining(", ", "{", "}"));
     }

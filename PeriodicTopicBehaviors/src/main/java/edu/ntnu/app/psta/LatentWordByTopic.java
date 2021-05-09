@@ -18,9 +18,8 @@ public class LatentWordByTopic implements Variable {
         this.docIndex = docIndex;
         this.latentWordByTopic = new double[PstaDocs.nWords()][themes.length()];
         for (int i = 0; i < PstaDocs.nWords(); i++) {
-            // No need for initial values as we update the latent variables first. Must set to 0 as default is null...
+            // No need for initial values as we update the latent variables first.
             this.latentWordByTopic[i] = new double[themes.length()];
-            Arrays.fill(this.latentWordByTopic[i], 0);
         }
     }
 
@@ -35,19 +34,18 @@ public class LatentWordByTopic implements Variable {
 
     @Override
     public boolean update() {
-        boolean converges = true;
-        for (int w = 0; w < PstaDocs.nWords(); w++) {
-            int finalW = w; // To use in stream
+        boolean[] converges = new boolean[]{true};
+        IntStream.range(0, PstaDocs.nWords()).forEach(w -> {
             double[] base = IntStream.range(0, themes.length())
-                    .mapToDouble(z2 -> calcProbTopicByDocAndTL(z2, docIndex, finalW))
+                    .mapToDouble(z2 -> calcProbTopicByDocAndTL(z2, docIndex, w))
                     .toArray();
             double denominator = Psta.LAMBDA_B * PstaDocs.backgroundTheme[w] +
                     (1 - Psta.LAMBDA_B) * Arrays.stream(base).sum();
             double[] newVal = Arrays.stream(base).map(val -> (1 - Psta.LAMBDA_B) * val / denominator).toArray();
-            converges = converges && IntStream.range(0, themes.length()).allMatch(z -> Math.abs(newVal[z] - latentWordByTopic[finalW][z]) < Psta.CONVERGES_LIM);
+            converges[0] = converges[0] && IntStream.range(0, themes.length()).allMatch(z -> Math.abs(newVal[z] - latentWordByTopic[w][z]) < Psta.CONVERGES_LIM);
             latentWordByTopic[w] = newVal;
-        }
-        return converges;
+        });
+        return converges[0];
     }
 
     private double calcProbTopicByDocAndTL(int z, int d, int w) {

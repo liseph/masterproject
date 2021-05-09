@@ -7,6 +7,7 @@ public class PstaPattern {
     private final double period;
     private final int themeIndex;
     private final TreeSet<LocationPattern> locationTrajectory;
+    private double absOffset = Double.POSITIVE_INFINITY;
 
     public PstaPattern(double period, int themeIndex) {
         this.period = period;
@@ -14,8 +15,9 @@ public class PstaPattern {
         this.locationTrajectory = new TreeSet<>();
     }
 
-    public void addLocation(int l, long offset) {
-        locationTrajectory.add(new LocationPattern(l, offset));
+    public void addLocation(int l, double offset) {
+        this.absOffset = Math.min(this.absOffset, offset);
+        locationTrajectory.add(new LocationPattern(l, offset % period));
     }
 
     public double getPeriod() {
@@ -27,22 +29,23 @@ public class PstaPattern {
         return "PstaPattern{" +
                 "period=" + period +
                 ", themeIndex=" + themeIndex +
+                ", abs offset=" + absOffset +
                 ", locationTrajectory=" + Arrays.toString(locationTrajectory.toArray()) +
                 '}';
     }
 
     class LocationPattern implements Comparable<LocationPattern> {
         private final int locationId;
-        private final long offset;
+        private final double offset;
 
-        public LocationPattern(int locationId, long offset) {
+        public LocationPattern(int locationId, double offset) {
             this.locationId = locationId;
             this.offset = offset;
         }
 
         @Override
         public int compareTo(LocationPattern locationPattern) {
-            return Long.compare(this.offset, locationPattern.offset);
+            return Double.compare(this.offset, locationPattern.offset);
         }
 
         @Override

@@ -24,7 +24,7 @@ public class Location {
         if (o == null || getClass() != o.getClass()) return false;
         Location location = (Location) o;
         return city.equals(location.city) && country.equals(location.country);
-        //return country.equals(location.country);
+        // return country.equals(location.country);
     }
 
     @Override
