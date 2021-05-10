@@ -75,7 +75,7 @@ public class Theme implements Variable {
 
     private String mapToString(Map<Double, String> map) {
         return map.entrySet().stream().limit(10)
-                .map(entry -> entry.getValue() + ":" + entry.getKey())
+                .map(entry -> String.format("%s: %.4f", entry.getValue(), entry.getKey()))
                 .collect(Collectors.joining(", ", "{", "}"));
     }
 }
