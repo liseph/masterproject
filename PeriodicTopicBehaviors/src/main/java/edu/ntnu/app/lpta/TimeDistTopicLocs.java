@@ -3,6 +3,7 @@ package edu.ntnu.app.lpta;
 import edu.ntnu.app.Document;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 public class TimeDistTopicLocs {
@@ -26,9 +27,12 @@ public class TimeDistTopicLocs {
         // Background topic is constant uniform, set only once here.
         backgroundTopic = 1.0 / LptaDocs.nTimeslots();
         // Set time distribution to uniform distribution, no need to set means and std deviations, they are updated later.
-        double[] zs = IntStream.range(0, LptaDocs.nTimeslots()).mapToDouble(i -> 1.0 / LptaDocs.nTimeslots()).toArray();
+        // double[] zs = IntStream.range(0, LptaDocs.nTimeslots()).mapToDouble(i -> 1.0 / LptaDocs.nTimeslots()).toArray();
         IntStream.range(0, nPeriodicTopics).forEach(z -> {
             IntStream.range(0, LptaDocs.nLocations()).forEach(l -> {
+                double[] zss = new Random().doubles(LptaDocs.nTimeslots(), 0, 1).toArray();
+                double sum = Arrays.stream(zss).sum();
+                double[] zs = Arrays.stream(zss).map(t -> t / sum).toArray();
                 timeDistTopicLocs[z][l] = zs;
             });
         });

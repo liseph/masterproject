@@ -61,10 +61,10 @@ public class Lpta {
                 double stdDev = TimeDistTopicLocs.getStdDeviation(l, z);
                 double mean = TimeDistTopicLocs.getMean(l, z);
                 if (mean != 0 && stdDev == 0) {
-                    System.out.println("hei");
+                    System.out.print("");
                 }
                 if (mean == 0 && stdDev != 0) {
-                    System.out.println("heihop");
+                    System.out.print("");
                 }
                 if (mean != 0 || stdDev >= TimeDistTopicLocs.STD_DEVIATION_MIN)
                     pattern.addLocation(l, TimeDistTopicLocs.getMean(l, z), stdDev);

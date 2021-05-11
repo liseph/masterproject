@@ -67,21 +67,21 @@ def preprocess(df):
     df = df.drop(['lang'], axis=1)
     df = df.drop(df[df.text == ''].index)
     df = df.drop(df[df.text.isna()].index)
-    df = df.reset_index()
-    df = df.drop(['index'], axis=1)
 
     # Get location information
+    df = df.reset_index()
+    df = df.drop(['index'], axis=1)
     coordinates = list(df[['latitude', 'longitude']].itertuples(index=False, name=None))
     locations = rg.search(coordinates)
     locations_df = pd.json_normalize(locations)[['name', 'admin1', 'admin2', 'cc']]
     df = pd.concat([df, locations_df], axis=1)
+    df = df.drop(df[df.cc != 'US'].index)
 
     # Clean
     p.set_options(p.OPT.URL, p.OPT.MENTION, p.OPT.RESERVED, p.OPT.EMOJI, p.OPT.SMILEY, p.OPT.NUMBER)
     df = parallelize_dataframe(df, clean_f)
 
     # Make lower case and remove numbers and white space, must be done after cleaning
-    df = parallelize_dataframe(df, remove_numbers_f)
     df = parallelize_dataframe(df, remove_numbers_f)
 
     # Remove stopwords, must be done after cleaning and removal of white space

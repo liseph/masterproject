@@ -1,6 +1,7 @@
 package edu.ntnu.app.lpta;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 public class TopicDistDocs {
@@ -12,8 +13,11 @@ public class TopicDistDocs {
     public static void initialize(int nPeriodicTopics) {
         nTopics = nPeriodicTopics + 1;
         topicDistDoc = new double[LptaDocs.nDocuments()][nTopics];
-        double[] zs = IntStream.range(0, nTopics).mapToDouble(i -> 1.0 / nTopics).toArray();
+        // double[] zs = IntStream.range(0, nTopics).mapToDouble(i -> 1.0 / nTopics).toArray();
         IntStream.range(0, LptaDocs.nDocuments()).forEach(d -> {
+            double[] zss = new Random().doubles(nTopics, 0, 1).toArray();
+            double sum = Arrays.stream(zss).sum();
+            double[] zs = Arrays.stream(zss).map(z -> z / sum).toArray();
             topicDistDoc[d] = zs;
         });
 

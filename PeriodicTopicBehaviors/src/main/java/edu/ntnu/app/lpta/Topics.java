@@ -3,6 +3,7 @@ package edu.ntnu.app.lpta;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.PriorityQueue;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 public class Topics {
@@ -14,8 +15,11 @@ public class Topics {
     public static void initialize(int nPeriodicTops) {
         nTopics = nPeriodicTops + 1;
         topics = new double[nTopics][LptaDocs.nWords()];
-        double[] zs = IntStream.range(0, LptaDocs.nWords()).mapToDouble(i -> 1.0 / LptaDocs.nWords()).toArray();
+        // double[] zs = IntStream.range(0, LptaDocs.nWords()).mapToDouble(i -> 1.0 / LptaDocs.nWords()).toArray();
         IntStream.range(0, nTopics).forEach(z -> {
+            double[] zss = new Random().doubles(LptaDocs.nWords(), 0, 1).toArray();
+            double sum = Arrays.stream(zss).sum();
+            double[] zs = Arrays.stream(zss).map(t -> t / sum).toArray();
             topics[z] = zs;
         });
     }

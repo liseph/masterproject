@@ -14,18 +14,20 @@ public class Main {
         System.out.println("Initializing...");
         LptaDocs.initialize("../datasets/datasetSynth1000Improved.txt");
 
-        System.out.println("Executing...");
-        Lpta.execute(nTOPICS, PERIODS);
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Executing...");
+            Lpta.execute(nTOPICS, PERIODS);
 
-        System.out.println("Analyzing...");
-        List<LptaPattern> patterns = Lpta.analyze(nTOPICS, PERIODS);
+            System.out.println("Analyzing...");
+            List<LptaPattern> patterns = Lpta.analyze(nTOPICS, PERIODS);
 
-        if (patterns.isEmpty()) {
-            System.out.println("NO RESULTS");
-        } else {
-            System.out.println("RESULTS:");
-            for (LptaPattern p : patterns) {
-                System.out.println(p);
+            if (patterns.isEmpty()) {
+                System.out.println("NO RESULTS");
+            } else {
+                System.out.println("RESULTS:");
+                for (LptaPattern p : patterns) {
+                    System.out.println(p);
+                }
             }
         }
     }
