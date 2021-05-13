@@ -19,8 +19,8 @@ public class PstaDocs extends Docs {
     private static Set<Integer>[] indexOfDocsWithWord;
 
 
-    public static void initialize(String pathName) throws IOException {
-        Docs.initialize(pathName);
+    public static void initialize(String pathName, int nDocs) throws IOException {
+        Docs.initialize(pathName, nDocs);
         // Calculate some statistics to use in calculations of topics
         wordDocCounts = new Map[nDocuments()];
         sumWordCounts = 0;
@@ -61,6 +61,17 @@ public class PstaDocs extends Docs {
             int sumAllWordCounts = getSumWordCount();
             backgroundTheme[i] = wordCountInAllDocs * 1.0 / sumAllWordCounts;
         }
+    }
+
+    public static void clear() {
+        Docs.clear();
+        backgroundTheme = null;
+        wordDocCounts = null;
+        sumWordCounts = 0;
+        sumWordCountsTL = null;
+        wordCounts = null;
+        indexOfDocsWithTL = null;
+        indexOfDocsWithWord = null;
     }
 
 

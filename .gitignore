@@ -41,6 +41,7 @@ datasets/
 graphs/
 *.txt
 *.csv
+*.gz
 .ipynb_checkpoints/
 GeoTwitterFilter/
 GeoTwitter/

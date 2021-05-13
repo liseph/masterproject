@@ -137,6 +137,12 @@ public class ReferenceSpot {
         return v * v;
     }
 
+    public static void clear() {
+        idCount = 1;
+        xStart = 0;
+        yStart = 0;
+    }
+
     public int getId() {
         return id;
     }

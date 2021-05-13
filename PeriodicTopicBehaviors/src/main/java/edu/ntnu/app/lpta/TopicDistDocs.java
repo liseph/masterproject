@@ -56,4 +56,7 @@ public class TopicDistDocs {
     public static double get(int d, int z) {
         return topicDistDoc[d][z];
     }
+
+    public static void clear() {
+    }
 }

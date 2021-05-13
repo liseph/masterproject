@@ -25,12 +25,17 @@ public class Psta {
         topicDistTLs = null;
     }
 
-    static public PstaResult execute(int nTopics) {
-        return execute(nTopics, 1000);
-    }
-
     static public PstaResult execute(int nTopics, long seed) {
         seedGenerator = new Random(seed);
+        return execute_(nTopics);
+    }
+
+    static public PstaResult execute(int nTopics) {
+        seedGenerator = new Random();
+        return execute_(nTopics);
+    }
+
+    static private PstaResult execute_(int nTopics) {
         // Unknown values
         themes = Theme.generateEmptyThemes(nTopics);
         topicDistDocs = TopicDistDoc.generateEmptyTopicDist(nTopics);
@@ -47,7 +52,7 @@ public class Psta {
 
         boolean converged = false;
         System.out.println("START");
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 1000; i++) {
             long startTime = System.nanoTime();
 
             // E-step
@@ -86,7 +91,7 @@ public class Psta {
         }
         System.out.println(converged);
 
-        return new PstaResult(themes, topicDistDocs, topicDistTLs);
+        return converged ? new PstaResult(themes, topicDistDocs, topicDistTLs) : null;
     }
 
     // NOTE: The time series periodicity detection algorithm expects a regularly sampled time series.

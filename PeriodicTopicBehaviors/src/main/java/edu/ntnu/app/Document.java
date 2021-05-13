@@ -17,6 +17,10 @@ public class Document {
         this.terms = terms;
     }
 
+    public static void reset() {
+        idCount = 0;
+    }
+
     public int getLocationId() {
         return locationId;
     }

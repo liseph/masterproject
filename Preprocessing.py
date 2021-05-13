@@ -56,6 +56,12 @@ def remove_numbers_f(df):
         .str.replace(' rt ', '').str.replace('#', '').str.replace('[^\w\s]', ' ').str.replace('\s\s+', ' ')
     return df
 
+def remove_short_texts_f(df):
+    df['c'] = df['text'].apply(lambda x: len(x.split(" ")))
+    df = df.drop(df[df.c < 3].index)
+    df = df.drop(['c'], axis=1)
+    return df
+
 
 # Preprocessing
 # Remove rows with missing text, filter out non-english tweets. Get detailed locations and timestamp and tokenize the text.
@@ -86,8 +92,12 @@ def preprocess(df):
 
     # Remove stopwords, must be done after cleaning and removal of white space
     df = parallelize_dataframe(df, remove_stopwords_f)
+
     # Remove words with less than 3 characters, should be done after removing stop words
     df = parallelize_dataframe(df, remove_short_words_f)
+
+    # Remove tweets with less than 3 words.
+    df = parallelize_dataframe(df, remove_short_texts_f)
 
     df = df.drop(df[df.text == ''].index)
     df = df.drop(['admin2'], axis=1)
@@ -95,7 +105,7 @@ def preprocess(df):
     return df
 
 
-chunks = pd.read_csv(in_path, encoding='cp1252', sep="\t",
+chunks = pd.read_csv(in_path, compression='gzip', encoding='utf8', sep="\t",
                      usecols=['timestamp_ms', 'longitude', 'latitude', 'text', 'lang'], chunksize=10 ** 6)
 
 fmt = '%d\n%.8f\n%.8f\n%s\n%s\n%s\n%s'
@@ -105,5 +115,5 @@ with open(out_path, "ab") as f:
         print("Chunk ", i)
         df = preprocess(chunk)
         # np.savetxt(f, df.values, fmt=fmt, delimiter='\r\n')
-        df.to_csv(out_path, header=False, mode="a", index=False, quoting=csv.QUOTE_NONE, quotechar="", escapechar="\\")
+        df.to_csv(out_path, compression='gzip', sep='\t', header=False, mode="a", index=False, quoting=csv.QUOTE_NONE, quotechar="", escapechar="\\")
         i += 1

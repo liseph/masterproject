@@ -1,10 +1,13 @@
 package edu.ntnu.app;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.IntStream;
+import java.util.zip.GZIPInputStream;
 
 public class Docs {
     public static final double HOUR_MS = 3.6E+6;
@@ -15,13 +18,18 @@ public class Docs {
     private static List<Location> locations;
     private static List<Long> timestamps;
     private static List<String> vocabulary;
+    public static double docShare = 1.0;
 
-    protected static void initialize(String pathName) throws IOException {
+    public static void setDocShare(double relDocShare) {
+        docShare = relDocShare;
+    }
+
+    protected static void initialize(String pathName, int nDocs) throws IOException {
         // Init locations and vocabulary so we can build them as we read the input
         List<Location> locs = new ArrayList<>();
         Set<String> voc = new TreeSet<>();
         Set<Long> tss = new TreeSet<>();
-        docs = readFile(pathName, locs, voc, tss);
+        docs = readFile((int) (nDocs * docShare), pathName, locs, voc, tss);
         // Make locations, timestamps and vocabulary unmodifiable
         locations = Collections.unmodifiableList(locs);
         vocabulary = List.copyOf(voc);
@@ -32,26 +40,24 @@ public class Docs {
     // Format: long \n lat \n name \n city \n country code \n timestamp_ms \n text \n long \n etc...
     // i.e. every 6 lines belong to one document. The method assumes there are exactly N*6 lines.
     // We also assume that the documents are sorted by timestamp.
-    private static List<Document> readFile(String pathName, List<Location> locs, Set<String> voc, Set<Long> tss) throws IOException, NullPointerException {
+    private static List<Document> readFile(int maxnDocs, String pathName, List<Location> locs, Set<String> voc, Set<Long> tss) throws IOException, NullPointerException {
         List<Document> data = new ArrayList<>();
-        try (FileInputStream inputStream = new FileInputStream(pathName); Scanner sc = new Scanner(inputStream, StandardCharsets.UTF_8)) {
-            System.out.println("Scanning docs...");
-            while (sc.hasNextLine()) {
-                long lineTimestamp = Long.parseLong(sc.nextLine());
-                Float lineLong = Float.parseFloat(sc.nextLine());
-                Float lineLat = Float.parseFloat(sc.nextLine());
-                String lineText = sc.nextLine();
-                String lineName = sc.nextLine();
-                String lineCity = sc.nextLine();
-                String lineCountry = sc.nextLine();
-                data.add(createDocument(locs, voc, tss, lineLong, lineLat, lineName, lineCity, lineCountry, lineTimestamp, lineText));
-            }
-            System.out.format("Successfully scanned %d docs\n", data.size());
-            // note that Scanner suppresses exceptions
-            if (sc.ioException() != null) {
-                throw sc.ioException();
-            }
+        FileInputStream fileIn = new FileInputStream(pathName);
+        GZIPInputStream gzipIn = new GZIPInputStream(fileIn);
+        BufferedReader in = new BufferedReader(new InputStreamReader(gzipIn));
+        System.out.println("Scanning docs...");
+        String firstLine;
+        while ((firstLine = in.readLine()) != null && data.size() < maxnDocs) {
+            long lineTimestamp = Long.parseLong(firstLine);
+            Float lineLong = Float.parseFloat(in.readLine());
+            Float lineLat = Float.parseFloat(in.readLine());
+            String lineText = in.readLine();
+            String lineName = in.readLine();
+            String lineCity = in.readLine();
+            String lineCountry = in.readLine();
+            data.add(createDocument(locs, voc, tss, lineLong, lineLat, lineName, lineCity, lineCountry, lineTimestamp, lineText));
         }
+        System.out.format("Successfully scanned %d docs\n", data.size());
         return data;
     }
 
@@ -116,5 +122,14 @@ public class Docs {
 
     public static List<Location> getLocations() {
         return locations;
+    }
+
+    protected static void clear() {
+        Document.reset();
+        docs = null;
+        locations = null;
+        timestamps = null;
+        vocabulary = null;
+        docShare = 1.0;
     }
 }

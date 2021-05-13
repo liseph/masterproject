@@ -57,4 +57,10 @@ public class LatentWordByTopics {
         if (wIndex == -1) return 0;
         return latentWordByTopics[d][wIndex][z];
     }
+
+    public static void clear() {
+        latentWordByTopics = null;
+        hasConverged = false;
+        nTopics = 0;
+    }
 }

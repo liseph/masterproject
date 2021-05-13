@@ -146,4 +146,14 @@ public class TimeDistTopicLocs {
                         .sum() / nLocs)
                 .toArray();
     }
+
+    public static void clear() {
+        timeDistTopicLocs = null;
+        means = null;
+        stdDeviations = null;
+        periods = null;
+        backgroundTopic = 0;
+        hasConverged = false;
+        nPeriodicTopics = 0;
+    }
 }

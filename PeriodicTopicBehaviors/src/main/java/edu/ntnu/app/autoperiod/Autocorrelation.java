@@ -108,7 +108,7 @@ public class Autocorrelation {
             double acceleration = 1;
             double tmp;
             for (int j = -2; j <= 2; j++) {
-                if (autocorrelation.length < i + j + 2)
+                if (autocorrelation.length <= i + j + 2)
                     break;
                 tmp = autocorrelation[i + j + 2] - 2 * autocorrelation[i + j + 1] + autocorrelation[i + j];
                 acceleration = Math.min(acceleration, tmp);

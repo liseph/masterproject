@@ -7,7 +7,7 @@ public class Lpta {
 
     public static final double CONVERGES_LIM = 1E-2;
 
-    public static void execute(int nPeriodicTopics, double[] periods) {
+    public static boolean execute(int nPeriodicTopics, double[] periods) {
         // Latent variable
         LatentWordByTopics.initialize(nPeriodicTopics);
 
@@ -18,7 +18,7 @@ public class Lpta {
 
         boolean converged = false;
         System.out.println("START EM ALGORITHM");
-        for (int i = 0; i < 300; i++) {
+        for (int i = 0; i < 1000; i++) {
             long startTime = System.nanoTime();
 
             // E-step
@@ -51,6 +51,7 @@ public class Lpta {
                 break;
             }
         }
+        return converged;
     }
 
     public static List<LptaPattern> analyze(int nTopics, double[] periods) {

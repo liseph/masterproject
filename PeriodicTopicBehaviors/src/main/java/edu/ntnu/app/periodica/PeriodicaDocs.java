@@ -18,8 +18,8 @@ public class PeriodicaDocs extends Docs {
     private static ReferenceSpot[] referenceSpots;
     private static boolean docsAreDivided = false;
 
-    public static void initialize(String pathName) throws IOException {
-        Docs.initialize(pathName);
+    public static void initialize(String pathName, int nDocs) throws IOException {
+        Docs.initialize(pathName, nDocs);
     }
 
     public static double[][] getXYValues() {
@@ -68,6 +68,13 @@ public class PeriodicaDocs extends Docs {
 
     public static int nRefSpots() {
         return referenceSpots.length;
+    }
+
+    public static void clear() {
+        Docs.clear();
+        tsDocs = null;
+        referenceSpots = null;
+        docsAreDivided = false;
     }
 }
 

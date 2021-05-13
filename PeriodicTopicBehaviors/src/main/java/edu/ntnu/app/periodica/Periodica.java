@@ -11,9 +11,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static edu.ntnu.app.periodica.Main.nTOPICS;
+
 public class Periodica {
 
-    public static final int nTOPICS = 10;
     public static final double TOPIC_PRESENCE_LIM = 4E-1;
     public static final double SMOOTH_PAR = 1E-1;
     public static final double REP_ERROR_LIM = 1E-1;
@@ -79,24 +80,6 @@ public class Periodica {
             }
         }
 
-//        // Calculate difference between all clusters
-//        int initialCap = (nSegments * nSegments - nSegments) / 2;
-//        List<Double> diffs = new ArrayList<>(initialCap);
-//        while (diffs.size() < initialCap) diffs.add(0.0);
-//        double minDiff = Double.POSITIVE_INFINITY;
-//        int cS = 0;
-//        int cT = 1;
-//        for (int i = 0; i < nSegments; i++) {
-//            for (int j = i + 1; j < nSegments; j++) {
-//                double diff = calcDiff(segments.get(i), segments.get(j));
-//                diffs.set(getIndex(i, j, nSegments), diff);
-//                if (diff < minDiff) {
-//                    minDiff = diff;
-//                    cS = i;
-//                    cT = j;
-//                }
-//            }
-//        }
         // Merge clusters with the smallest difference until representation error makes a sudden jump
         double repError = segments.stream().mapToDouble(s -> s.getRepError()).sum() / nSegments;
         double newRepError = repError;
@@ -105,44 +88,13 @@ public class Periodica {
             segments.remove(cT);
             if (segments.size() == 1) break;
 
-//            // Remove diffs for cluster cT. Remove from last to first to not fuck up indexes
-//            for (int i = nSegments - 1; i >= 0; i--) {
-//                if (i == cT) continue;
-//                int index = getIndex(i, cT, nSegments);
-//                diffs.remove(index);
-//            }
-//            nSegments--;
-
             // Remove diffs between cluster cT and cT+1
             if (cT != nSegments - 1) diffs.remove(cT);
             nSegments--;
 
-            // 0 1 2 cS cT 5 6
-
-//            // Update diff between new cluster, cS, and the other clusters
-//            for (int j = 0; j < nSegments; j++) {
-//                if (cS == j) continue;
-//                double diff = calcDiff(segments.get(cS), segments.get(j));
-//                diffs.set(getIndex(cS, j, nSegments), diff);
-//            }
-
             // Update diff between new cluster cS and the other clusters
             if (cS != nSegments - 1) diffs.set(cS, calcDiff(segments.get(cS), segments.get(cS + 1)));
             if (cS != 0) diffs.set(cS - 1, calcDiff(segments.get(cS - 1), segments.get(cS)));
-
-            // // TODO: Consider if I can do this more efficiently, e.g. using a PriorityQueue.
-            // // Fetch next clusters to merge
-//            minDiff = Double.POSITIVE_INFINITY;
-//            for (int i = 0; i < nSegments; i++) {
-//                for (int j = i + 1; j < nSegments; j++) {
-//                    double diff = diffs.get(getIndex(i, j, nSegments));
-//                    if (diff < minDiff) {
-//                        minDiff = diff;
-//                        cS = i;
-//                        cT = j;
-//                    }
-//                }
-//            }
 
             // Fetch next clusters to merge
             minDiff = Double.POSITIVE_INFINITY;
@@ -185,14 +137,5 @@ public class Periodica {
 
     private static double smooth(double d) {
         return (1 - SMOOTH_PAR) * d + SMOOTH_PAR * 1 / PeriodicaDocs.nRefSpots();
-    }
-
-    // Assumes row != col
-    private static int getIndex(int row, int col, int N) {
-        if (row < col)
-            return row * (N - 1) - (row - 1) * ((row - 1) + 1) / 2 + col - row - 1;
-        else if (col < row)
-            return col * (N - 1) - (col - 1) * ((col - 1) + 1) / 2 + row - col - 1;
-        throw new IllegalArgumentException("row cannot be equal to col in getIndex function");
     }
 }

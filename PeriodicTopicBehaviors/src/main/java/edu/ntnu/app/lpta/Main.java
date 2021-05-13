@@ -1,34 +1,62 @@
 package edu.ntnu.app.lpta;
 
+import edu.ntnu.app.Algorithm;
+
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.List;
 
-public class Main {
+public class Main extends Algorithm {
     //public static final double[] PERIODS = new double[]{4, 7, 25};
-    public static final double[] PERIODS = new double[]{7, 15};
-    public static final int nTOPICS = PERIODS.length;
 
-    public static void main(String[] args) throws IOException {
-        System.out.println("GeoLPTA");
+    private static final double[] P = new double[]{7, 15, 4, 30, 90, 14, 5, 60, 182, 365};
+    public static double[] PERIODS;
 
-        System.out.println("Initializing...");
-        LptaDocs.initialize("../datasets/datasetSynth1000Improved.txt");
+    private boolean converged;
+    private List<LptaPattern> patterns;
 
-        for (int i = 0; i < 5; i++) {
-            System.out.println("Executing...");
-            Lpta.execute(nTOPICS, PERIODS);
+    @Override
+    protected void clearAll() {
+        LptaDocs.clear();
+        LatentWordByTopics.clear();
+        Topics.clear();
+        TopicDistDocs.clear();
+        TimeDistTopicLocs.clear();
+        converged = false;
+        patterns = null;
+    }
 
-            System.out.println("Analyzing...");
-            List<LptaPattern> patterns = Lpta.analyze(nTOPICS, PERIODS);
-
-            if (patterns.isEmpty()) {
-                System.out.println("NO RESULTS");
-            } else {
-                System.out.println("RESULTS:");
-                for (LptaPattern p : patterns) {
-                    System.out.println(p);
-                }
+    @Override
+    protected void printResults(PrintWriter outRes) {
+        if (patterns.isEmpty()) {
+            outRes.println("NO RESULTS");
+        } else {
+            outRes.println("RESULTS:");
+            for (LptaPattern p : patterns) {
+                outRes.println(p);
             }
         }
+    }
+
+    @Override
+    protected void analyze() {
+        patterns = Lpta.analyze(nTOPICS, PERIODS);
+    }
+
+    @Override
+    protected boolean stop() {
+        return !converged;
+    }
+
+    @Override
+    protected void execute() {
+        converged = Lpta.execute(nTOPICS, PERIODS);
+    }
+
+    @Override
+    protected void initialize() throws IOException {
+        PERIODS = Arrays.copyOf(P, nTOPICS);
+        LptaDocs.initialize(inPath, nDocs);
     }
 }

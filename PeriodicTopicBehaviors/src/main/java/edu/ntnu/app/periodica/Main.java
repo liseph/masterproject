@@ -1,30 +1,56 @@
 package edu.ntnu.app.periodica;
 
+import edu.ntnu.app.Algorithm;
+
 import java.io.IOException;
+import java.io.PrintWriter;
 
-public class Main {
+public class Main extends Algorithm {
 
-    public static void main(String[] args) throws IOException {
-        System.out.println("PERIODICA");
+    private PeriodicaResult[] patterns;
 
-        System.out.println("Initializing...");
-        PeriodicaDocs.initialize("../datasets/datasetSynth1000Improved.txt");
+    @Override
+    protected void clearAll() {
+        Periodica.referenceSpots = null;
+        patterns = null;
+        ReferenceSpot.clear();
+        Topics.clear();
+        PeriodicaDocs.clear();
+    }
 
-        System.out.println("Executing...");
-        PeriodicaResult[] patterns = Periodica.execute();
-
+    @Override
+    protected void printResults(PrintWriter outRes) {
         if (patterns.length == 0) {
-            System.out.println("NO RESULTS");
+            outRes.println("NO RESULTS");
         } else {
-            System.out.println("RESULTS:");
+            outRes.println("RESULTS:");
             for (PeriodicaResult p : patterns) {
-                System.out.println(p);
+                outRes.println(p);
             }
-            System.out.println("Ref points:");
+            outRes.println("Ref points:");
             for (ReferenceSpot s : Periodica.referenceSpots) {
-                System.out.println("" + s.getId() + s.getLocationsInRefSpot().toString());
-
+                outRes.println("" + s.getId() + s.getLocationsInRefSpot().toString());
             }
         }
+    }
+
+    @Override
+    protected void analyze() {
+        // No analyze phase in Periodica.
+    }
+
+    @Override
+    protected boolean stop() {
+        return false;
+    }
+
+    @Override
+    protected void execute() throws IOException {
+        patterns = Periodica.execute();
+    }
+
+    @Override
+    protected void initialize() throws IOException {
+        PeriodicaDocs.initialize(inPath, nDocs);
     }
 }

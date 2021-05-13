@@ -38,13 +38,11 @@ public class Topics {
     }
 
     private static double calcAllDocs(int w, int z) {
-        double v = LptaDocs.getDocsWithWord(w).mapToDouble(d -> calc(d, w, z)).sum();
-        return v;
+        return LptaDocs.getDocsWithWord(w).mapToDouble(d -> calc(d, w, z)).sum();
     }
 
     private static double calc(int d, int w, int z) {
-        double v = LptaDocs.getWordCount(d, w) * LatentWordByTopics.get(d, w, z);
-        return v;
+        return LptaDocs.getWordCount(d, w) * LatentWordByTopics.get(d, w, z);
     }
 
     public static boolean hasConverged() {
@@ -70,6 +68,12 @@ public class Topics {
         Object[] objects = topTerms.toArray();
         Arrays.sort(objects, Collections.reverseOrder());
         return Arrays.toString(objects);
+    }
+
+    public static void clear() {
+        topics = null;
+        hasConverged = false;
+        nTopics = 0;
     }
 
     static class TopicTerm implements Comparable<TopicTerm> {

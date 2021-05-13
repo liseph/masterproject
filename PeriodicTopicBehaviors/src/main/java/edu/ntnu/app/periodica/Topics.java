@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static edu.ntnu.app.periodica.Main.nTOPICS;
+
 public class Topics {
     private static double[][][] topicDistributions; // [topic][ref spot][timestamp]
     private static ParallelTopicModel model;
@@ -32,7 +34,7 @@ public class Topics {
         String[] docs = PeriodicaDocs.getTextsPerTsPerRefSpot();
         instances.addThruPipe(new StringArrayIterator(docs));
 
-        model = new ParallelTopicModel(Periodica.nTOPICS, 1.0, 0.01);
+        model = new ParallelTopicModel(nTOPICS, 1.0, 0.01);
         model.setRandomSeed(1000);
         model.addInstances(instances);
         model.setNumThreads(2);
@@ -47,7 +49,7 @@ public class Topics {
         // Estimate the topic distribution per document, given the current Gibbs state.
         int nTs = PeriodicaDocs.nTimeslots();
         int nO = PeriodicaDocs.nRefSpots();
-        int nZ = Periodica.nTOPICS;
+        int nZ = nTOPICS;
         double[][][] topicProbabilities = new double[nTs][nO][nZ];
         for (int d = 0; d < instances.size(); d++) {
             for (int t = 0; t < nTs; t++) {
@@ -103,5 +105,11 @@ public class Topics {
         }
         sb.append("}");
         return sb.toString();
+    }
+
+    public static void clear() {
+        topicDistributions = null;
+        model = null;
+        dataAlphabet = null;
     }
 }

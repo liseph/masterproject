@@ -12,8 +12,8 @@ public class LptaDocs extends Docs {
     private static Map<Integer, MutableInt>[] wordDocCounts;
     private static Set<Integer>[] indexOfDocsWithWord;
 
-    public static void initialize(String pathName) throws IOException {
-        Docs.initialize(pathName);
+    public static void initialize(String pathName, int nDocs) throws IOException {
+        Docs.initialize(pathName, nDocs);
         // Calculate word counts
         Object[] voc = getVocabulary().toArray();
         wordDocCounts = new HashMap[nDocuments()];
@@ -31,6 +31,12 @@ public class LptaDocs extends Docs {
                 else count.increment();
             });
         });
+    }
+
+    public static void clear() {
+        Docs.clear();
+        wordDocCounts = null;
+        indexOfDocsWithWord = null;
     }
 
     public static int getWordCount(int docIndex, int wordIndex) {
