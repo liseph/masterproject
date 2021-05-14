@@ -59,10 +59,4 @@ public class Main extends Algorithm {
         PERIODS = Arrays.copyOf(P, nTOPICS);
         LptaDocs.initialize(inPath, nDocs);
     }
-
-    public static void main(String[] args) throws IOException {
-        Algorithm a = new edu.ntnu.app.lpta.Main();
-        edu.ntnu.app.Main.nITERATIONS = 1;
-        a.run(1000, "../datasets/datasetSynth1000_1.txt.gz", "outlpta.txt");
-    }
 }

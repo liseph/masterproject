@@ -3,6 +3,7 @@ package edu.ntnu.app.lpta;
 import edu.ntnu.app.Document;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class TimeDistTopicLocs {
@@ -41,7 +42,7 @@ public class TimeDistTopicLocs {
     public static void update() {
         converges = true;
         for (int l = 0; l < LptaDocs.nLocations(); l++) {
-            int[] docsInLoc = LptaDocs.getDocsInLoc(l);
+            List<Integer> docsInLoc = LptaDocs.getDocsInLoc(l);
             for (int z = 0; z < nPeriodicTopics; z++) {
                 updateMeanAndStandardDeviation(docsInLoc, z, l);
                 updateDistribution(z, l);
@@ -49,7 +50,7 @@ public class TimeDistTopicLocs {
         }
     }
 
-    private static void updateMeanAndStandardDeviation(int[] docsInLoc, int z, int l) {
+    private static void updateMeanAndStandardDeviation(List<Integer> docsInLoc, int z, int l) {
         double meanN = 0;
         double stdDevN = 0;
         double denominator = 0;
@@ -74,10 +75,9 @@ public class TimeDistTopicLocs {
 
     private static double calcPeriodic(int z, int l, int t) {
         double p = periods[z];
-        double probK = p / LptaDocs.nTimeslots(); // TODO: Is choice of K uniform? Yes if the number of docs per timestamp is constant?
-        // TODO: Change this to getDocsInLocAndTimeWithTopic?
-        if (stdDeviations[l][z] < STD_DEVIATION_MIN)
-            return probK * LptaDocs.getDocsInLoc(l).length / LptaDocs.nDocuments(); // Too few samples to calculate a probability.
+        double probK = p / LptaDocs.nTimeslots();
+        if (stdDeviations[l][z] < STD_DEVIATION_MIN) // Too few samples to calculate a probability, return rel num of docs in that time and place.
+            return probK * LptaDocs.getDocsInLoc(l).stream().filter(d -> LptaDocs.getDoc(d).getTimestampId() == t).count() / LptaDocs.nDocuments();
         double tVal = LptaDocs.getTimestamp(t);
         return probK * (NORMALIZE / stdDeviations[l][z]) * Math.exp(-sqr((tVal % p) - means[l][z]) / sqr(stdDeviations[l][z]));
     }

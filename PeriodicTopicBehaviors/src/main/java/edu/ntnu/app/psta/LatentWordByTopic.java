@@ -12,10 +12,10 @@ public class LatentWordByTopic {
         nTopics = nTopics_;
         converges = false;
         int nDocs = PstaDocs.nDocuments();
-        latentWordByTopic = new double[nDocs][PstaDocs.nWords()][nTopics];
+        latentWordByTopic = new double[nDocs][][];
         for (int d = 0; d < PstaDocs.nDocuments(); d++) {
-            int termIndices = PstaDocs.getDoc(d).getTermIndices().length;
-            latentWordByTopic[d] = new double[termIndices][nTopics];
+            int nTermsInDoc = PstaDocs.getDoc(d).getTermIndices().length;
+            latentWordByTopic[d] = new double[nTermsInDoc][nTopics];
         }
     }
 

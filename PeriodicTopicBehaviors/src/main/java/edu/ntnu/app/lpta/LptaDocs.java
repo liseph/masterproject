@@ -11,6 +11,7 @@ public class LptaDocs extends Docs {
 
     private static Map<Integer, MutableInt>[] wordDocCounts;
     private static Set<Integer>[] indexOfDocsWithWord;
+    private static List<Integer>[] docsInLoc;
 
     public static void initialize(String pathName, int nDocs) throws IOException {
         Docs.initialize(pathName, nDocs);
@@ -18,6 +19,7 @@ public class LptaDocs extends Docs {
         Object[] voc = getVocabulary().toArray();
         wordDocCounts = new HashMap[nDocuments()];
         indexOfDocsWithWord = new Set[nWords()];
+        docsInLoc = new List[nLocations()];
         IntStream.range(0, nDocuments()).forEach(i -> {
             Document doc = getDoc(i);
             int[] docTermIndices = Arrays.stream(doc.getTerms().split(" ")).mapToInt(word -> Arrays.binarySearch(voc, word)).toArray();
@@ -30,6 +32,10 @@ public class LptaDocs extends Docs {
                 if (count == null) wordDocCounts[i].put(index, new MutableInt());
                 else count.increment();
             });
+            if (docsInLoc[doc.getLocationId()] == null) {
+                docsInLoc[doc.getLocationId()] = new ArrayList<>();
+            }
+            docsInLoc[doc.getLocationId()].add(i);
         });
     }
 
@@ -43,8 +49,8 @@ public class LptaDocs extends Docs {
         return wordDocCounts[docIndex].get(wordIndex) == null ? 0 : wordDocCounts[docIndex].get(wordIndex).get();
     }
 
-    public static int[] getDocsInLoc(int l) {
-        return docs.stream().filter(d -> d.getLocationId() == l).mapToInt(Document::getId).toArray();
+    public static List<Integer> getDocsInLoc(int l) {
+        return docsInLoc[l];
     }
 
     public static IntStream getDocsWithWord(int w) {
