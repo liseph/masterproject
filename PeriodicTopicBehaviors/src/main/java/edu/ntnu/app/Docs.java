@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.IntStream;
 import java.util.zip.GZIPInputStream;
@@ -15,10 +14,10 @@ public class Docs {
     public static final double TIME_CONVERT = DAY_MS;
 
     public static List<Document> docs;
+    public static double docShare = 1.0;
     private static List<Location> locations;
     private static List<Long> timestamps;
     private static List<String> vocabulary;
-    public static double docShare = 1.0;
 
     public static void setDocShare(double relDocShare) {
         docShare = relDocShare;

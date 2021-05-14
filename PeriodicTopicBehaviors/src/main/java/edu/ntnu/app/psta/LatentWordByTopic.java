@@ -1,73 +1,75 @@
 package edu.ntnu.app.psta;
 
-import java.util.Arrays;
-import java.util.stream.IntStream;
+import edu.ntnu.app.lpta.LptaDocs;
 
-public class LatentWordByTopic implements Variable {
+public class LatentWordByTopic {
 
-    private final VariableList themes;
-    private final VariableList topicDistDocs;
-    private final VariableList topicDistTLs;
-    private final int docIndex;
-    private final double[][] latentWordByTopic;
+    private static double[][][] latentWordByTopic;
+    private static int nTopics;
+    private static boolean converges;
 
-    public LatentWordByTopic(VariableList themes, VariableList topicDistDocs, VariableList topicDistTLs, int docIndex) {
-        this.themes = themes;
-        this.topicDistDocs = topicDistDocs;
-        this.topicDistTLs = topicDistTLs;
-        this.docIndex = docIndex;
-        this.latentWordByTopic = new double[PstaDocs.nWords()][themes.length()];
-        for (int i = 0; i < PstaDocs.nWords(); i++) {
-            // No need for initial values as we update the latent variables first.
-            this.latentWordByTopic[i] = new double[themes.length()];
-        }
-    }
-
-    public static VariableList generateEmptyTopicDist(VariableList themes, VariableList topicDistDocs, VariableList topicDistTLs) {
+    public static void initialize(int nTopics_) {
+        nTopics = nTopics_;
+        converges = false;
         int nDocs = PstaDocs.nDocuments();
-        Variable[] variables = new LatentWordByTopic[nDocs];
-        for (int i = 0; i < nDocs; i++) {
-            variables[i] = new LatentWordByTopic(themes, topicDistDocs, topicDistTLs, i);
+        latentWordByTopic = new double[nDocs][PstaDocs.nWords()][nTopics];
+        for (int d = 0; d < PstaDocs.nDocuments(); d++) {
+            int termIndices = PstaDocs.getDoc(d).getTermIndices().length;
+            latentWordByTopic[d] = new double[termIndices][nTopics];
         }
-        return new VariableList(variables);
     }
 
-    @Override
-    public boolean update() {
-        boolean[] converges = new boolean[]{true};
-        IntStream.range(0, PstaDocs.nWords()).forEach(w -> {
-            double[] base = IntStream.range(0, themes.length())
-                    .mapToDouble(z2 -> calcProbTopicByDocAndTL(z2, docIndex, w))
-                    .toArray();
-            double denominator = Psta.LAMBDA_B * PstaDocs.backgroundTheme[w] +
-                    (1 - Psta.LAMBDA_B) * Arrays.stream(base).sum();
-            double[] newVal = Arrays.stream(base).map(val -> (1 - Psta.LAMBDA_B) * val / denominator).toArray();
-            converges[0] = converges[0] && IntStream.range(0, themes.length()).allMatch(z -> Math.abs(newVal[z] - latentWordByTopic[w][z]) < Psta.CONVERGES_LIM);
-            latentWordByTopic[w] = newVal;
-        });
-        return converges[0];
+    public static void update() {
+        converges = true;
+        for (int d = 0; d < PstaDocs.nDocuments(); d++) {
+            int[] termIndices = PstaDocs.getDoc(d).getTermIndices();
+            for (int wIndex = 0; wIndex < termIndices.length; wIndex++) {
+                int w = termIndices[wIndex];
+                double[] numerator = new double[nTopics];
+                double sum = 0;
+                for (int z = 0; z < nTopics; z++) {
+                    numerator[z] = calcProbTopicByDocAndTL(z, d, w);
+                    sum += numerator[z];
+                }
+                double denominator = Psta.LAMBDA_B * PstaDocs.backgroundTheme[w] +
+                        (1 - Psta.LAMBDA_B) * sum;
+                if (denominator == 0)
+                    throw new IllegalStateException("NaN LatentWordByTopic: Should not happen.");
+                for (int z = 0; z < nTopics; z++) {
+                    numerator[z] = (1 - Psta.LAMBDA_B) * numerator[z] / denominator;
+                    converges = converges && Math.abs(numerator[z] - latentWordByTopic[d][wIndex][z]) < Psta.CONVERGES_LIM;
+                }
+                latentWordByTopic[d][wIndex] = numerator;
+            }
+        }
     }
 
-    private double calcProbTopicByDocAndTL(int z, int d, int w) {
-        return themes.get(z).get(w) *
-                ((1 - Psta.LAMBDA_TL) * topicDistDocs.get(d).get(z) +
+    private static double calcProbTopicByDocAndTL(int z, int d, int w) {
+        return Theme.get(z, w) *
+                ((1 - Psta.LAMBDA_TL) * TopicDistDoc.get(d, z) +
                         Psta.LAMBDA_TL *
-                                topicDistTLs.get(PstaDocs.getDoc(d).getLocationId()).get(PstaDocs.getDoc(d).getTimestampId(), z));
+                                TopicDistTL.get(PstaDocs.getDoc(d).getLocationId(), PstaDocs.getDoc(d).getTimestampId(), z));
     }
 
-
-    @Override
-    public void setVars(VariableList p1, VariableList p2) {
-        // Do nothing, it's a bit clumsy setup but oh well.
-    }
-
-    @Override
-    public double get(int... values) {
-        if (values.length != 2) {
-            throw new IllegalArgumentException("Wrong number of values passed to LatentWordByTopic.get(). It should be 2.");
+    public static double get(int d, int w, int z) {
+        int[] termIndices = LptaDocs.getDoc(d).getTermIndices();
+        int wIndex = -1;
+        for (int i = 0; i < termIndices.length; i++) {
+            if (termIndices[i] == w) {
+                wIndex = i;
+                break;
+            }
         }
-        int wordIndex = values[0];
-        int topicIndex = values[1];
-        return latentWordByTopic[wordIndex][topicIndex];
+        return wIndex != -1 ? latentWordByTopic[d][wIndex][z] : 0;
+    }
+
+    public static boolean hasConverged() {
+        return converges;
+    }
+
+    public static void clear() {
+        latentWordByTopic = null;
+        nTopics = 0;
+        converges = false;
     }
 }

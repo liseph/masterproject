@@ -1,83 +1,76 @@
 package edu.ntnu.app.psta;
 
+import edu.ntnu.app.Algorithm;
+
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
-public class TopicDistTL implements Variable {
+public class TopicDistTL {
 
-    private final int locationIndex;
-    private final int nTopics;
-    private final double[][] topicDistributionTL;
-    private VariableList latentWordByTopics;
-    private VariableList latentWordByTLs;
+    private static int nTopics;
+    private static double[][][] topicDistributionTL;
+    private static boolean converges;
 
-    public TopicDistTL(int nTopics, int locationIndex) {
-        this.nTopics = nTopics;
-        this.locationIndex = locationIndex;
-        this.topicDistributionTL = new double[PstaDocs.nTimeslots()][nTopics];
-        for (int i = 0; i < PstaDocs.nTimeslots(); i++) {
-            long SEED = Psta.seedGenerator.nextLong();
-            this.topicDistributionTL[i] = VariableList.generateRandomDistribution(nTopics, SEED);
-        }
-    }
-
-    public static VariableList generateEmptyTopicDist(int nTopics) {
-        Variable[] variables = new TopicDistTL[PstaDocs.nLocations()];
-        for (int i = 0; i < PstaDocs.nLocations(); i++) {
-            variables[i] = new TopicDistTL(nTopics, i);
-        }
-        return new VariableList(variables);
-    }
-
-    @Override
-    public boolean update() {
-        boolean converges = true;
-        for (int t = 0; t < PstaDocs.nTimeslots(); t++) {
-            int finalT = t; // To use in stream
-            double denominator = IntStream.range(0, nTopics).mapToDouble(z2 -> calcForAllTLDocsAndWords(z2, finalT, locationIndex)).sum();
-            for (int z = 0; z < nTopics; z++) {
-                double numerator = calcForAllTLDocsAndWords(z, t, locationIndex);
-                double oldVal = topicDistributionTL[t][z];
-                double newVal = denominator != 0 ? numerator / denominator : 0;
-                converges = converges && Math.abs(oldVal - newVal) < Psta.CONVERGES_LIM;
-                topicDistributionTL[t][z] = newVal;
+    public static void initialize(int nTopics_) {
+        nTopics = nTopics_;
+        converges = false;
+        topicDistributionTL = new double[PstaDocs.nLocations()][PstaDocs.nTimeslots()][];
+        for (int l = 0; l < PstaDocs.nLocations(); l++) {
+            for (int t = 0; t < PstaDocs.nTimeslots(); t++) {
+                topicDistributionTL[l][t] = Algorithm.generateRandomDistribution(nTopics);
             }
         }
-        return converges;
     }
 
-    private double baseCalc(int z, int d, int w) {
-        return PstaDocs.getWordCount(d, w) * latentWordByTopics.get(d).get(w, z) * (1 - latentWordByTLs.get(d).get(w, z));
+    public static void update() {
+        converges = true;
+        for (int l = 0; l < PstaDocs.nLocations(); l++) {
+            for (int t = 0; t < PstaDocs.nTimeslots(); t++) {
+                double[] numerator = new double[nTopics];
+                double denominator = 0;
+                for (int z = 0; z < nTopics; z++) {
+                    numerator[z] = calcForAllTLDocsAndWords(z, t, l);
+                    denominator += numerator[z];
+                }
+                double uniform = 1.0 / nTopics;
+                for (int z = 0; z < nTopics; z++) {
+                    numerator[z] = denominator != 0 ? numerator[z] / denominator : uniform;
+                    converges = converges && Math.abs(numerator[z] - topicDistributionTL[l][t][z]) < Psta.CONVERGES_LIM;
+                }
+                topicDistributionTL[l][t] = numerator;
+            }
+        }
     }
 
-    private double baseCalcForAllWords(int z, int d) {
+    private static double baseCalc(int z, int d, int w) {
+        return PstaDocs.getWordCount(d, w) * LatentWordByTopic.get(d, w, z) * (1 - LatentWordByTL.get(d, w, z));
+    }
+
+    private static double baseCalcForAllWords(int z, int d) {
         return Arrays.stream(PstaDocs.getDoc(d).getTermIndices()).mapToDouble(w -> baseCalc(z, d, w)).sum();
     }
 
-    private double calcForAllTLDocsAndWords(int z, int t, int l) {
+    private static double calcForAllTLDocsAndWords(int z, int t, int l) {
         return PstaDocs.getIndexOfDocsWithTL(t, l).mapToDouble(d -> baseCalcForAllWords(z, d)).sum();
     }
 
-    public void setVars(VariableList latentWordByTopic, VariableList latentWordByTL) {
-        this.latentWordByTopics = latentWordByTopic;
-        this.latentWordByTLs = latentWordByTL;
+    public static double get(int locIndex, int timeIndex, int topicIndex) {
+        return topicDistributionTL[locIndex][timeIndex][topicIndex];
     }
 
-    @Override
-    public double get(int... values) {
-        if (values.length != 2) {
-            throw new IllegalArgumentException("Wrong number of values passed to TopicDistTL.get(). It should be 2.");
-        }
-        int timeIndex = values[0];
-        int topicIndex = values[1];
-        return topicDistributionTL[timeIndex][topicIndex];
+    public static void clear() {
+        nTopics = 0;
+        topicDistributionTL = null;
+        converges = false;
+    }
+
+    public static boolean hasConverged() {
+        return converges;
     }
 
     @Override
     public String toString() {
         return "\np(z|t,l){" +
-                "l=" + locationIndex +
-                ", [t][z]=" + Arrays.deepToString(topicDistributionTL) +
+                ", [l][t][z]=" + Arrays.deepToString(topicDistributionTL) +
                 '}';
     }
 }

@@ -1,50 +1,45 @@
 package edu.ntnu.app.lpta;
 
-import java.util.Arrays;
-import java.util.stream.IntStream;
-
 public class LatentWordByTopics {
 
     private static double[][][] latentWordByTopics;
-    private static boolean hasConverged = false;
+    private static boolean converges;
     private static int nTopics;
 
     public static void initialize(int nPeriodicTopics) {
         nTopics = nPeriodicTopics + 1;
+        converges = false;
         latentWordByTopics = new double[LptaDocs.nDocuments()][][];
-        IntStream.range(0, LptaDocs.nDocuments()).forEach(d -> {
+        for (int d = 0; d < LptaDocs.nDocuments(); d++) {
             int termIndices = LptaDocs.getDoc(d).getTermIndices().length;
             latentWordByTopics[d] = new double[termIndices][nTopics];
-        });
+        }
     }
 
     public static boolean hasConverged() {
-        return hasConverged;
+        return converges;
     }
 
     public static void update() {
-        hasConverged = true;
-        IntStream.range(0, LptaDocs.nDocuments()).forEach(d -> {
+        converges = true;
+        for (int d = 0; d < LptaDocs.nDocuments(); d++) {
             int[] termIndices = LptaDocs.getDoc(d).getTermIndices();
-            IntStream.range(0, termIndices.length).forEach(wIndex -> {
+            for (int wIndex = 0; wIndex < termIndices.length; wIndex++) {
                 int w = termIndices[wIndex];
-                double[] numerator = IntStream.range(0, nTopics).mapToDouble(z -> calc(d, w, z)).toArray();
-                double denominator = Arrays.stream(numerator).sum();
-                double[] newVals;
-                if (denominator != 0)
-                    newVals = Arrays.stream(numerator).map(val -> val / denominator).toArray();
-                else {
-                    System.out.println("NaN LatentWordByTopics");
-                    newVals = IntStream.range(0, nTopics).mapToDouble(i -> ((double) i) / nTopics).toArray();
+                double[] numerator = new double[nTopics];
+                double denominator = 0;
+                for (int z = 0; z < nTopics; z++) {
+                    numerator[z] = calc(d, w, z);
+                    denominator += numerator[z];
                 }
-                if (hasConverged) {
-                    hasConverged = IntStream
-                            .range(0, nTopics)
-                            .allMatch(z -> Math.abs(newVals[z] - latentWordByTopics[d][wIndex][z]) < Lpta.CONVERGES_LIM);
+                double uniform = 1.0 / nTopics;
+                for (int z = 0; z < nTopics; z++) {
+                    numerator[z] = denominator != 0 ? numerator[z] / denominator : uniform;
+                    converges = Math.abs(numerator[z] - latentWordByTopics[d][wIndex][z]) < Lpta.CONVERGES_LIM;
                 }
-                latentWordByTopics[d][wIndex] = newVals;
-            });
-        });
+                latentWordByTopics[d][wIndex] = numerator;
+            }
+        }
     }
 
     private static double calc(int d, int w, int z) {
@@ -53,14 +48,19 @@ public class LatentWordByTopics {
 
     public static double get(int d, int w, int z) {
         int[] termIndices = LptaDocs.getDoc(d).getTermIndices();
-        int wIndex = IntStream.range(0, termIndices.length).filter(i -> termIndices[i] == w).findFirst().orElse(-1);
-        if (wIndex == -1) return 0;
-        return latentWordByTopics[d][wIndex][z];
+        int wIndex = -1;
+        for (int i = 0; i < termIndices.length; i++) {
+            if (termIndices[i] == w) {
+                wIndex = i;
+                break;
+            }
+        }
+        return wIndex != -1 ? latentWordByTopics[d][wIndex][z] : 0;
     }
 
     public static void clear() {
         latentWordByTopics = null;
-        hasConverged = false;
+        converges = false;
         nTopics = 0;
     }
 }

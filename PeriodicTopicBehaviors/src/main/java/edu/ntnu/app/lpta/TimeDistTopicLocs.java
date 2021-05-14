@@ -3,7 +3,6 @@ package edu.ntnu.app.lpta;
 import edu.ntnu.app.Document;
 
 import java.util.Arrays;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 public class TimeDistTopicLocs {
@@ -15,48 +14,62 @@ public class TimeDistTopicLocs {
     private static double[][] stdDeviations;
     private static double[] periods;
     private static double backgroundTopic;
-    private static boolean hasConverged = false;
+    private static boolean converges = false;
     private static int nPeriodicTopics;
 
     public static void initialize(int nPeriodicTops, double[] ps) {
         nPeriodicTopics = nPeriodicTops;
         periods = ps;
-        timeDistTopicLocs = new double[nPeriodicTopics][LptaDocs.nLocations()][LptaDocs.nTimeslots()];
+        timeDistTopicLocs = new double[LptaDocs.nLocations()][nPeriodicTopics][LptaDocs.nTimeslots()];
         means = new double[LptaDocs.nLocations()][nPeriodicTopics];
         stdDeviations = new double[LptaDocs.nLocations()][nPeriodicTopics];
         // Background topic is constant uniform, set only once here.
         backgroundTopic = 1.0 / LptaDocs.nTimeslots();
         // Set time distribution to uniform distribution, no need to set means and std deviations, they are updated later.
-        // double[] zs = IntStream.range(0, LptaDocs.nTimeslots()).mapToDouble(i -> 1.0 / LptaDocs.nTimeslots()).toArray();
-        IntStream.range(0, nPeriodicTopics).forEach(z -> {
-            IntStream.range(0, LptaDocs.nLocations()).forEach(l -> {
-                double[] zss = new Random().doubles(LptaDocs.nTimeslots(), 0, 1).toArray();
-                double sum = Arrays.stream(zss).sum();
-                double[] zs = Arrays.stream(zss).map(t -> t / sum).toArray();
-                timeDistTopicLocs[z][l] = zs;
-            });
-        });
+        double[] zs = new double[LptaDocs.nTimeslots()];
+        Arrays.fill(zs, 1.0 / LptaDocs.nTimeslots());
+        for (int z = 0; z < nPeriodicTops; z++) {
+            for (int l = 0; l < LptaDocs.nLocations(); l++) {
+//                double[] zss = new Random().doubles(LptaDocs.nTimeslots(), 0, 1).toArray();
+//                double sum = Arrays.stream(zss).sum();
+//                double[] zs = Arrays.stream(zss).map(t -> t / sum).toArray();
+                timeDistTopicLocs[l][z] = zs;
+            }
+        }
     }
 
     public static void update() {
-        updateMeans();
-        updateStdDeviations();
-        updateDist();
+        converges = true;
+        for (int l = 0; l < LptaDocs.nLocations(); l++) {
+            int[] docsInLoc = LptaDocs.getDocsInLoc(l);
+            for (int z = 0; z < nPeriodicTopics; z++) {
+                updateMeanAndStandardDeviation(docsInLoc, z, l);
+                updateDistribution(z, l);
+            }
+        }
     }
 
-    private static void updateDist() {
-        hasConverged = true;
-        IntStream.range(0, nPeriodicTopics).forEach(z -> {
-            IntStream.range(0, LptaDocs.nLocations()).forEach(l -> {
-                double[] newVal = IntStream.range(0, LptaDocs.nTimeslots()).mapToDouble(t -> calcPeriodic(z, l, t)).toArray();
-                if (hasConverged) {
-                    hasConverged = IntStream
-                            .range(0, LptaDocs.nTimeslots())
-                            .allMatch(t -> Math.abs(newVal[t] - timeDistTopicLocs[z][l][t]) < Lpta.CONVERGES_LIM);
-                }
-                timeDistTopicLocs[z][l] = newVal;
-            });
-        });
+    private static void updateMeanAndStandardDeviation(int[] docsInLoc, int z, int l) {
+        double meanN = 0;
+        double stdDevN = 0;
+        double denominator = 0;
+        for (int d : docsInLoc) {
+            double base = calcAllWords(d, z);
+            meanN += base * (LptaDocs.getDoc(d).getTimestamp() % (int) periods[z]);
+            stdDevN += base * sqr(LptaDocs.getDoc(d).getTimestamp() % (int) periods[z] - means[l][z]);
+            denominator += base;
+        }
+        means[l][z] = denominator != 0 ? meanN / denominator : 0;
+        stdDeviations[l][z] = denominator != 0 ? Math.sqrt(stdDevN / denominator) : 0;
+    }
+
+    private static void updateDistribution(int z, int l) {
+        double[] newVal = new double[LptaDocs.nTimeslots()];
+        for (int t = 0; t < LptaDocs.nTimeslots(); t++) {
+            newVal[t] = calcPeriodic(z, l, t);
+            converges = converges && Math.abs(newVal[t] - timeDistTopicLocs[l][z][t]) < Lpta.CONVERGES_LIM;
+        }
+        timeDistTopicLocs[l][z] = newVal;
     }
 
     private static double calcPeriodic(int z, int l, int t) {
@@ -67,44 +80,6 @@ public class TimeDistTopicLocs {
             return probK * LptaDocs.getDocsInLoc(l).length / LptaDocs.nDocuments(); // Too few samples to calculate a probability.
         double tVal = LptaDocs.getTimestamp(t);
         return probK * (NORMALIZE / stdDeviations[l][z]) * Math.exp(-sqr((tVal % p) - means[l][z]) / sqr(stdDeviations[l][z]));
-    }
-
-    private static void updateMeans() {
-        IntStream.range(0, LptaDocs.nLocations()).forEach(l -> {
-            int[] docsInLoc = LptaDocs.getDocsInLoc(l);
-            IntStream.range(0, nPeriodicTopics).forEach(z -> {
-                double[] base = Arrays.stream(docsInLoc).mapToDouble(d -> calcAllWords(d, z)).toArray();
-                double denominator = Arrays.stream(base).sum();
-                if (denominator != 0) {
-                    double numerator = IntStream
-                            .range(0, docsInLoc.length)
-                            .mapToDouble(d -> base[d] * (LptaDocs.getDoc(d).getTimestamp() % (int) periods[z]))
-                            .sum();
-                    means[l][z] = numerator / denominator;
-                } else {
-                    means[l][z] = 0;
-                }
-            });
-        });
-    }
-
-    private static void updateStdDeviations() {
-        IntStream.range(0, LptaDocs.nLocations()).forEach(l -> {
-            int[] docsInLoc = LptaDocs.getDocsInLoc(l);
-            IntStream.range(0, nPeriodicTopics).forEach(z -> {
-                double[] base = Arrays.stream(docsInLoc).mapToDouble(d -> calcAllWords(d, z)).toArray();
-                double denominator = Arrays.stream(base).sum();
-                if (denominator != 0) {
-                    double numerator = IntStream
-                            .range(0, docsInLoc.length)
-                            .mapToDouble(d -> base[d] * sqr(LptaDocs.getDoc(d).getTimestamp() % (int) periods[z] - means[l][z]))
-                            .sum();
-                    stdDeviations[l][z] = Math.sqrt(numerator / denominator);
-                } else {
-                    stdDeviations[l][z] = 0;
-                }
-            });
-        });
     }
 
     private static double calcAllWords(int d, int z) {
@@ -118,13 +93,13 @@ public class TimeDistTopicLocs {
     }
 
     public static boolean hasConverged() {
-        return hasConverged;
+        return converges;
     }
 
     public static double get(int z, int d) {
         if (z == nPeriodicTopics) return backgroundTopic;
         Document doc = LptaDocs.getDoc(d);
-        return timeDistTopicLocs[z][doc.getLocationId()][doc.getTimestampId()];
+        return timeDistTopicLocs[doc.getLocationId()][z][doc.getTimestampId()];
     }
 
     public static double getStdDeviation(int l, int z) {
@@ -142,7 +117,7 @@ public class TimeDistTopicLocs {
                 .range(0, LptaDocs.nTimeslots())
                 .mapToDouble(t -> Arrays
                         .stream(locationTrajectory)
-                        .mapToDouble(l -> timeDistTopicLocs[z][l][t])
+                        .mapToDouble(l -> timeDistTopicLocs[l][z][t])
                         .sum() / nLocs)
                 .toArray();
     }
@@ -153,7 +128,7 @@ public class TimeDistTopicLocs {
         stdDeviations = null;
         periods = null;
         backgroundTopic = 0;
-        hasConverged = false;
+        converges = false;
         nPeriodicTopics = 0;
     }
 }

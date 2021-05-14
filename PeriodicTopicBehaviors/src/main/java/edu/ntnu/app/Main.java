@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Main {
 
-    public static int nITERATIONS;
+    public static int nITERATIONS = 1;
 
     public static void main(String[] args) {
 
@@ -85,6 +85,6 @@ public class Main {
             System.out.println("Invalid algorithm value type, test value type, number of docs or number of iterations. Must be Integer.");
             e.printStackTrace();
         }
-
+        System.out.println("Finished!");
     }
 }

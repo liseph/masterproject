@@ -1,79 +1,85 @@
 package edu.ntnu.app.psta;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-public class Theme implements Variable {
+public class Theme {
 
-    private final double[] wordDistribution;
-    private final int id;
-    private VariableList latentWordByTopic;
+    private static double[][] wordDistribution;
+    private static int nTopics;
+    private static boolean converges;
 
-    public Theme(int id) {
-        this.id = id;
-        this.wordDistribution = IntStream.range(0, PstaDocs.nWords()).mapToDouble(w -> 1.0 / Main.nTOPICS).toArray();
-        // long SEED = Psta.seedGenerator.nextLong();
-        // this.wordDistribution = VariableList.generateRandomDistribution(PstaDocs.nWords(), SEED);
+    public static void initialize(int nTopics_) {
+        nTopics = nTopics_;
+        converges = false;
+        wordDistribution = new double[nTopics][PstaDocs.nWords()];
+        double[] init = new double[PstaDocs.nWords()];
+        Arrays.fill(init, 1.0 / PstaDocs.nWords());
+        for (int z = 0; z < nTopics; z++) {
+            wordDistribution[z] = init;
+        }
     }
 
-    public static VariableList generateEmptyThemes(int nTopics) {
-        Variable[] variables = new Theme[nTopics];
-        for (int i = 0; i < nTopics; i++) {
-            variables[i] = new Theme(i);
+    public static void update() {
+        converges = true;
+        for (int z = 0; z < nTopics; z++) {
+            double[] numerator = new double[PstaDocs.nWords()];
+            double denominator = 0;
+            for (int w = 0; w < PstaDocs.nWords(); w++) {
+                numerator[w] = baseCalcForAllDocs(w, z);
+                denominator += numerator[w];
+            }
+            double uniform = 1.0 / PstaDocs.nWords();
+            for (int w = 0; w < PstaDocs.nWords(); w++) {
+                numerator[w] = denominator != 0 ? numerator[w] / denominator : uniform;
+                converges = converges && Math.abs(numerator[w] - wordDistribution[z][w]) < Psta.CONVERGES_LIM;
+            }
+            wordDistribution[z] = numerator;
         }
-        return new VariableList(variables);
     }
 
-    @Override
-    public boolean update() {
-        boolean converges = true;
-        double denominator = IntStream.range(0, PstaDocs.nWords()).mapToDouble(this::baseCalcForAllDocs).sum();
-        for (int w = 0; w < PstaDocs.nWords(); w++) {
-            double numerator = baseCalcForAllDocs(w);
-            double oldVal = wordDistribution[w];
-            double newVal = denominator != 0 ? numerator / denominator : 0;
-            converges = converges && Math.abs(oldVal - newVal) < Psta.CONVERGES_LIM;
-            wordDistribution[w] = newVal;
-        }
+    private static double baseCalc(int d, int w, int z) {
+        return LatentWordByTopic.get(d, w, z) * PstaDocs.getWordCount(d, w);
+    }
+
+    private static double baseCalcForAllDocs(int w, int z) {
+        return PstaDocs.getIndexOfDocsWithWord(w).mapToDouble(d -> baseCalc(d, w, z)).sum();
+    }
+
+    public static double get(int topicIndex, int wordIndex) {
+        return wordDistribution[topicIndex][wordIndex];
+    }
+
+    public static void clear() {
+        wordDistribution = null;
+        nTopics = 0;
+        converges = false;
+    }
+
+    public static boolean hasConverged() {
         return converges;
     }
 
-    private double baseCalc(int d, int w) {
-        return latentWordByTopic.get(d).get(w, id) * PstaDocs.getWordCount(d, w);
-    }
-
-    private double baseCalcForAllDocs(int w) {
-        return PstaDocs.getIndexOfDocsWithWord(w).mapToDouble(d -> baseCalc(d, w)).sum();
-    }
-
-    public void setVars(VariableList latentWordByTopic, VariableList ignoreMe) {
-        this.latentWordByTopic = latentWordByTopic;
-    }
-
-    @Override
-    public double get(int... wordIndex) {
-        if (wordIndex.length != 1) {
-            throw new IllegalArgumentException("Wrong number of values passed to Theme.get(). It should be 1.");
+    public static String getAsString() {
+        StringBuilder builder = new StringBuilder();
+        for (int z = 0; z < nTopics; z++) {
+            Map<Double, String> wordDistributionMap = new TreeMap<>(Collections.reverseOrder());
+            for (int i = 0; i < PstaDocs.nWords(); i++) {
+                wordDistributionMap.put(wordDistribution[z][i], PstaDocs.getWord(i));
+            }
+            builder.append("p(w|z){z=");
+            builder.append(z);
+            builder.append(", [word:prob]=");
+            builder.append(mapToString(wordDistributionMap));
+            builder.append("}\n");
         }
-        return wordDistribution[wordIndex[0]];
+        return builder.toString();
     }
 
-    @Override
-    public String toString() {
-        Map<Double, String> wordDistributionMap = new TreeMap<>(Collections.reverseOrder());
-        for (int i = 0; i < PstaDocs.nWords(); i++) {
-            wordDistributionMap.put(wordDistribution[i], PstaDocs.getWord(i));
-        }
-        return "p(w|z){" +
-                "z=" + id +
-                ", [word:prob]=" + mapToString(wordDistributionMap) +
-                '}';
-    }
-
-    private String mapToString(Map<Double, String> map) {
+    private static String mapToString(Map<Double, String> map) {
         return map.entrySet().stream().limit(10)
                 .map(entry -> String.format("%s: %.4f", entry.getValue(), entry.getKey()))
                 .collect(Collectors.joining(", ", "{", "}"));

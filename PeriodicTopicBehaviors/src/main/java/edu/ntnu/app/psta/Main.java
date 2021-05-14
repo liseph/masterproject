@@ -4,19 +4,18 @@ import edu.ntnu.app.Algorithm;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Random;
 
 public class Main extends Algorithm {
 
-    private static final long INIT_SEED = 1000;
-    private final Random r = new Random();
+    private boolean converged;
     private PstaPattern[] patterns;
-    private PstaResult pattern;
 
     @Override
     protected void clearAll() {
+        converged = false;
         PstaDocs.clear();
         Psta.clearAll();
+        patterns = null;
     }
 
     @Override
@@ -29,25 +28,23 @@ public class Main extends Algorithm {
                 outRes.println(p);
             }
             outRes.println("THEMES:");
-            for (Variable theme : Psta.themes) {
-                outRes.println(theme);
-            }
+            outRes.println(Theme.getAsString());
         }
     }
 
     @Override
     protected void analyze() {
-        patterns = Psta.analyze(pattern);
+        patterns = Psta.analyze();
     }
 
     @Override
     protected boolean stop() {
-        return pattern == null;
+        return !converged;
     }
 
     @Override
-    protected void execute() throws IOException {
-        pattern = Psta.execute(nTOPICS, r.nextLong());
+    protected void execute() {
+        converged = Psta.execute(nTOPICS);
     }
 
     @Override

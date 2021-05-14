@@ -4,7 +4,6 @@ import edu.ntnu.app.autoperiod.FindPeriodsInTimeseries;
 import edu.ntnu.app.autoperiod.Timeseries;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class Psta {
 
@@ -13,42 +12,37 @@ public class Psta {
     public static final double LAMBDA_TL = 0.5; // Empirically, a suitable λTL for blog documents can be chosen between 0.5 and 0.7.
     public static final double CONVERGES_LIM = 1E-2;
     public static Random seedGenerator;
-
-    static VariableList themes;
-    static VariableList topicDistDocs;
-    static VariableList topicDistTLs;
+    private static int nTopics;
 
     static public void clearAll() {
         seedGenerator = null;
-        themes = null;
-        topicDistDocs = null;
-        topicDistTLs = null;
+        LatentWordByTopic.clear();
+        LatentWordByTL.clear();
+        Theme.clear();
+        TopicDistDoc.clear();
+        TopicDistTL.clear();
     }
 
-    static public PstaResult execute(int nTopics, long seed) {
+    static public boolean execute(int nTopics, long seed) {
         seedGenerator = new Random(seed);
         return execute_(nTopics);
     }
 
-    static public PstaResult execute(int nTopics) {
+    static public boolean execute(int nTopics) {
         seedGenerator = new Random();
         return execute_(nTopics);
     }
 
-    static private PstaResult execute_(int nTopics) {
+    static private boolean execute_(int nTopics_) {
+        nTopics = nTopics_;
         // Unknown values
-        themes = Theme.generateEmptyThemes(nTopics);
-        topicDistDocs = TopicDistDoc.generateEmptyTopicDist(nTopics);
-        topicDistTLs = TopicDistTL.generateEmptyTopicDist(nTopics);
+        Theme.initialize(nTopics);
+        TopicDistDoc.initialize(nTopics);
+        TopicDistTL.initialize(nTopics);
 
         // Latent variables
-        VariableList latentWordByTopic = LatentWordByTopic.generateEmptyTopicDist(themes, topicDistDocs, topicDistTLs);
-        VariableList latentWordByTL = LatentWordByTL.generateEmptyTopicDist(themes, topicDistDocs, topicDistTLs);
-
-        // Connect the unknown variables and the latent variables to they can use each other to update themselves
-        themes.setVars(latentWordByTopic, latentWordByTL);
-        topicDistDocs.setVars(latentWordByTopic, latentWordByTL);
-        topicDistTLs.setVars(latentWordByTopic, latentWordByTL);
+        LatentWordByTopic.initialize(nTopics);
+        LatentWordByTL.initialize(nTopics);
 
         boolean converged = false;
         System.out.println("START");
@@ -56,25 +50,25 @@ public class Psta {
             long startTime = System.nanoTime();
 
             // E-step
-            latentWordByTopic.updateAll();
-            boolean b1 = latentWordByTopic.hasConverged();
+            LatentWordByTopic.update();
+            boolean b1 = LatentWordByTopic.hasConverged();
             long t1 = (System.nanoTime() - startTime) / 1000000;
 
-            latentWordByTL.updateAll();
-            boolean b2 = latentWordByTL.hasConverged();
+            LatentWordByTL.update();
+            boolean b2 = LatentWordByTL.hasConverged();
             long t2 = (System.nanoTime() - startTime) / 1000000 - t1;
 
             // M-step
-            themes.updateAll();
-            boolean b3 = themes.hasConverged();
+            Theme.update();
+            boolean b3 = Theme.hasConverged();
             long t3 = (System.nanoTime() - startTime) / 1000000 - t2;
 
-            topicDistDocs.updateAll();
-            boolean b4 = topicDistDocs.hasConverged();
+            TopicDistDoc.update();
+            boolean b4 = TopicDistDoc.hasConverged();
             long t4 = (System.nanoTime() - startTime) / 1000000 - t3;
 
-            topicDistTLs.updateAll();
-            boolean b5 = topicDistTLs.hasConverged();
+            TopicDistTL.update();
+            boolean b5 = TopicDistTL.hasConverged();
             long t5 = (System.nanoTime() - startTime) / 1000000 - t4;
 
             if (i % 10 == 0) {
@@ -90,22 +84,23 @@ public class Psta {
             }
         }
         System.out.println(converged);
-
-        return converged ? new PstaResult(themes, topicDistDocs, topicDistTLs) : null;
+        return converged;
     }
 
     // NOTE: The time series periodicity detection algorithm expects a regularly sampled time series.
-    static public PstaPattern[] analyze(PstaResult pattern) {
+    static public PstaPattern[] analyze() {
         Map<Integer, Map<Double, PstaPattern>> patterns = new HashMap<>();
-        IntStream.range(0, PstaDocs.nLocations()).forEach(l -> {
-            TopicDistTL topicDistTL = (TopicDistTL) pattern.getTopicDistTLs().get(l);
-            IntStream.range(0, pattern.nTopics()).forEach(z -> {
-                double[] themeLifeCycle = IntStream
-                        .range(0, PstaDocs.nTimeslots())
-                        .mapToDouble(t -> calc(topicDistTL, t, l, z))
-                        .toArray();
-                double denominator = Arrays.stream(themeLifeCycle).sum();
-                themeLifeCycle = Arrays.stream(themeLifeCycle).map(p -> p / denominator).toArray();
+        for (int l = 0; l < PstaDocs.nLocations(); l++) {
+            for (int z = 0; z < nTopics; z++) {
+                double[] themeLifeCycle = new double[PstaDocs.nTimeslots()];
+                double denominator = 0;
+                for (int t = 0; t < PstaDocs.nTimeslots(); t++) {
+                    themeLifeCycle[t] = calc(t, l, z);
+                    denominator += themeLifeCycle[t];
+                }
+                for (int t = 0; t < PstaDocs.nTimeslots(); t++) {
+                    themeLifeCycle[t] = themeLifeCycle[t] / denominator;
+                }
                 double[] periods = FindPeriodsInTimeseries.execute(new Timeseries(themeLifeCycle, 1));
                 if (periods.length > 0) {
                     double[] offsets = findOffsetsFromPeaks(themeLifeCycle, periods);
@@ -117,8 +112,8 @@ public class Psta {
                         patterns.get(z).get(p).addLocation(l, offsets[pid]);
                     }
                 }
-            });
-        });
+            }
+        }
         return patterns.values().stream().flatMap(m -> m.values().stream()).toArray(PstaPattern[]::new);
     }
 
@@ -157,7 +152,7 @@ public class Psta {
         return result;
     }
 
-    static private double calc(Variable topicDistTL, int t, int l, int z) {
-        return topicDistTL.get(t, z) * PstaDocs.getSumWordCount(t, l) / PstaDocs.getSumWordCount();
+    static private double calc(int t, int l, int z) {
+        return TopicDistTL.get(l, t, z) * PstaDocs.getSumWordCount(t, l) / PstaDocs.getSumWordCount();
     }
 }

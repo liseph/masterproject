@@ -42,6 +42,7 @@ graphs/
 *.txt
 *.csv
 *.gz
+*.ods
 .ipynb_checkpoints/
 GeoTwitterFilter/
 GeoTwitter/

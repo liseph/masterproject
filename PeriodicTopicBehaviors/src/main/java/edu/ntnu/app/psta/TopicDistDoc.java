@@ -1,71 +1,75 @@
 package edu.ntnu.app.psta;
 
+import edu.ntnu.app.Algorithm;
+
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class TopicDistDoc implements Variable {
+public class TopicDistDoc {
 
-    private final int docIndex;
-    private final double[] topicDistributionDoc;
-    private final int nTopics;
-    private VariableList latentWordByTopic;
-    private VariableList latentWordByTL;
+    private static double[][] topicDistributionDoc;
+    private static int nTopics;
+    private static boolean converges;
 
-    public TopicDistDoc(int nTopics, int docIndex) {
-        this.nTopics = nTopics;
-        this.docIndex = docIndex;
-        long SEED = Psta.seedGenerator.nextLong();
-        this.topicDistributionDoc = VariableList.generateRandomDistribution(nTopics, SEED);
-    }
-
-    public static VariableList generateEmptyTopicDist(int nTopics) {
-        Variable[] variables = new TopicDistDoc[PstaDocs.nDocuments()];
+    public static void initialize(int nTopics_) {
+        nTopics = nTopics_;
+        converges = false;
+        topicDistributionDoc = new double[PstaDocs.nDocuments()][];
         for (int i = 0; i < PstaDocs.nDocuments(); i++) {
-            variables[i] = new TopicDistDoc(nTopics, i);
+            topicDistributionDoc[i] = Algorithm.generateRandomDistribution(nTopics);
         }
-        return new VariableList(variables);
     }
 
-    @Override
-    public boolean update() {
-        boolean converges = true;
-        double denominator = IntStream.range(0, nTopics).mapToDouble(z2 -> baseCalcForAllWords(z2, docIndex)).sum();
-        for (int z = 0; z < nTopics; z++) {
-            double numerator = baseCalcForAllWords(z, docIndex);
-            double oldVal = topicDistributionDoc[z];
-            double newVal = denominator != 0 ? numerator / denominator : 0;
-            converges = converges && Math.abs(oldVal - newVal) < Psta.CONVERGES_LIM;
-            topicDistributionDoc[z] = newVal;
+    public static void update() {
+        converges = true;
+        for (int d = 0; d < PstaDocs.nDocuments(); d++) {
+            double[] numerator = new double[nTopics];
+            double denominator = 0;
+            for (int z = 0; z < nTopics; z++) {
+                numerator[z] = baseCalcForAllWords(z, d);
+                denominator += numerator[z];
+            }
+            double uniform = 1.0 / nTopics;
+            for (int z = 0; z < nTopics; z++) {
+                numerator[z] = denominator != 0 ? numerator[z] / denominator : uniform;
+                converges = converges && Math.abs(numerator[z] - topicDistributionDoc[d][z]) < Psta.CONVERGES_LIM;
+            }
+            topicDistributionDoc[d] = numerator;
         }
-        return converges;
     }
 
-    private double baseCalc(int z, int d, int w) {
-        return PstaDocs.getWordCount(d, w) * latentWordByTopic.get(d).get(w, z) * (1 - latentWordByTL.get(d).get(w, z));
+    private static double baseCalc(int z, int d, int w) {
+        return PstaDocs.getWordCount(d, w) * LatentWordByTopic.get(d, w, z) * (1 - LatentWordByTL.get(d, w, z));
     }
 
-    private double baseCalcForAllWords(int z, int d) {
+    private static double baseCalcForAllWords(int z, int d) {
         return Arrays.stream(PstaDocs.getDoc(d).getTermIndices()).mapToDouble(w -> baseCalc(z, d, w)).sum();
     }
 
-    public void setVars(VariableList latentWordByTopic, VariableList latentWordByTL) {
-        this.latentWordByTopic = latentWordByTopic;
-        this.latentWordByTL = latentWordByTL;
+    public static double get(int docIndex, int topicIndex) {
+        return topicDistributionDoc[docIndex][topicIndex];
     }
 
-    @Override
-    public double get(int... topicIndex) {
-        if (topicIndex.length != 1) {
-            throw new IllegalArgumentException("Wrong number of values passed to TopicDistDoc.get(). It should be 1.");
-        }
-        return topicDistributionDoc[topicIndex[0]];
+    public static void clear() {
+        topicDistributionDoc = null;
+        nTopics = 0;
+        converges = false;
+    }
+
+    public static boolean hasConverged() {
+        return converges;
     }
 
     @Override
     public String toString() {
-        return "\np(z|d){" +
-                "d=" + docIndex +
-                ", [z]=" + Arrays.toString(topicDistributionDoc) +
-                '}';
+        StringBuilder builder = new StringBuilder();
+        IntStream.range(0, PstaDocs.nDocuments()).forEach(d -> {
+            builder.append("p(z|d){d=");
+            builder.append(d);
+            builder.append(", [z]=");
+            builder.append(Arrays.toString(topicDistributionDoc));
+            builder.append("}\n");
+        });
+        return builder.toString();
     }
 }

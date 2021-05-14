@@ -1,69 +1,48 @@
 package edu.ntnu.app.psta;
 
-import java.util.Arrays;
+public class LatentWordByTL {
 
-public class LatentWordByTL implements Variable {
+    private static double[][] latentWordByTL;
+    private static int nTopics;
+    private static boolean converges;
 
-    private final double[][] latentWordByTL;
-    private final VariableList topics;
-    private final VariableList topicDistDocs;
-    private final VariableList topicDistTLs;
-    private final int docIndex;
-
-    public LatentWordByTL(VariableList topics, VariableList topicDistDocs, VariableList topicDistTLs, int docIndex) {
-        this.topics = topics;
-        this.topicDistDocs = topicDistDocs;
-        this.topicDistTLs = topicDistTLs;
-        this.docIndex = docIndex;
-        this.latentWordByTL = new double[PstaDocs.nWords()][topics.length()];
-        for (int i = 0; i < PstaDocs.nWords(); i++) {
-            // No need for initial values as we update the latent variables first. Must set to 0 as default is null...
-            this.latentWordByTL[i] = new double[topics.length()];
-            Arrays.fill(this.latentWordByTL[i], 0f);
-        }
+    public static void initialize(int nTopics_) {
+        nTopics = nTopics_;
+        converges = false;
+        latentWordByTL = new double[PstaDocs.nDocuments()][nTopics];
     }
 
-    public static VariableList generateEmptyTopicDist(VariableList themes, VariableList topicDistDocs, VariableList topicDistTLs) {
-        Variable[] variables = new LatentWordByTL[PstaDocs.nDocuments()];
-        for (int i = 0; i < PstaDocs.nDocuments(); i++) {
-            variables[i] = new LatentWordByTL(themes, topicDistDocs, topicDistTLs, i);
-        }
-        return new VariableList(variables);
-    }
-
-    @Override
-    public boolean update() {
-        boolean converges = true;
-        for (int z = 0; z < topics.length(); z++) {
-            for (int w = 0; w < PstaDocs.nWords(); w++) {
-                // The first part, p(w|z), is not a part of the paper, but w is not included at all in the formula..
-                // If I include it however, it does not converge...
-                //double numerator = topics.get(z).get(w) * PSTA.LAMBDA_TL * topicDistTLs
-                double numerator = Psta.LAMBDA_TL * topicDistTLs
-                        .get(PstaDocs.getDoc(docIndex).getLocationId())
-                        .get(PstaDocs.getDoc(docIndex).getTimestampId(), z);
-                double denominator = (1 - Psta.LAMBDA_TL) * topicDistDocs.get(docIndex).get(z) + numerator;
-                double oldVal = latentWordByTL[w][z];
-                double newVal = denominator != 0 ? numerator / denominator : 0;
-                converges = converges && Math.abs(oldVal - newVal) < Psta.CONVERGES_LIM;
-                latentWordByTL[w][z] = newVal;
-            }
-        }
+    public static boolean hasConverged() {
         return converges;
     }
 
-    @Override
-    public void setVars(VariableList p1, VariableList p2) {
-        // Do nothing, it's a bit clumsy setup but oh well.
+    public static void update() {
+        converges = true;
+        for (int d = 0; d < PstaDocs.nDocuments(); d++) {
+            for (int z = 0; z < nTopics; z++) {
+                double numerator = calc(z, d);
+                double denominator = ((1 - Psta.LAMBDA_TL) * TopicDistDoc.get(d, z) + numerator);
+                double newVal = denominator != 0 ? numerator / denominator : 0;
+                for (int w = 0; w < PstaDocs.nWords(); w++) {
+                    converges = converges && Math.abs(newVal - latentWordByTL[d][z]) < Psta.CONVERGES_LIM;
+                    latentWordByTL[d][z] = newVal;
+                }
+            }
+        }
     }
 
-    @Override
-    public double get(int... values) {
-        if (values.length != 2) {
-            throw new IllegalArgumentException("Wrong number of values passed to LatentWordByTopic.get(). It should be 2.");
-        }
-        int wordIndex = values[0];
-        int topicIndex = values[1];
-        return latentWordByTL[wordIndex][topicIndex];
+    private static double calc(int z, int d) {
+        return Psta.LAMBDA_TL * TopicDistTL
+                .get(PstaDocs.getDoc(d).getLocationId(), PstaDocs.getDoc(d).getTimestampId(), z);
+    }
+
+    public static double get(int docIndex, int wordIndex, int topicIndex) {
+        return latentWordByTL[docIndex][topicIndex];
+    }
+
+    public static void clear() {
+        latentWordByTL = null;
+        nTopics = 0;
+        converges = false;
     }
 }

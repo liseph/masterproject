@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Random;
 
 import static edu.ntnu.app.Main.nITERATIONS;
 
@@ -15,9 +16,15 @@ public abstract class Algorithm {
     protected String outPath;
     protected int nDocs;
 
+    public static double[] generateRandomDistribution(int length) {
+        double[] d = new Random().doubles(length, 0, 1).toArray();
+        double total = Arrays.stream(d).sum();
+        return Arrays.stream(d).map(v -> v / total).toArray();
+    }
+
     public void run(int nDocs, String inPath, String outPath, double docShare) throws IOException {
         Docs.setDocShare(docShare);
-        filePathHead = filePathHead + "ndoc_" + (nDocs*docShare) + "_";
+        filePathHead = filePathHead + "ndoc_" + (nDocs * docShare) + "_";
         run(nDocs, inPath, outPath);
     }
 
@@ -50,8 +57,8 @@ public abstract class Algorithm {
         Long[] sum = new Long[nITERATIONS];
 
         for (int i = 0; i < nITERATIONS; i++) {
-            System.out.format("------------------\nIteration %d\n------------------\n", i);
-            outRes.format("------------------\nIteration %d\n------------------\n", i);
+            System.out.format("------------------\nIteration %d\n------------------\n", i + 1);
+            outRes.format("------------------\nIteration %d\n------------------\n", i + 1);
 
             System.out.println("Initializing...");
             long startInit = System.nanoTime();
@@ -83,6 +90,7 @@ public abstract class Algorithm {
 
             printResults(outRes);
             clearAll();
+            System.out.format("Finished iteration %d / %d.\n", i + 1, nITERATIONS);
         }
 
         outTime.format("Init: %s\n", Arrays.toString(init));

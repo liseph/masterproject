@@ -23,8 +23,8 @@ public class PeriodicaResult {
                 ", #clusters=" + segments.size() +
                 ", movement=" + Arrays.toString(
                 segments.stream().map(SegmentCluster::getLocationTrajectory).toArray()) +
-                ", distMatrices=" + Arrays.toString(
-                segments.stream().map(seg -> Arrays.toString(Arrays.stream(seg.getDistMatrix()).map(Arrays::toString).toArray())).toArray()) +
+                //", distMatrices=" + Arrays.toString(
+                //segments.stream().map(seg -> Arrays.toString(Arrays.stream(seg.getDistMatrix()).map(Arrays::toString).toArray())).toArray()) +
                 ", segments=" + getSegmentIds(segments) +
                 "}";
     }

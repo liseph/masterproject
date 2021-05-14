@@ -1,40 +1,42 @@
 package edu.ntnu.app.lpta;
-
 import java.util.Arrays;
-import java.util.Random;
-import java.util.stream.IntStream;
 
 public class TopicDistDocs {
 
     private static double[][] topicDistDoc;
     private static int nTopics;
-    private static boolean hasConverged = false;
+    private static boolean converges = false;
 
     public static void initialize(int nPeriodicTopics) {
         nTopics = nPeriodicTopics + 1;
         topicDistDoc = new double[LptaDocs.nDocuments()][nTopics];
         // double[] zs = IntStream.range(0, nTopics).mapToDouble(i -> 1.0 / nTopics).toArray();
-        IntStream.range(0, LptaDocs.nDocuments()).forEach(d -> {
-            double[] zss = new Random().doubles(nTopics, 0, 1).toArray();
-            double sum = Arrays.stream(zss).sum();
-            double[] zs = Arrays.stream(zss).map(z -> z / sum).toArray();
+        double[] zs = new double[nTopics];
+        Arrays.fill(zs, 1.0 / nTopics);
+        for (int d = 0; d < LptaDocs.nDocuments(); d++) {
+//            double[] zss = new Random().doubles(nTopics, 0, 1).toArray();
+//            double sum = Arrays.stream(zss).sum();
+//            double[] zs = Arrays.stream(zss).map(z -> z / sum).toArray();
             topicDistDoc[d] = zs;
-        });
-
+        }
     }
 
     public static void update() {
-        hasConverged = true;
-        IntStream.range(0, LptaDocs.nDocuments()).forEach(d -> {
-            double[] numerator = IntStream.range(0, nTopics).mapToDouble(z -> calcAllWords(d, z)).toArray();
-            double denominator = Arrays.stream(numerator).sum();
-            if (denominator == 0) System.out.println("NaN TopicDistDocs");
-            double[] newVals = Arrays.stream(numerator).map(val -> val / denominator).toArray();
-            hasConverged = hasConverged && IntStream
-                    .range(0, nTopics)
-                    .allMatch(z -> Math.abs(newVals[z] - topicDistDoc[d][z]) < Lpta.CONVERGES_LIM);
-            topicDistDoc[d] = newVals;
-        });
+        converges = true;
+        for (int d = 0; d < LptaDocs.nDocuments(); d++) {
+            double[] numerator = new double[nTopics];
+            double denominator = 0;
+            for (int z = 0; z < nTopics; z++) {
+                numerator[z] = calcAllWords(d, z);
+                denominator += numerator[z];
+            }
+            double uniform = 1.0 / nTopics;
+            for (int z = 0; z < nTopics; z++) {
+                numerator[z] = denominator != 0 ? numerator[z] / denominator : uniform;
+                converges = converges && Math.abs(numerator[z] - topicDistDoc[d][z]) < Lpta.CONVERGES_LIM;
+            }
+            topicDistDoc[d] = numerator;
+        }
     }
 
     private static double calcAllWords(int d, int z) {
@@ -46,7 +48,7 @@ public class TopicDistDocs {
     }
 
     public static boolean hasConverged() {
-        return hasConverged;
+        return converges;
     }
 
     public static double[][] getDistribution() {
@@ -58,5 +60,8 @@ public class TopicDistDocs {
     }
 
     public static void clear() {
+        topicDistDoc = null;
+        nTopics = 0;
+        converges = false;
     }
 }
