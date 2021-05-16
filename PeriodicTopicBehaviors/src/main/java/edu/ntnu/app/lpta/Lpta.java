@@ -18,7 +18,7 @@ public class Lpta {
 
         boolean converged = false;
         System.out.println("START EM ALGORITHM");
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 2000; i++) {
             long startTime = System.nanoTime();
 
             // E-step
