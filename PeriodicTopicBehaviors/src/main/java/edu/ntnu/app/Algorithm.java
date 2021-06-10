@@ -53,13 +53,12 @@ public abstract class Algorithm {
         Long[] init = new Long[nITERATIONS];
         Long[] execute = new Long[nITERATIONS];
         Long[] analyze = new Long[nITERATIONS];
-        Long[] runtime = new Long[nITERATIONS];
         Long[] sum = new Long[nITERATIONS];
 
         for (int i = 0; i < nITERATIONS; i++) {
             System.out.format("------------------\nIteration %d\n------------------\n", i + 1);
             outRes.format("------------------\nIteration %d\n------------------\n", i + 1);
-
+            outTime.format("------------------\nIteration %d\n------------------\n", i + 1);
             System.out.println("Initializing...");
             long startInit = System.nanoTime();
             initialize();
@@ -71,10 +70,16 @@ public abstract class Algorithm {
             long midAlg = System.nanoTime();
 
             if (stop()) {
-                execute[i] = null;
+                System.out.println("Stopping due to convergence failure...");
+                execute[i] = midAlg - startAlg;
                 analyze[i] = null;
-                sum[i] = null;
+                sum[i] = init[i] + execute[i];
                 outRes.println("NO RESULTS");
+                outTime.format("[Init, execute, analyze, sum] = [%d, %d, %d, %d]\n", init[i], execute[i], analyze[i], sum[i]);
+                outTime.flush();
+                outRes.flush();
+                clearAll();
+                System.out.format("Finished iteration %d / %d.\n", i + 1, nITERATIONS);
                 continue;
             }
 
@@ -85,24 +90,26 @@ public abstract class Algorithm {
             init[i] = endInit - startInit;
             execute[i] = midAlg - startAlg;
             analyze[i] = endAlg - midAlg;
-            runtime[i] = execute[i] + analyze[i];
             sum[i] = init[i] + execute[i] + analyze[i];
 
             printResults(outRes);
+            outTime.format("[Init, execute, analyze, sum] = [%d, %d, %d, %d]\n", init[i], execute[i], analyze[i], sum[i]);
+            outTime.flush();
+            outRes.flush();
             clearAll();
             System.out.format("Finished iteration %d / %d.\n", i + 1, nITERATIONS);
         }
 
-        outTime.format("Init: %s\n", Arrays.toString(init));
-        outTime.format("Execute: %s\n", Arrays.toString(execute));
-        outTime.format("Analyze: %s\n", Arrays.toString(analyze));
-        outTime.format("Execute + Analyze: %s\n", Arrays.toString(runtime));
-        outTime.format("Total: %s\n", Arrays.toString(sum));
+        outTime.format("Init = %s\n", Arrays.toString(init));
+        outTime.format("Execute = %s\n", Arrays.toString(execute));
+        outTime.format("Analyze = %s\n", Arrays.toString(analyze));
+        outTime.format("Total = %s\n", Arrays.toString(sum));
 
         outTime.close();
         outRes.close();
         nTOPICS = 2;
         filePathHead = "./out/";
+        Docs.setDocShare(1.0);
     }
 
     protected abstract void clearAll();

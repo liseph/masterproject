@@ -129,6 +129,5 @@ public class Docs {
         locations = null;
         timestamps = null;
         vocabulary = null;
-        docShare = 1.0;
     }
 }

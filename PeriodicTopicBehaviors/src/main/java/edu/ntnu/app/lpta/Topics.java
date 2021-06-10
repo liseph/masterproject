@@ -16,9 +16,6 @@ public class Topics {
         double[] zs = new double[LptaDocs.nWords()];
         Arrays.fill(zs, 1.0 / LptaDocs.nWords());
         for (int z = 0; z < nTopics; z++) {
-//            double[] zss = new Random().doubles(LptaDocs.nWords(), 0, 1).toArray();
-//            double sum = Arrays.stream(zss).sum();
-//            double[] zs = Arrays.stream(zss).map(t -> t / sum).toArray();
             topics[z] = zs;
         }
     }

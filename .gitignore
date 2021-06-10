@@ -39,7 +39,7 @@ out/
 ##############################
 datasets/
 graphs/
-*.txt
+notes/
 *.csv
 *.gz
 *.ods

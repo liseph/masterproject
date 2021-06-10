@@ -1,0 +1,107 @@
+------------------
+Iteration 1
+------------------
+RESULTS:
+PstaPattern{period=8.0, themeIndex=0, abs offset=38.0, locationTrajectory=[(loc:Buenos Aires, AR, offset=6.0)]}
+PstaPattern{period=3.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:Hamburg, DE, offset=0.0), (loc:Calabarzon, PH, offset=1.0), (loc:Ontario, CA, offset=2.0)]}
+PstaPattern{period=7.0, themeIndex=0, abs offset=0.0, locationTrajectory=[(loc:Vichada, CO, offset=0.0), (loc:Hamburg, DE, offset=1.0)]}
+PstaPattern{period=15.0, themeIndex=0, abs offset=4.0, locationTrajectory=[(loc:Calabarzon, PH, offset=4.0), (loc:Buenos Aires, AR, offset=6.0), (loc:Ontario, CA, offset=11.0)]}
+PstaPattern{period=146.0, themeIndex=1, abs offset=119.0, locationTrajectory=[(loc:NCT, IN, offset=119.0)]}
+PstaPattern{period=79.0, themeIndex=1, abs offset=115.0, locationTrajectory=[(loc:Metro Manila, PH, offset=36.0)]}
+PstaPattern{period=5.0, themeIndex=1, abs offset=127.0, locationTrajectory=[(loc:Central Visayas, PH, offset=2.0)]}
+PstaPattern{period=170.0, themeIndex=1, abs offset=123.0, locationTrajectory=[(loc:NCT, IN, offset=123.0)]}
+PstaPattern{period=172.0, themeIndex=1, abs offset=140.0, locationTrajectory=[(loc:Arizona, US, offset=140.0)]}
+PstaPattern{period=85.0, themeIndex=1, abs offset=115.0, locationTrajectory=[(loc:Metro Manila, PH, offset=30.0)]}
+PstaPattern{period=203.0, themeIndex=1, abs offset=156.0, locationTrajectory=[(loc:Zamboanga Peninsula, PH, offset=156.0)]}
+PstaPattern{period=13.0, themeIndex=1, abs offset=63.0, locationTrajectory=[(loc:Madeira, PT, offset=11.0)]}
+PstaPattern{period=56.0, themeIndex=1, abs offset=90.0, locationTrajectory=[(loc:Ontario, CA, offset=34.0)]}
+PstaPattern{period=113.0, themeIndex=1, abs offset=83.0, locationTrajectory=[(loc:Arizona, US, offset=83.0)]}
+PstaPattern{period=127.0, themeIndex=1, abs offset=5.0, locationTrajectory=[(loc:Central Visayas, PH, offset=5.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={parmesan: 0.0828, food: 0.0801, win: 0.0735, italian: 0.0553, lets: 0.0523, goal: 0.0500, kick: 0.0496, sports: 0.0493, life: 0.0482, football: 0.0471}}
+p(w|z){z=1, [word:prob]={great: 0.0077, know: 0.0056, fit: 0.0054, interested: 0.0041, getting: 0.0040, driver: 0.0040, class: 0.0039, hospitality: 0.0037, lol: 0.0037, team: 0.0037}}
+
+------------------
+Iteration 2
+------------------
+RESULTS:
+PstaPattern{period=2.0, themeIndex=0, abs offset=129.0, locationTrajectory=[(loc:California, US, offset=1.0)]}
+PstaPattern{period=8.0, themeIndex=0, abs offset=43.0, locationTrajectory=[(loc:Buenos Aires, AR, offset=3.0), (loc:Ontario, CA, offset=6.0)]}
+PstaPattern{period=4.0, themeIndex=0, abs offset=86.0, locationTrajectory=[(loc:Ontario, CA, offset=2.0)]}
+PstaPattern{period=3.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:Buenos Aires, AR, offset=0.0), (loc:Calabarzon, PH, offset=1.0)]}
+PstaPattern{period=195.0, themeIndex=0, abs offset=152.0, locationTrajectory=[(loc:Dhaka, BD, offset=152.0)]}
+PstaPattern{period=203.0, themeIndex=0, abs offset=87.0, locationTrajectory=[(loc:California, US, offset=87.0)]}
+PstaPattern{period=7.0, themeIndex=0, abs offset=0.0, locationTrajectory=[(loc:Vichada, CO, offset=0.0), (loc:Hamburg, DE, offset=1.0)]}
+PstaPattern{period=15.0, themeIndex=0, abs offset=4.0, locationTrajectory=[(loc:Calabarzon, PH, offset=4.0), (loc:Buenos Aires, AR, offset=6.0), (loc:Ontario, CA, offset=11.0)]}
+PstaPattern{period=128.0, themeIndex=1, abs offset=7.0, locationTrajectory=[(loc:Central Visayas, PH, offset=7.0)]}
+PstaPattern{period=129.0, themeIndex=1, abs offset=164.0, locationTrajectory=[(loc:NCT, IN, offset=35.0)]}
+PstaPattern{period=9.0, themeIndex=1, abs offset=126.0, locationTrajectory=[(loc:Central Visayas, PH, offset=0.0)]}
+PstaPattern{period=147.0, themeIndex=1, abs offset=118.0, locationTrajectory=[(loc:NCT, IN, offset=118.0)]}
+PstaPattern{period=144.0, themeIndex=1, abs offset=93.0, locationTrajectory=[(loc:Mato Grosso, BR, offset=93.0)]}
+PstaPattern{period=172.0, themeIndex=1, abs offset=140.0, locationTrajectory=[(loc:Arizona, US, offset=140.0)]}
+PstaPattern{period=48.0, themeIndex=1, abs offset=116.0, locationTrajectory=[(loc:NCT, IN, offset=20.0)]}
+PstaPattern{period=206.0, themeIndex=1, abs offset=114.0, locationTrajectory=[(loc:NCT, IN, offset=114.0)]}
+PstaPattern{period=50.0, themeIndex=1, abs offset=114.0, locationTrajectory=[(loc:NCT, IN, offset=14.0)]}
+PstaPattern{period=57.0, themeIndex=1, abs offset=107.0, locationTrajectory=[(loc:NCT, IN, offset=50.0)]}
+PstaPattern{period=73.0, themeIndex=1, abs offset=134.0, locationTrajectory=[(loc:Metro Manila, PH, offset=61.0)]}
+PstaPattern{period=78.0, themeIndex=1, abs offset=114.0, locationTrajectory=[(loc:Metro Manila, PH, offset=36.0)]}
+PstaPattern{period=86.0, themeIndex=1, abs offset=114.0, locationTrajectory=[(loc:Metro Manila, PH, offset=28.0)]}
+PstaPattern{period=93.0, themeIndex=1, abs offset=107.0, locationTrajectory=[(loc:Metro Manila, PH, offset=14.0)]}
+PstaPattern{period=102.0, themeIndex=1, abs offset=79.0, locationTrajectory=[(loc:Arizona, US, offset=79.0)]}
+PstaPattern{period=114.0, themeIndex=1, abs offset=79.0, locationTrajectory=[(loc:Arizona, US, offset=79.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={parmesan: 0.0836, food: 0.0816, win: 0.0751, italian: 0.0554, lets: 0.0518, goal: 0.0515, kick: 0.0511, sports: 0.0493, life: 0.0485, football: 0.0480}}
+p(w|z){z=1, [word:prob]={right: 0.0078, day: 0.0076, wanna: 0.0044, people: 0.0038, school: 0.0036, twitter: 0.0036, morning: 0.0034, gonna: 0.0032, know: 0.0030, anthem: 0.0030}}
+
+------------------
+Iteration 3
+------------------
+RESULTS:
+PstaPattern{period=8.0, themeIndex=0, abs offset=38.0, locationTrajectory=[(loc:Buenos Aires, AR, offset=6.0)]}
+PstaPattern{period=4.0, themeIndex=0, abs offset=34.0, locationTrajectory=[(loc:Buenos Aires, AR, offset=2.0)]}
+PstaPattern{period=2.0, themeIndex=0, abs offset=34.0, locationTrajectory=[(loc:Buenos Aires, AR, offset=0.0)]}
+PstaPattern{period=3.0, themeIndex=0, abs offset=4.0, locationTrajectory=[(loc:Hamburg, DE, offset=0.0), (loc:Calabarzon, PH, offset=1.0)]}
+PstaPattern{period=7.0, themeIndex=0, abs offset=0.0, locationTrajectory=[(loc:Vichada, CO, offset=0.0), (loc:Hamburg, DE, offset=1.0)]}
+PstaPattern{period=15.0, themeIndex=0, abs offset=4.0, locationTrajectory=[(loc:Calabarzon, PH, offset=4.0), (loc:Buenos Aires, AR, offset=6.0), (loc:Ontario, CA, offset=11.0)]}
+PstaPattern{period=8.0, themeIndex=1, abs offset=127.0, locationTrajectory=[(loc:Central Visayas, PH, offset=7.0)]}
+PstaPattern{period=129.0, themeIndex=1, abs offset=164.0, locationTrajectory=[(loc:NCT, IN, offset=35.0)]}
+PstaPattern{period=144.0, themeIndex=1, abs offset=93.0, locationTrajectory=[(loc:Mato Grosso, BR, offset=93.0)]}
+PstaPattern{period=78.0, themeIndex=1, abs offset=120.0, locationTrajectory=[(loc:Metro Manila, PH, offset=42.0)]}
+PstaPattern{period=84.0, themeIndex=1, abs offset=108.0, locationTrajectory=[(loc:Metro Manila, PH, offset=24.0)]}
+PstaPattern{period=48.0, themeIndex=1, abs offset=42.0, locationTrajectory=[(loc:Ontario, CA, offset=42.0)]}
+PstaPattern{period=199.0, themeIndex=1, abs offset=151.0, locationTrajectory=[(loc:Dhaka, BD, offset=151.0)]}
+PstaPattern{period=204.0, themeIndex=1, abs offset=78.0, locationTrajectory=[(loc:Georgia, US, offset=78.0), (loc:NCT, IN, offset=116.0)]}
+PstaPattern{period=56.0, themeIndex=1, abs offset=114.0, locationTrajectory=[(loc:NCT, IN, offset=2.0)]}
+PstaPattern{period=114.0, themeIndex=1, abs offset=79.0, locationTrajectory=[(loc:Arizona, US, offset=79.0)]}
+PstaPattern{period=30.0, themeIndex=1, abs offset=60.0, locationTrajectory=[(loc:Ontario, CA, offset=0.0)]}
+PstaPattern{period=127.0, themeIndex=1, abs offset=5.0, locationTrajectory=[(loc:Central Visayas, PH, offset=5.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={parmesan: 0.0835, food: 0.0802, win: 0.0735, italian: 0.0554, lets: 0.0528, kick: 0.0511, goal: 0.0496, sports: 0.0491, football: 0.0483, life: 0.0467}}
+p(w|z){z=1, [word:prob]={job: 0.0185, hiring: 0.0148, careerarc: 0.0097, work: 0.0067, looking: 0.0060, click: 0.0051, great: 0.0050, check: 0.0049, apply: 0.0048, fit: 0.0043}}
+
+------------------
+Iteration 4
+------------------
+RESULTS:
+PstaPattern{period=79.0, themeIndex=0, abs offset=120.0, locationTrajectory=[(loc:Metro Manila, PH, offset=41.0)]}
+PstaPattern{period=85.0, themeIndex=0, abs offset=114.0, locationTrajectory=[(loc:Metro Manila, PH, offset=29.0)]}
+PstaPattern{period=91.0, themeIndex=0, abs offset=138.0, locationTrajectory=[(loc:New Jersey, US, offset=47.0)]}
+PstaPattern{period=93.0, themeIndex=0, abs offset=101.0, locationTrajectory=[(loc:Metro Manila, PH, offset=8.0)]}
+PstaPattern{period=3.0, themeIndex=0, abs offset=12.0, locationTrajectory=[(loc:Hamburg, DE, offset=0.0)]}
+PstaPattern{period=102.0, themeIndex=0, abs offset=80.0, locationTrajectory=[(loc:Arizona, US, offset=80.0)]}
+PstaPattern{period=7.0, themeIndex=0, abs offset=0.0, locationTrajectory=[(loc:Vichada, CO, offset=0.0), (loc:Hamburg, DE, offset=1.0)]}
+PstaPattern{period=128.0, themeIndex=1, abs offset=4.0, locationTrajectory=[(loc:Central Visayas, PH, offset=4.0)]}
+PstaPattern{period=8.0, themeIndex=1, abs offset=127.0, locationTrajectory=[(loc:Central Visayas, PH, offset=7.0)]}
+PstaPattern{period=4.0, themeIndex=1, abs offset=56.0, locationTrajectory=[(loc:Ontario, CA, offset=0.0)]}
+PstaPattern{period=79.0, themeIndex=1, abs offset=119.0, locationTrajectory=[(loc:Metro Manila, PH, offset=40.0)]}
+PstaPattern{period=5.0, themeIndex=1, abs offset=46.0, locationTrajectory=[(loc:Buenos Aires, AR, offset=1.0)]}
+PstaPattern{period=3.0, themeIndex=1, abs offset=4.0, locationTrajectory=[(loc:Calabarzon, PH, offset=1.0)]}
+PstaPattern{period=12.0, themeIndex=1, abs offset=63.0, locationTrajectory=[(loc:Madeira, PT, offset=3.0)]}
+PstaPattern{period=204.0, themeIndex=1, abs offset=76.0, locationTrajectory=[(loc:Georgia, US, offset=76.0)]}
+PstaPattern{period=27.0, themeIndex=1, abs offset=15.0, locationTrajectory=[(loc:England, GB, offset=15.0)]}
+PstaPattern{period=7.0, themeIndex=1, abs offset=36.0, locationTrajectory=[(loc:Buenos Aires, AR, offset=1.0), (loc:Ontario, CA, offset=4.0)]}
+PstaPattern{period=15.0, themeIndex=1, abs offset=4.0, locationTrajectory=[(loc:Calabarzon, PH, offset=4.0), (loc:Buenos Aires, AR, offset=6.0), (loc:Ontario, CA, offset=11.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={food: 0.1108, parmesan: 0.1104, italian: 0.0738, eat: 0.0370, ingredient: 0.0368, beef: 0.0368, tomatoes: 0.0365, best: 0.0330, orange: 0.0010, accounting: 0.0010}}
+p(w|z){z=1, [word:prob]={win: 0.1045, football: 0.0699, sports: 0.0699, goal: 0.0691, kick: 0.0691, ball: 0.0349, driver: 0.0030, transportation: 0.0025, truck: 0.0022, place: 0.0019}}
+

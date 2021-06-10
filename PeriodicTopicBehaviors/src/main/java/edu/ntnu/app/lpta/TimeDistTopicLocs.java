@@ -10,6 +10,7 @@ public class TimeDistTopicLocs {
 
     private static final double NORMALIZE = 1.0 / Math.sqrt(2 * Math.PI);
     public static double STD_DEVIATION_MIN = 0.01;
+    public static int[][] flag;
     private static double[][][] timeDistTopicLocs;
     private static double[][] means;
     private static double[][] stdDeviations;
@@ -19,6 +20,7 @@ public class TimeDistTopicLocs {
     private static int nPeriodicTopics;
 
     public static void initialize(int nPeriodicTops, double[] ps) {
+        flag = new int[LptaDocs.nLocations()][nPeriodicTops];
         nPeriodicTopics = nPeriodicTops;
         periods = ps;
         timeDistTopicLocs = new double[LptaDocs.nLocations()][nPeriodicTopics][LptaDocs.nTimeslots()];
@@ -31,9 +33,6 @@ public class TimeDistTopicLocs {
         Arrays.fill(zs, 1.0 / LptaDocs.nTimeslots());
         for (int z = 0; z < nPeriodicTops; z++) {
             for (int l = 0; l < LptaDocs.nLocations(); l++) {
-//                double[] zss = new Random().doubles(LptaDocs.nTimeslots(), 0, 1).toArray();
-//                double sum = Arrays.stream(zss).sum();
-//                double[] zs = Arrays.stream(zss).map(t -> t / sum).toArray();
                 timeDistTopicLocs[l][z] = zs;
             }
         }
@@ -60,8 +59,15 @@ public class TimeDistTopicLocs {
             stdDevN += base * sqr(LptaDocs.getDoc(d).getTimestamp() % (int) periods[z] - means[l][z]);
             denominator += base;
         }
-        means[l][z] = denominator != 0 ? meanN / denominator : 0;
-        stdDeviations[l][z] = denominator != 0 ? Math.sqrt(stdDevN / denominator) : 0;
+        if (denominator == 0) {
+            flag[l][z] = 1;
+            means[l][z] = 0;
+            stdDeviations[l][z] = 0;
+        } else {
+            flag[l][z] = 0;
+            means[l][z] = meanN / denominator;
+            stdDeviations[l][z] = Math.sqrt(stdDevN / denominator);
+        }
     }
 
     private static void updateDistribution(int z, int l) {
@@ -76,8 +82,11 @@ public class TimeDistTopicLocs {
     private static double calcPeriodic(int z, int l, int t) {
         double p = periods[z];
         double probK = p / LptaDocs.nTimeslots();
-        if (stdDeviations[l][z] < STD_DEVIATION_MIN) // Too few samples to calculate a probability, return rel num of docs in that time and place.
-            return probK * LptaDocs.getDocsInLoc(l).stream().filter(d -> LptaDocs.getDoc(d).getTimestampId() == t).count() / LptaDocs.nDocuments();
+        if (stdDeviations[l][z] < STD_DEVIATION_MIN) {// Too few samples to calculate a probability, return uniform distribution.
+            flag[l][z] = 1;
+            return probK;
+        }
+        flag[l][z] = 0;
         double tVal = LptaDocs.getTimestamp(t);
         return probK * (NORMALIZE / stdDeviations[l][z]) * Math.exp(-sqr((tVal % p) - means[l][z]) / sqr(stdDeviations[l][z]));
     }

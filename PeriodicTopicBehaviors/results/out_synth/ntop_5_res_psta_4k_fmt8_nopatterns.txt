@@ -1,0 +1,79 @@
+------------------
+Iteration 1
+------------------
+RESULTS:
+PstaPattern{period=16.0, themeIndex=0, abs offset=60.0, locationTrajectory=[(loc:Madeira, PT, offset=12.0)]}
+PstaPattern{period=159.0, themeIndex=0, abs offset=108.0, locationTrajectory=[(loc:NCT, IN, offset=108.0)]}
+PstaPattern{period=145.0, themeIndex=1, abs offset=120.0, locationTrajectory=[(loc:NCT, IN, offset=120.0)]}
+PstaPattern{period=203.0, themeIndex=1, abs offset=163.0, locationTrajectory=[(loc:California, US, offset=163.0)]}
+PstaPattern{period=127.0, themeIndex=1, abs offset=6.0, locationTrajectory=[(loc:Central Visayas, PH, offset=6.0)]}
+PstaPattern{period=202.0, themeIndex=3, abs offset=157.0, locationTrajectory=[(loc:Zamboanga Peninsula, PH, offset=157.0)]}
+PstaPattern{period=107.0, themeIndex=3, abs offset=79.0, locationTrajectory=[(loc:Arizona, US, offset=79.0)]}
+PstaPattern{period=128.0, themeIndex=4, abs offset=4.0, locationTrajectory=[(loc:Central Visayas, PH, offset=4.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={career: 0.0082, disrespect: 0.0069, looks: 0.0061, restaurant: 0.0048, care: 0.0035, gym: 0.0032, physician: 0.0031, rich: 0.0029, friday: 0.0028, weird: 0.0028}}
+p(w|z){z=1, [word:prob]={driver: 0.0126, transportation: 0.0096, truck: 0.0087, operator: 0.0067, owner: 0.0064, class: 0.0047, air: 0.0046, political: 0.0042, sucks: 0.0038, blah: 0.0031}}
+p(w|z){z=2, [word:prob]={months: 0.0052, anthony: 0.0052, weiner: 0.0050, korea: 0.0039, break: 0.0037, officially: 0.0034, hartford: 0.0034, cold: 0.0031, prison: 0.0031, power: 0.0031}}
+p(w|z){z=3, [word:prob]={sonic: 0.0053, met: 0.0047, forever: 0.0040, honestly: 0.0036, tax: 0.0033, gang: 0.0033, drama: 0.0031, account: 0.0030, citizens: 0.0030, theyre: 0.0029}}
+p(w|z){z=4, [word:prob]={straight: 0.0046, hit: 0.0045, tonight: 0.0038, drive: 0.0038, ave: 0.0037, women: 0.0036, cook: 0.0032, welcome: 0.0032, deal: 0.0030, seattle: 0.0028}}
+
+------------------
+Iteration 2
+------------------
+RESULTS:
+PstaPattern{period=199.0, themeIndex=1, abs offset=151.0, locationTrajectory=[(loc:Dhaka, BD, offset=151.0)]}
+PstaPattern{period=29.0, themeIndex=2, abs offset=145.0, locationTrajectory=[(loc:Karnataka, IN, offset=0.0)]}
+PstaPattern{period=128.0, themeIndex=3, abs offset=7.0, locationTrajectory=[(loc:Central Visayas, PH, offset=7.0)]}
+PstaPattern{period=172.0, themeIndex=3, abs offset=140.0, locationTrajectory=[(loc:Arizona, US, offset=140.0)]}
+PstaPattern{period=26.0, themeIndex=3, abs offset=60.0, locationTrajectory=[(loc:Ontario, CA, offset=8.0)]}
+PstaPattern{period=7.0, themeIndex=3, abs offset=128.0, locationTrajectory=[(loc:Central Visayas, PH, offset=2.0)]}
+PstaPattern{period=29.0, themeIndex=3, abs offset=60.0, locationTrajectory=[(loc:Ontario, CA, offset=2.0)]}
+PstaPattern{period=232.0, themeIndex=3, abs offset=80.0, locationTrajectory=[(loc:Arizona, US, offset=80.0)]}
+PstaPattern{period=6.0, themeIndex=4, abs offset=118.0, locationTrajectory=[(loc:Telangana, IN, offset=4.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={driver: 0.0125, truck: 0.0086, operator: 0.0061, owner: 0.0054, disrespect: 0.0053, transportation: 0.0052, realize: 0.0050, company: 0.0030, strong: 0.0028, isnt: 0.0028}}
+p(w|z){z=1, [word:prob]={politics: 0.0042, lil: 0.0042, dude: 0.0040, story: 0.0038, wanted: 0.0035, turn: 0.0033, productive: 0.0029, therapist: 0.0029, happen: 0.0028, goal: 0.0028}}
+p(w|z){z=2, [word:prob]={anthony: 0.0044, weiner: 0.0042, korea: 0.0039, prison: 0.0036, months: 0.0035, oct: 0.0034, running: 0.0033, honestly: 0.0033, half: 0.0031, known: 0.0029}}
+p(w|z){z=3, [word:prob]={auto: 0.0064, parts: 0.0061, restaurant: 0.0049, wasn: 0.0039, assistant: 0.0035, representative: 0.0035, blah: 0.0033, cook: 0.0032, public: 0.0030, lit: 0.0029}}
+p(w|z){z=4, [word:prob]={doesnt: 0.0044, played: 0.0043, crying: 0.0040, tickets: 0.0039, boston: 0.0033, coach: 0.0032, cute: 0.0031, amu: 0.0030, service: 0.0030, seattle: 0.0029}}
+
+------------------
+Iteration 3
+------------------
+RESULTS:
+PstaPattern{period=147.0, themeIndex=0, abs offset=121.0, locationTrajectory=[(loc:NCT, IN, offset=121.0)]}
+PstaPattern{period=108.0, themeIndex=0, abs offset=78.0, locationTrajectory=[(loc:Arizona, US, offset=78.0)]}
+PstaPattern{period=5.0, themeIndex=1, abs offset=23.0, locationTrajectory=[(loc:Texas, US, offset=3.0)]}
+PstaPattern{period=205.0, themeIndex=1, abs offset=148.0, locationTrajectory=[(loc:California, US, offset=148.0)]}
+PstaPattern{period=15.0, themeIndex=1, abs offset=60.0, locationTrajectory=[(loc:Madeira, PT, offset=0.0)]}
+PstaPattern{period=126.0, themeIndex=1, abs offset=8.0, locationTrajectory=[(loc:Central Visayas, PH, offset=8.0)]}
+PstaPattern{period=9.0, themeIndex=3, abs offset=126.0, locationTrajectory=[(loc:Central Visayas, PH, offset=0.0)]}
+PstaPattern{period=13.0, themeIndex=4, abs offset=63.0, locationTrajectory=[(loc:Madeira, PT, offset=11.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={friend: 0.0072, anthony: 0.0054, weiner: 0.0054, months: 0.0047, orange: 0.0039, prison: 0.0038, members: 0.0038, oct: 0.0037, save: 0.0036, chill: 0.0029}}
+p(w|z){z=1, [word:prob]={sonic: 0.0053, accounting: 0.0046, tired: 0.0046, voted: 0.0040, police: 0.0039, jesus: 0.0034, joke: 0.0034, terrible: 0.0032, miss: 0.0030, happening: 0.0030}}
+p(w|z){z=2, [word:prob]={photo: 0.0090, wants: 0.0059, coach: 0.0053, tomorrow: 0.0039, stopped: 0.0037, blue: 0.0035, lane: 0.0035, nap: 0.0034, september: 0.0033, lake: 0.0030}}
+p(w|z){z=3, [word:prob]={supervisor: 0.0058, type: 0.0045, seen: 0.0044, blah: 0.0032, cook: 0.0031, open: 0.0030, newyork: 0.0030, milk: 0.0030, crying: 0.0029, shift: 0.0027}}
+p(w|z){z=4, [word:prob]={driver: 0.0102, truck: 0.0089, disrespect: 0.0082, operator: 0.0068, bro: 0.0068, owner: 0.0065, transportation: 0.0063, talk: 0.0042, trash: 0.0041, step: 0.0038}}
+
+------------------
+Iteration 4
+------------------
+RESULTS:
+PstaPattern{period=48.0, themeIndex=0, abs offset=42.0, locationTrajectory=[(loc:Ontario, CA, offset=42.0)]}
+PstaPattern{period=3.0, themeIndex=0, abs offset=119.0, locationTrajectory=[(loc:Western Australia, AU, offset=2.0)]}
+PstaPattern{period=180.0, themeIndex=1, abs offset=151.0, locationTrajectory=[(loc:Dhaka, BD, offset=151.0)]}
+PstaPattern{period=9.0, themeIndex=2, abs offset=64.0, locationTrajectory=[(loc:Madeira, PT, offset=1.0)]}
+PstaPattern{period=130.0, themeIndex=3, abs offset=5.0, locationTrajectory=[(loc:Central Visayas, PH, offset=5.0)]}
+PstaPattern{period=128.0, themeIndex=3, abs offset=105.0, locationTrajectory=[(loc:NCT, IN, offset=105.0)]}
+PstaPattern{period=9.0, themeIndex=3, abs offset=126.0, locationTrajectory=[(loc:Central Visayas, PH, offset=0.0)]}
+PstaPattern{period=146.0, themeIndex=3, abs offset=121.0, locationTrajectory=[(loc:NCT, IN, offset=121.0)]}
+PstaPattern{period=11.0, themeIndex=3, abs offset=65.0, locationTrajectory=[(loc:Madeira, PT, offset=10.0)]}
+PstaPattern{period=201.0, themeIndex=3, abs offset=152.0, locationTrajectory=[(loc:British Columbia, CA, offset=152.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={type: 0.0048, voted: 0.0034, repost: 0.0034, hurt: 0.0032, head: 0.0031, amu: 0.0031, honestly: 0.0028, citizens: 0.0027, imma: 0.0027, position: 0.0026}}
+p(w|z){z=1, [word:prob]={realize: 0.0056, lose: 0.0048, cat: 0.0040, tryna: 0.0038, therapist: 0.0037, starbucks: 0.0035, thinks: 0.0033, lit: 0.0032, crying: 0.0030, sunday: 0.0029}}
+p(w|z){z=2, [word:prob]={guy: 0.0046, orange: 0.0043, ready: 0.0034, joke: 0.0033, blue: 0.0031, vlog: 0.0029, winners: 0.0028, laugh: 0.0028, group: 0.0027, worry: 0.0027}}
+p(w|z){z=3, [word:prob]={photo: 0.0086, sorry: 0.0037, nap: 0.0036, physician: 0.0035, politics: 0.0030, happiness: 0.0029, light: 0.0027, east: 0.0027, room: 0.0026, fact: 0.0026}}
+p(w|z){z=4, [word:prob]={driver: 0.0124, truck: 0.0091, operator: 0.0069, auto: 0.0067, owner: 0.0067, parts: 0.0052, second: 0.0048, transportation: 0.0048, fight: 0.0044, stupid: 0.0042}}
+

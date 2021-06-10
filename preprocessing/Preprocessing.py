@@ -8,6 +8,7 @@ from gensim.parsing.preprocessing import remove_stopwords
 from multiprocessing import Pool
 import sys
 import csv
+import signal
 
 in_path = sys.argv[1]
 out_path = sys.argv[2]
@@ -22,12 +23,19 @@ def parallelize_dataframe(df, func, n_cores=4):
     pool.join()
     return df
 
+def signal_handler(signum, frame):
+    raise Exception("Timed out!")
 
 def clean_f(df):
+    signal.signal(signal.SIGALRM, signal_handler)
+    signal.alarm(60)
     try:
         df['text'] = df['text'].apply(p.clean)
     except:
-        print('clean failed on texts: ', df['text'])
+        print('clean failed on texts: ', df['text'], ', applying base filter')
+        df['text'] = df['text'].str.replace('[^a-zA-Z]','')
+    finally:
+        signal.alarm(0)
     return df
 
 

@@ -1,0 +1,101 @@
+------------------
+Iteration 1
+------------------
+RESULTS:
+PstaPattern{period=3.0, themeIndex=0, abs offset=2.0, locationTrajectory=[(loc:South Carolina, US, offset=2.0)]}
+PstaPattern{period=7.0, themeIndex=1, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={place: 0.0285, katy: 0.0178, super: 0.0121, dave: 0.0111, love: 0.0085, hope: 0.0084, ben: 0.0082, happy: 0.0082, guys: 0.0073, und: 0.0067}}
+p(w|z){z=1, [word:prob]={thanks: 0.0160, vote: 0.0107, retweet: 0.0087, appreciate: 0.0080, goes: 0.0064, rao: 0.0063, preetika: 0.0062, success: 0.0059, inspire: 0.0059, encourage: 0.0058}}
+
+------------------
+Iteration 2
+------------------
+RESULTS:
+PstaPattern{period=7.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+PstaPattern{period=3.0, themeIndex=1, abs offset=2.0, locationTrajectory=[(loc:Illinois, US, offset=2.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={place: 0.0318, dave: 0.0121, win: 0.0097, ben: 0.0080, und: 0.0073, trump: 0.0068, happy: 0.0063, thanks: 0.0058, hope: 0.0054, hey: 0.0054}}
+p(w|z){z=1, [word:prob]={katy: 0.0165, super: 0.0106, love: 0.0092, vote: 0.0087, lovely: 0.0074, appreciate: 0.0065, good: 0.0065, beautiful: 0.0059, preetika: 0.0058, rao: 0.0058}}
+
+------------------
+Iteration 3
+------------------
+RESULTS:
+PstaPattern{period=7.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={place: 0.0341, katy: 0.0210, super: 0.0136, vote: 0.0102, lovely: 0.0091, und: 0.0080, goes: 0.0075, rao: 0.0073, preetika: 0.0072, trade: 0.0049}}
+p(w|z){z=1, [word:prob]={thanks: 0.0166, thank: 0.0097, happy: 0.0081, guys: 0.0079, hope: 0.0067, appreciate: 0.0066, need: 0.0057, retweet: 0.0055, hey: 0.0054, success: 0.0049}}
+
+------------------
+Iteration 4
+------------------
+NO RESULTS
+------------------
+Iteration 5
+------------------
+RESULTS:
+PstaPattern{period=2.0, themeIndex=0, abs offset=2.0, locationTrajectory=[(loc:Maryland, US, offset=0.0)]}
+PstaPattern{period=16.0, themeIndex=0, abs offset=13.0, locationTrajectory=[(loc:Wyoming, US, offset=13.0)]}
+PstaPattern{period=7.0, themeIndex=1, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={place: 0.0286, dave: 0.0085, trump: 0.0082, win: 0.0080, und: 0.0065, hope: 0.0064, hey: 0.0061, need: 0.0060, guys: 0.0054, notice: 0.0050}}
+p(w|z){z=1, [word:prob]={katy: 0.0185, thanks: 0.0159, super: 0.0122, retweet: 0.0093, lovely: 0.0082, appreciate: 0.0080, vote: 0.0078, love: 0.0075, beautiful: 0.0072, goes: 0.0066}}
+
+------------------
+Iteration 6
+------------------
+RESULTS:
+PstaPattern{period=7.0, themeIndex=1, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={place: 0.0177, katy: 0.0165, super: 0.0109, ben: 0.0063, want: 0.0063, beautiful: 0.0059, und: 0.0058, feel: 0.0057, love: 0.0053, yes: 0.0051}}
+p(w|z){z=1, [word:prob]={thanks: 0.0192, retweet: 0.0111, vote: 0.0109, win: 0.0093, thank: 0.0091, appreciate: 0.0089, guys: 0.0087, happy: 0.0079, goes: 0.0071, rao: 0.0070}}
+
+------------------
+Iteration 7
+------------------
+RESULTS:
+PstaPattern{period=7.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+PstaPattern{period=3.0, themeIndex=1, abs offset=14.0, locationTrajectory=[(loc:Louisiana, US, offset=2.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={place: 0.0316, dave: 0.0127, retweet: 0.0091, ben: 0.0077, und: 0.0074, inspire: 0.0060, encourage: 0.0060, success: 0.0059, greater: 0.0054, appreciate: 0.0054}}
+p(w|z){z=1, [word:prob]={katy: 0.0170, super: 0.0108, vote: 0.0090, guys: 0.0084, thanks: 0.0078, lovely: 0.0075, happy: 0.0072, beautiful: 0.0067, goes: 0.0060, rao: 0.0057}}
+
+------------------
+Iteration 8
+------------------
+RESULTS:
+PstaPattern{period=7.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={katy: 0.0191, thank: 0.0144, super: 0.0125, thanks: 0.0116, vote: 0.0092, guys: 0.0089, lovely: 0.0085, happy: 0.0077, hey: 0.0067, preetika: 0.0067}}
+p(w|z){z=1, [word:prob]={place: 0.0283, trump: 0.0074, retweet: 0.0073, und: 0.0066, appreciate: 0.0058, success: 0.0048, greater: 0.0047, home: 0.0047, motivate: 0.0047, inspire: 0.0044}}
+
+------------------
+Iteration 9
+------------------
+RESULTS:
+PstaPattern{period=7.0, themeIndex=1, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={katy: 0.0168, super: 0.0110, vote: 0.0092, want: 0.0081, love: 0.0080, lovely: 0.0076, beautiful: 0.0070, yes: 0.0067, feel: 0.0064, goes: 0.0061}}
+p(w|z){z=1, [word:prob]={place: 0.0300, thanks: 0.0176, retweet: 0.0090, dave: 0.0087, appreciate: 0.0083, und: 0.0071, win: 0.0070, encourage: 0.0060, ben: 0.0060, inspire: 0.0058}}
+
+------------------
+Iteration 10
+------------------
+RESULTS:
+PstaPattern{period=4.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:Arizona, US, offset=1.0)]}
+PstaPattern{period=20.0, themeIndex=0, abs offset=7.0, locationTrajectory=[(loc:New Jersey, US, offset=7.0)]}
+PstaPattern{period=7.0, themeIndex=1, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={place: 0.0300, vote: 0.0099, guys: 0.0079, und: 0.0070, goes: 0.0067, rao: 0.0066, preetika: 0.0066, hey: 0.0062, hope: 0.0060, win: 0.0053}}
+p(w|z){z=1, [word:prob]={katy: 0.0179, thanks: 0.0129, super: 0.0112, retweet: 0.0087, appreciate: 0.0079, good: 0.0071, want: 0.0065, success: 0.0059, beautiful: 0.0059, encourage: 0.0058}}
+
+------------------
+Iteration 11
+------------------
+RESULTS:
+PstaPattern{period=7.0, themeIndex=1, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={amp: 0.0166, vote: 0.0095, retweet: 0.0085, appreciate: 0.0073, goes: 0.0062, rao: 0.0061, preetika: 0.0060, success: 0.0057, encourage: 0.0056, inspire: 0.0055}}
+p(w|z){z=1, [word:prob]={place: 0.0299, katy: 0.0193, super: 0.0123, dave: 0.0091, guys: 0.0074, und: 0.0072, beautiful: 0.0069, hey: 0.0068, happy: 0.0060, feel: 0.0057}}
+

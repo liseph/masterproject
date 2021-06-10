@@ -1,4 +1,5 @@
 package edu.ntnu.app.lpta;
+
 import java.util.Arrays;
 
 public class TopicDistDocs {
@@ -10,13 +11,9 @@ public class TopicDistDocs {
     public static void initialize(int nPeriodicTopics) {
         nTopics = nPeriodicTopics + 1;
         topicDistDoc = new double[LptaDocs.nDocuments()][nTopics];
-        // double[] zs = IntStream.range(0, nTopics).mapToDouble(i -> 1.0 / nTopics).toArray();
         double[] zs = new double[nTopics];
         Arrays.fill(zs, 1.0 / nTopics);
         for (int d = 0; d < LptaDocs.nDocuments(); d++) {
-//            double[] zss = new Random().doubles(nTopics, 0, 1).toArray();
-//            double sum = Arrays.stream(zss).sum();
-//            double[] zs = Arrays.stream(zss).map(z -> z / sum).toArray();
             topicDistDoc[d] = zs;
         }
     }

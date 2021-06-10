@@ -8,8 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main extends Algorithm {
-    //public static final double[] PERIODS = new double[]{4, 7, 25};
-
+    //public static final double[] P = new double[]{4, 7, 25};
     private static final double[] P = new double[]{7, 15, 4, 30, 90, 14, 5, 60, 182, 365};
     public static double[] PERIODS;
 

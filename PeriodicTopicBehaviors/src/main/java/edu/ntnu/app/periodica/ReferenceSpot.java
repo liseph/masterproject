@@ -47,6 +47,8 @@ public class ReferenceSpot {
             else if (la > yEnd) yEnd = la;
         }
 
+        System.out.format("(%.4f %.4f), (%.4f %.4f)\n", xStart, xEnd, yStart, yEnd);
+
         int x = (int) (GRANULARITY * (xEnd - xStart));
         int y = (int) (GRANULARITY * (yEnd - yStart));
 

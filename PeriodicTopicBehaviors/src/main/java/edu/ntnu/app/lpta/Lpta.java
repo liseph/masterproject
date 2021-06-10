@@ -18,7 +18,7 @@ public class Lpta {
 
         boolean converged = false;
         System.out.println("START EM ALGORITHM");
-        for (int i = 0; i < 2000; i++) {
+        for (int i = 0; i < 3000; i++) {
             long startTime = System.nanoTime();
 
             // E-step
@@ -59,17 +59,11 @@ public class Lpta {
         for (int z = 0; z < nTopics; z++) {
             LptaPattern pattern = new LptaPattern(periods[z], z);
             for (int l = 0; l < LptaDocs.nLocations(); l++) {
-                double stdDev = TimeDistTopicLocs.getStdDeviation(l, z);
-                double mean = TimeDistTopicLocs.getMean(l, z);
-                if (mean != 0 && stdDev == 0) {
-                    System.out.print("");
+                if (TimeDistTopicLocs.flag[l][z] != 1) {
+                    double stdDev = TimeDistTopicLocs.getStdDeviation(l, z);
+                    double mean = TimeDistTopicLocs.getMean(l, z);
+                    pattern.addLocation(l, mean, stdDev);
                 }
-                if (mean == 0 && stdDev != 0) {
-                    System.out.print("");
-                }
-                if (mean != 0 || stdDev >= TimeDistTopicLocs.STD_DEVIATION_MIN)
-                    pattern.addLocation(l, TimeDistTopicLocs.getMean(l, z), stdDev);
-
             }
             if (pattern.getLocationTrajectory().length == 0) continue;
             pattern.setTimeDist(TimeDistTopicLocs.getTimeDist(z, pattern.getLocationTrajectory()));
