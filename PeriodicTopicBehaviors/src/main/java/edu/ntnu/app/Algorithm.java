@@ -3,7 +3,11 @@ package edu.ntnu.app;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.MemoryUsage;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import static edu.ntnu.app.Main.nITERATIONS;
@@ -96,6 +100,21 @@ public abstract class Algorithm {
             outTime.format("[Init, execute, analyze, sum] = [%d, %d, %d, %d]\n", init[i], execute[i], analyze[i], sum[i]);
             outTime.flush();
             outRes.flush();
+            try {
+                String memoryUsage = new String();
+                List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
+                for (MemoryPoolMXBean pool : pools) {
+                    MemoryUsage peak = pool.getPeakUsage();
+                    memoryUsage += String.format("Peak %s memory used: %,d%n", pool.getName(),peak.getUsed());
+                    memoryUsage += String.format("Peak %s memory reserved: %,d%n", pool.getName(), peak.getCommitted());
+                }
+
+                // we print the result in the console
+                System.out.println(memoryUsage);
+
+            } catch (Throwable t) {
+                System.err.println("Exception in agent: " + t);
+            }
             clearAll();
             System.out.format("Finished iteration %d / %d.\n", i + 1, nITERATIONS);
         }

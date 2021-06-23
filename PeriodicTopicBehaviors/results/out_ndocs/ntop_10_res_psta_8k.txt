@@ -1,0 +1,218 @@
+------------------
+Iteration 1
+------------------
+RESULTS:
+PstaPattern{period=2.0, themeIndex=4, abs offset=4.0, locationTrajectory=[(loc:Utah, US, offset=0.0)]}
+PstaPattern{period=2.0, themeIndex=6, abs offset=1.0, locationTrajectory=[(loc:Massachusetts, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={katy: 0.0493, super: 0.0475, beautiful: 0.0159, heavenly: 0.0151, abrams: 0.0150, silky: 0.0114, sexy: 0.0098, hug: 0.0095, floyd: 0.0094, trade: 0.0084}}
+p(w|z){z=1, [word:prob]={thanks: 0.0721, thank: 0.0378, addvalue: 0.0294, difference: 0.0286, making: 0.0283, morning: 0.0156, awesome: 0.0115, mtv: 0.0110, sharing: 0.0089, music: 0.0069}}
+p(w|z){z=2, [word:prob]={ash: 0.0055, mile: 0.0049, fly: 0.0045, reform: 0.0044, keyboard: 0.0038, schedule: 0.0037, nyc: 0.0037, faces: 0.0037, roll: 0.0037, pepperoni: 0.0036}}
+p(w|z){z=3, [word:prob]={lit: 0.0157, york: 0.0149, forfor: 0.0084, feeling: 0.0079, hes: 0.0073, emabiggestfansjustinbieber: 0.0067, ugly: 0.0059, warner: 0.0047, hotat: 0.0047, turned: 0.0045}}
+p(w|z){z=4, [word:prob]={offer: 0.0117, available: 0.0109, link: 0.0108, product: 0.0103, purchase: 0.0099, values: 0.0098, dance: 0.0094, girls: 0.0093, forms: 0.0091, purchases: 0.0089}}
+p(w|z){z=5, [word:prob]={giving: 0.0125, inspire: 0.0096, reach: 0.0095, wings: 0.0092, value: 0.0088, adds: 0.0084, encourage: 0.0082, lives: 0.0073, court: 0.0071, dui: 0.0067}}
+p(w|z){z=6, [word:prob]={iframe: 0.0212, fav: 0.0147, width: 0.0110, src: 0.0106, congrats: 0.0085, luck: 0.0062, hill: 0.0051, national: 0.0047, base: 0.0042, keem: 0.0042}}
+p(w|z){z=7, [word:prob]={retweet: 0.0103, jesus: 0.0071, contact: 0.0065, haha: 0.0054, actual: 0.0043, praying: 0.0042, view: 0.0042, fresh: 0.0041, homecoming: 0.0040, teach: 0.0039}}
+p(w|z){z=8, [word:prob]={place: 0.0635, und: 0.0123, geo: 0.0067, appreciated: 0.0054, owl: 0.0049, firesark: 0.0047, yea: 0.0044, scared: 0.0043, trust: 0.0043, theis: 0.0041}}
+p(w|z){z=9, [word:prob]={appreciate: 0.0230, success: 0.0119, willingness: 0.0095, share: 0.0093, source: 0.0091, greater: 0.0091, beat: 0.0083, inspiration: 0.0083, chuck: 0.0067, revivechuck: 0.0064}}
+
+------------------
+Iteration 2
+------------------
+RESULTS:
+PstaPattern{period=2.0, themeIndex=4, abs offset=1.0, locationTrajectory=[(loc:Iowa, US, offset=1.0)]}
+PstaPattern{period=2.0, themeIndex=5, abs offset=0.0, locationTrajectory=[(loc:Washington, US, offset=0.0)]}
+PstaPattern{period=3.0, themeIndex=5, abs offset=1.0, locationTrajectory=[(loc:Oklahoma, US, offset=1.0)]}
+PstaPattern{period=5.0, themeIndex=6, abs offset=3.0, locationTrajectory=[(loc:Louisiana, US, offset=3.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={sad: 0.0090, forfor: 0.0081, morning: 0.0076, dodgers: 0.0054, joke: 0.0050, owl: 0.0049, beat: 0.0043, mets: 0.0043, mile: 0.0043, brian: 0.0042}}
+p(w|z){z=1, [word:prob]={thanks: 0.0651, place: 0.0584, und: 0.0115, giving: 0.0100, lives: 0.0099, value: 0.0094, wings: 0.0093, reach: 0.0086, inspire: 0.0082, adds: 0.0079}}
+p(w|z){z=2, [word:prob]={super: 0.0511, thank: 0.0422, addvalue: 0.0308, difference: 0.0305, beautiful: 0.0276, making: 0.0271, heavenly: 0.0186, special: 0.0105, hair: 0.0094, tweeted: 0.0081}}
+p(w|z){z=3, [word:prob]={pretty: 0.0138, lmao: 0.0126, okay: 0.0086, wild: 0.0052, selfietime: 0.0045, favorites: 0.0044, lucky: 0.0042, freshman: 0.0042, luck: 0.0038, hamilton: 0.0037}}
+p(w|z){z=4, [word:prob]={apple: 0.0195, music: 0.0131, check: 0.0086, plus: 0.0083, fuck: 0.0080, armada: 0.0080, chris: 0.0070, iphone: 0.0066, add: 0.0063, hoe: 0.0063}}
+p(w|z){z=5, [word:prob]={daily: 0.0117, dance: 0.0114, table: 0.0109, forex: 0.0096, trade: 0.0095, euro: 0.0095, alert: 0.0083, refer: 0.0060, currency: 0.0054, leandancechallenge: 0.0051}}
+p(w|z){z=6, [word:prob]={dave: 0.0233, hill: 0.0149, bout: 0.0134, ben: 0.0132, bob: 0.0089, lil: 0.0076, chuck: 0.0070, revivechuck: 0.0064, pound: 0.0060, ole: 0.0059}}
+p(w|z){z=7, [word:prob]={iframe: 0.0207, width: 0.0109, src: 0.0104, kid: 0.0080, hello: 0.0070, worth: 0.0064, sunday: 0.0062, missed: 0.0057, gavin: 0.0052, const: 0.0040}}
+p(w|z){z=8, [word:prob]={abrams: 0.0206, home: 0.0188, lit: 0.0127, retweet: 0.0104, fake: 0.0103, purchase: 0.0099, capital: 0.0090, link: 0.0085, product: 0.0085, los: 0.0082}}
+p(w|z){z=9, [word:prob]={katy: 0.0489, appreciate: 0.0195, silky: 0.0127, hug: 0.0125, share: 0.0124, sexy: 0.0118, fav: 0.0111, kiss: 0.0097, floyd: 0.0086, success: 0.0086}}
+
+------------------
+Iteration 3
+------------------
+RESULTS:
+PstaPattern{period=2.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:Georgia, US, offset=1.0)]}
+PstaPattern{period=2.0, themeIndex=1, abs offset=0.0, locationTrajectory=[(loc:Texas, US, offset=0.0)]}
+PstaPattern{period=2.0, themeIndex=2, abs offset=0.0, locationTrajectory=[(loc:Washington, US, offset=0.0)]}
+PstaPattern{period=2.0, themeIndex=3, abs offset=1.0, locationTrajectory=[(loc:Michigan, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={hill: 0.0151, lit: 0.0141, bitch: 0.0072, pound: 0.0065, horror: 0.0059, hes: 0.0054, art: 0.0052, yall: 0.0052, ole: 0.0043, joke: 0.0041}}
+p(w|z){z=1, [word:prob]={giving: 0.0121, retweet: 0.0120, morning: 0.0108, wings: 0.0107, reach: 0.0092, value: 0.0091, beat: 0.0088, inspire: 0.0088, adds: 0.0087, encourage: 0.0083}}
+p(w|z){z=2, [word:prob]={pictures: 0.0080, hoe: 0.0069, hate: 0.0068, education: 0.0053, ashraf: 0.0051, follows: 0.0051, grazie: 0.0046, song: 0.0045, tang: 0.0044, hogan: 0.0043}}
+p(w|z){z=3, [word:prob]={katy: 0.0556, super: 0.0540, beautiful: 0.0219, abrams: 0.0177, heavenly: 0.0167, silky: 0.0126, hug: 0.0116, sexy: 0.0115, kiss: 0.0091, goodness: 0.0089}}
+p(w|z){z=4, [word:prob]={thanks: 0.0734, addvalue: 0.0287, thank: 0.0276, making: 0.0274, difference: 0.0252, link: 0.0093, product: 0.0093, available: 0.0090, check: 0.0089, thewalkingdead: 0.0088}}
+p(w|z){z=5, [word:prob]={forfor: 0.0084, states: 0.0075, football: 0.0074, congress: 0.0065, jesus: 0.0059, ugly: 0.0055, okay: 0.0054, rock: 0.0052, text: 0.0044, crazy: 0.0041}}
+p(w|z){z=6, [word:prob]={dave: 0.0333, ben: 0.0289, share: 0.0135, willingness: 0.0089, ads: 0.0086, greater: 0.0085, alert: 0.0078, success: 0.0078, kid: 0.0068, pls: 0.0067}}
+p(w|z){z=7, [word:prob]={iframe: 0.0195, fav: 0.0171, omg: 0.0105, width: 0.0102, src: 0.0098, inspiration: 0.0094, source: 0.0093, knew: 0.0064, appreciated: 0.0057, rid: 0.0057}}
+p(w|z){z=8, [word:prob]={place: 0.0696, und: 0.0132, geo: 0.0073, retweeting: 0.0053, hosp: 0.0052, mood: 0.0049, smh: 0.0047, venice: 0.0040, poster: 0.0039, grew: 0.0038}}
+p(w|z){z=9, [word:prob]={apple: 0.0120, table: 0.0119, trade: 0.0117, daily: 0.0095, york: 0.0095, forex: 0.0095, euro: 0.0094, armada: 0.0081, music: 0.0077, iphone: 0.0076}}
+
+------------------
+Iteration 4
+------------------
+RESULTS:
+PstaPattern{period=2.0, themeIndex=0, abs offset=0.0, locationTrajectory=[(loc:North Carolina, US, offset=0.0)]}
+PstaPattern{period=2.0, themeIndex=6, abs offset=1.0, locationTrajectory=[(loc:Arizona, US, offset=1.0)]}
+PstaPattern{period=2.0, themeIndex=8, abs offset=1.0, locationTrajectory=[(loc:California, US, offset=1.0)]}
+PstaPattern{period=5.0, themeIndex=8, abs offset=3.0, locationTrajectory=[(loc:Iowa, US, offset=3.0)]}
+PstaPattern{period=2.0, themeIndex=9, abs offset=1.0, locationTrajectory=[(loc:Texas, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={katy: 0.0566, thanks: 0.0552, super: 0.0539, beautiful: 0.0238, heavenly: 0.0170, iframe: 0.0149, silky: 0.0128, hug: 0.0127, sexy: 0.0124, share: 0.0110}}
+p(w|z){z=1, [word:prob]={dui: 0.0110, oklahoma: 0.0088, sunday: 0.0072, hello: 0.0071, court: 0.0069, sleep: 0.0059, okay: 0.0058, type: 0.0058, child: 0.0048, night: 0.0047}}
+p(w|z){z=2, [word:prob]={trade: 0.0129, daily: 0.0116, table: 0.0115, euro: 0.0106, source: 0.0104, forex: 0.0103, inspiration: 0.0101, luck: 0.0086, chuck: 0.0081, revivechuck: 0.0073}}
+p(w|z){z=3, [word:prob]={hill: 0.0157, york: 0.0082, add: 0.0071, bob: 0.0060, bout: 0.0056, bernie: 0.0053, ole: 0.0049, johnson: 0.0047, shoot: 0.0047, comment: 0.0044}}
+p(w|z){z=4, [word:prob]={place: 0.0608, und: 0.0120, geo: 0.0066, appreciated: 0.0050, gold: 0.0046, firesark: 0.0046, iphone: 0.0043, theis: 0.0039, mirror: 0.0039, ground: 0.0038}}
+p(w|z){z=5, [word:prob]={abrams: 0.0217, home: 0.0165, los: 0.0115, capital: 0.0114, safety: 0.0094, encino: 0.0094, away: 0.0092, fake: 0.0086, doctor: 0.0078, crew: 0.0074}}
+p(w|z){z=6, [word:prob]={thank: 0.0346, addvalue: 0.0291, making: 0.0278, difference: 0.0276, omg: 0.0087, sad: 0.0071, morning: 0.0056, retweeting: 0.0055, hogan: 0.0051, ash: 0.0051}}
+p(w|z){z=7, [word:prob]={dude: 0.0077, update: 0.0066, bro: 0.0063, hes: 0.0053, anymore: 0.0052, voice: 0.0048, bear: 0.0042, thursday: 0.0041, highlight: 0.0040, matter: 0.0040}}
+p(w|z){z=8, [word:prob]={dave: 0.0511, offer: 0.0123, ben: 0.0119, giving: 0.0117, mtv: 0.0115, available: 0.0110, retweet: 0.0107, product: 0.0098, link: 0.0097, purchase: 0.0095}}
+p(w|z){z=9, [word:prob]={birthday: 0.0168, lit: 0.0143, happy: 0.0083, dance: 0.0082, alert: 0.0073, forfor: 0.0069, followed: 0.0062, pictures: 0.0060, gavin: 0.0058, follows: 0.0051}}
+
+------------------
+Iteration 5
+------------------
+RESULTS:
+PstaPattern{period=5.0, themeIndex=1, abs offset=3.0, locationTrajectory=[(loc:Iowa, US, offset=3.0)]}
+PstaPattern{period=3.0, themeIndex=1, abs offset=2.0, locationTrajectory=[(loc:Connecticut, US, offset=2.0)]}
+PstaPattern{period=2.0, themeIndex=2, abs offset=1.0, locationTrajectory=[(loc:Ohio, US, offset=1.0)]}
+PstaPattern{period=4.0, themeIndex=6, abs offset=2.0, locationTrajectory=[(loc:Georgia, US, offset=2.0)]}
+PstaPattern{period=5.0, themeIndex=7, abs offset=3.0, locationTrajectory=[(loc:Hawaii, US, offset=3.0)]}
+PstaPattern{period=2.0, themeIndex=8, abs offset=1.0, locationTrajectory=[(loc:Arizona, US, offset=1.0)]}
+PstaPattern{period=5.0, themeIndex=9, abs offset=3.0, locationTrajectory=[(loc:Indiana, US, offset=3.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={fav: 0.0146, baby: 0.0136, quote: 0.0068, emabiggestfansjustinbieber: 0.0055, yea: 0.0053, brian: 0.0053, missed: 0.0049, matter: 0.0048, hotat: 0.0046, forever: 0.0044}}
+p(w|z){z=1, [word:prob]={katy: 0.0580, super: 0.0560, beautiful: 0.0218, heavenly: 0.0174, appreciate: 0.0162, silky: 0.0131, hug: 0.0122, sexy: 0.0119, floyd: 0.0115, hero: 0.0110}}
+p(w|z){z=2, [word:prob]={halloween: 0.0078, football: 0.0072, saturday: 0.0069, add: 0.0067, aye: 0.0046, twice: 0.0044, english: 0.0042, rsvp: 0.0040, army: 0.0039, coach: 0.0039}}
+p(w|z){z=3, [word:prob]={lit: 0.0158, morning: 0.0118, omg: 0.0092, sad: 0.0083, died: 0.0066, mom: 0.0064, nasty: 0.0055, dole: 0.0054, dog: 0.0052, bob: 0.0049}}
+p(w|z){z=4, [word:prob]={addvalue: 0.0239, difference: 0.0225, making: 0.0191, abrams: 0.0188, iframe: 0.0165, home: 0.0139, hill: 0.0111, apple: 0.0107, capital: 0.0103, los: 0.0098}}
+p(w|z){z=5, [word:prob]={thanks: 0.0575, trade: 0.0134, available: 0.0123, table: 0.0120, check: 0.0116, link: 0.0114, daily: 0.0099, product: 0.0099, mtv: 0.0096, purchase: 0.0095}}
+p(w|z){z=6, [word:prob]={giving: 0.0108, wings: 0.0103, lives: 0.0096, reach: 0.0090, value: 0.0088, adds: 0.0084, inspire: 0.0082, encourage: 0.0081, hoe: 0.0072, revivechuck: 0.0067}}
+p(w|z){z=7, [word:prob]={place: 0.0579, und: 0.0113, dance: 0.0078, alert: 0.0065, geo: 0.0062, hello: 0.0055, leandancechallenge: 0.0047, gavin: 0.0047, follows: 0.0045, leandance: 0.0041}}
+p(w|z){z=8, [word:prob]={lmao: 0.0124, fuck: 0.0098, lil: 0.0097, forfor: 0.0080, cute: 0.0074, ads: 0.0065, jesus: 0.0060, update: 0.0058, ash: 0.0055, followed: 0.0052}}
+p(w|z){z=9, [word:prob]={retweet: 0.0114, yearinspace: 0.0080, notice: 0.0072, goodmorning: 0.0066, horror: 0.0060, questions: 0.0058, tami: 0.0048, honest: 0.0042, lucky: 0.0041, race: 0.0040}}
+
+------------------
+Iteration 6
+------------------
+RESULTS:
+PstaPattern{period=2.0, themeIndex=9, abs offset=1.0, locationTrajectory=[(loc:Pennsylvania, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={place: 0.0606, apple: 0.0148, lit: 0.0133, und: 0.0117, armada: 0.0075, dance: 0.0072, iphone: 0.0070, alert: 0.0069, geo: 0.0064, gold: 0.0063}}
+p(w|z){z=1, [word:prob]={link: 0.0125, table: 0.0122, available: 0.0107, trade: 0.0107, check: 0.0099, product: 0.0095, purchase: 0.0095, forex: 0.0094, euro: 0.0092, forms: 0.0088}}
+p(w|z){z=2, [word:prob]={thanks: 0.0890, thank: 0.0567, making: 0.0326, addvalue: 0.0315, difference: 0.0307, sharing: 0.0105, thewalkingdead: 0.0103, girls: 0.0091, contact: 0.0057, makeadifference: 0.0056}}
+p(w|z){z=3, [word:prob]={abrams: 0.0207, iframe: 0.0171, home: 0.0125, capital: 0.0119, los: 0.0102, fake: 0.0102, encino: 0.0089, width: 0.0089, src: 0.0085, doctor: 0.0076}}
+p(w|z){z=4, [word:prob]={mtv: 0.0122, buy: 0.0097, sucks: 0.0077, gavin: 0.0054, football: 0.0051, baby: 0.0043, cnn: 0.0043, warner: 0.0042, zone: 0.0041, swear: 0.0040}}
+p(w|z){z=5, [word:prob]={dave: 0.0644, ben: 0.0301, jim: 0.0151, bout: 0.0091, terrorist: 0.0068, christian: 0.0059, ohio: 0.0056, cases: 0.0053, hill: 0.0053, dead: 0.0053}}
+p(w|z){z=6, [word:prob]={retweet: 0.0120, omg: 0.0120, congrats: 0.0082, feeling: 0.0066, dog: 0.0061, forfor: 0.0059, hosp: 0.0049, join: 0.0048, weird: 0.0044, series: 0.0044}}
+p(w|z){z=7, [word:prob]={katy: 0.0619, super: 0.0614, beautiful: 0.0258, heavenly: 0.0185, silky: 0.0140, sexy: 0.0137, hug: 0.0134, floyd: 0.0124, hero: 0.0116, kiss: 0.0104}}
+p(w|z){z=8, [word:prob]={fav: 0.0173, giving: 0.0098, wings: 0.0095, encourage: 0.0093, adds: 0.0083, reach: 0.0082, value: 0.0081, inspire: 0.0081, lives: 0.0078, tweet: 0.0072}}
+p(w|z){z=9, [word:prob]={appreciate: 0.0240, share: 0.0117, success: 0.0107, willingness: 0.0100, greater: 0.0095, source: 0.0093, inspiration: 0.0087, tomorrow: 0.0065, horror: 0.0051, jesus: 0.0051}}
+
+------------------
+Iteration 7
+------------------
+RESULTS:
+PstaPattern{period=2.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:New Jersey, US, offset=1.0)]}
+PstaPattern{period=5.0, themeIndex=3, abs offset=3.0, locationTrajectory=[(loc:Hawaii, US, offset=3.0)]}
+PstaPattern{period=2.0, themeIndex=4, abs offset=1.0, locationTrajectory=[(loc:Arizona, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={dave: 0.0477, ben: 0.0275, iframe: 0.0170, offer: 0.0129, hill: 0.0125, bout: 0.0094, width: 0.0088, link: 0.0086, src: 0.0085, purchase: 0.0081}}
+p(w|z){z=1, [word:prob]={making: 0.0295, difference: 0.0286, addvalue: 0.0280, thank: 0.0260, fav: 0.0132, hot: 0.0079, ain: 0.0065, jesus: 0.0055, rock: 0.0055, test: 0.0055}}
+p(w|z){z=2, [word:prob]={retweet: 0.0115, appreciated: 0.0071, aren: 0.0070, hoe: 0.0069, fat: 0.0060, haha: 0.0059, fantasy: 0.0056, yea: 0.0055, daddy: 0.0051, hamilton: 0.0048}}
+p(w|z){z=3, [word:prob]={chris: 0.0072, notice: 0.0057, west: 0.0055, site: 0.0053, lmfao: 0.0051, johnson: 0.0049, rts: 0.0049, lewis: 0.0042, kim: 0.0042, barrick: 0.0040}}
+p(w|z){z=4, [word:prob]={lit: 0.0160, source: 0.0112, inspiration: 0.0095, hate: 0.0081, job: 0.0080, hosp: 0.0052, congratulations: 0.0049, hashtag: 0.0048, fucked: 0.0042, congress: 0.0041}}
+p(w|z){z=5, [word:prob]={katy: 0.0556, super: 0.0538, beautiful: 0.0241, heavenly: 0.0167, silky: 0.0126, sexy: 0.0125, hug: 0.0116, floyd: 0.0099, kiss: 0.0092, table: 0.0088}}
+p(w|z){z=6, [word:prob]={thanks: 0.0876, tweet: 0.0139, lives: 0.0132, giving: 0.0128, reach: 0.0112, wings: 0.0097, inspire: 0.0085, adds: 0.0083, value: 0.0082, encourage: 0.0081}}
+p(w|z){z=7, [word:prob]={cute: 0.0070, putting: 0.0056, states: 0.0055, seats: 0.0053, young: 0.0052, victims: 0.0049, suzanne: 0.0049, sleep: 0.0048, acting: 0.0046, responsible: 0.0045}}
+p(w|z){z=8, [word:prob]={place: 0.0615, und: 0.0122, court: 0.0077, geo: 0.0067, horror: 0.0053, smh: 0.0042, mike: 0.0040, street: 0.0040, oklahoma: 0.0039, avoid: 0.0036}}
+p(w|z){z=9, [word:prob]={abrams: 0.0185, capital: 0.0114, home: 0.0108, los: 0.0108, encino: 0.0091, friends: 0.0076, crew: 0.0071, llc: 0.0068, forfor: 0.0065, fake: 0.0059}}
+
+------------------
+Iteration 8
+------------------
+RESULTS:
+PstaPattern{period=3.0, themeIndex=2, abs offset=1.0, locationTrajectory=[(loc:Oregon, US, offset=1.0)]}
+PstaPattern{period=2.0, themeIndex=3, abs offset=1.0, locationTrajectory=[(loc:Maryland, US, offset=1.0)]}
+PstaPattern{period=2.0, themeIndex=4, abs offset=1.0, locationTrajectory=[(loc:Washington, US, offset=1.0)]}
+PstaPattern{period=3.0, themeIndex=5, abs offset=2.0, locationTrajectory=[(loc:Nebraska, US, offset=2.0)]}
+PstaPattern{period=3.0, themeIndex=6, abs offset=2.0, locationTrajectory=[(loc:Oklahoma, US, offset=2.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={dave: 0.0802, ben: 0.0373, jim: 0.0194, iframe: 0.0187, hill: 0.0138, bout: 0.0124, width: 0.0098, src: 0.0093, bob: 0.0075, ole: 0.0072}}
+p(w|z){z=1, [word:prob]={apple: 0.0222, retweet: 0.0117, alert: 0.0099, states: 0.0094, armada: 0.0083, dance: 0.0079, horror: 0.0067, fuck: 0.0063, iphone: 0.0060, limited: 0.0059}}
+p(w|z){z=2, [word:prob]={place: 0.0651, und: 0.0124, congrats: 0.0100, geo: 0.0068, ugly: 0.0059, mood: 0.0045, hasn: 0.0041, angels: 0.0040, ebdabarkadspamore: 0.0040, meant: 0.0039}}
+p(w|z){z=3, [word:prob]={success: 0.0116, giving: 0.0108, oklahoma: 0.0108, dui: 0.0107, wings: 0.0097, share: 0.0096, willingness: 0.0089, reach: 0.0087, greater: 0.0085, adds: 0.0077}}
+p(w|z){z=4, [word:prob]={abrams: 0.0139, inspiration: 0.0102, source: 0.0087, contaminations: 0.0064, safety: 0.0061, paul: 0.0055, hello: 0.0055, member: 0.0054, jesus: 0.0054, tami: 0.0051}}
+p(w|z){z=5, [word:prob]={forfor: 0.0084, pretty: 0.0083, sounds: 0.0083, congratulations: 0.0053, fantasy: 0.0051, notice: 0.0051, hosp: 0.0051, selfietime: 0.0047, okc: 0.0047, dodgers: 0.0044}}
+p(w|z){z=6, [word:prob]={thanks: 0.0868, thank: 0.0327, addvalue: 0.0295, difference: 0.0284, making: 0.0275, lit: 0.0132, sharing: 0.0095, lmao: 0.0067, thewalkingdead: 0.0066, chuck: 0.0064}}
+p(w|z){z=7, [word:prob]={check: 0.0118, link: 0.0116, offer: 0.0111, purchase: 0.0106, product: 0.0103, available: 0.0093, table: 0.0093, forex: 0.0092, values: 0.0090, forms: 0.0090}}
+p(w|z){z=8, [word:prob]={katy: 0.0598, super: 0.0596, beautiful: 0.0243, heavenly: 0.0179, sexy: 0.0136, silky: 0.0135, hug: 0.0129, floyd: 0.0120, hero: 0.0115, kiss: 0.0098}}
+p(w|z){z=9, [word:prob]={fav: 0.0167, tomorrow: 0.0093, los: 0.0061, llc: 0.0060, emabiggestfansjustinbieber: 0.0057, gavin: 0.0056, owl: 0.0052, capital: 0.0051, joke: 0.0050, encino: 0.0050}}
+
+------------------
+Iteration 9
+------------------
+RESULTS:
+PstaPattern{period=5.0, themeIndex=3, abs offset=3.0, locationTrajectory=[(loc:Louisiana, US, offset=3.0)]}
+PstaPattern{period=2.0, themeIndex=4, abs offset=0.0, locationTrajectory=[(loc:Washington, US, offset=0.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={share: 0.0101, omg: 0.0099, willingness: 0.0097, dui: 0.0095, greater: 0.0092, oklahoma: 0.0089, success: 0.0085, court: 0.0062, update: 0.0051, okc: 0.0046}}
+p(w|z){z=1, [word:prob]={place: 0.0559, und: 0.0111, chris: 0.0066, geo: 0.0061, hello: 0.0054, notice: 0.0053, pls: 0.0051, johnson: 0.0039, mood: 0.0039, hashtag: 0.0036}}
+p(w|z){z=2, [word:prob]={apple: 0.0149, offer: 0.0141, music: 0.0122, available: 0.0119, product: 0.0109, link: 0.0103, purchase: 0.0100, values: 0.0090, forms: 0.0090, purchases: 0.0082}}
+p(w|z){z=3, [word:prob]={thanks: 0.0448, home: 0.0240, abrams: 0.0217, capital: 0.0127, los: 0.0109, fake: 0.0108, safety: 0.0096, encino: 0.0095, doctor: 0.0091, crew: 0.0075}}
+p(w|z){z=4, [word:prob]={katy: 0.0567, super: 0.0552, beautiful: 0.0210, heavenly: 0.0171, silky: 0.0129, hug: 0.0127, sexy: 0.0126, kiss: 0.0092, floyd: 0.0092, goodness: 0.0090}}
+p(w|z){z=5, [word:prob]={lit: 0.0157, birthday: 0.0058, contact: 0.0058, series: 0.0056, tami: 0.0056, retweeting: 0.0048, states: 0.0044, trust: 0.0042, keem: 0.0042, keyboard: 0.0040}}
+p(w|z){z=6, [word:prob]={thank: 0.0382, addvalue: 0.0310, making: 0.0289, difference: 0.0277, luck: 0.0073, fuck: 0.0072, cases: 0.0056, message: 0.0054, cubs: 0.0054, hurt: 0.0049}}
+p(w|z){z=7, [word:prob]={mtv: 0.0179, tomorrow: 0.0104, retweet: 0.0100, forfor: 0.0080, chuck: 0.0079, revivechuck: 0.0069, sign: 0.0068, cute: 0.0065, appreciated: 0.0057, ash: 0.0047}}
+p(w|z){z=8, [word:prob]={source: 0.0122, inspiration: 0.0118, pretty: 0.0099, appreciate: 0.0078, boys: 0.0078, complete: 0.0061, daddy: 0.0059, mile: 0.0056, holy: 0.0048, freshman: 0.0045}}
+p(w|z){z=9, [word:prob]={dave: 0.0639, ben: 0.0390, iframe: 0.0191, hill: 0.0146, jim: 0.0123, bout: 0.0121, width: 0.0100, src: 0.0096, cuz: 0.0090, bob: 0.0071}}
+
+------------------
+Iteration 10
+------------------
+RESULTS:
+PstaPattern{period=3.0, themeIndex=2, abs offset=1.0, locationTrajectory=[(loc:Virginia, US, offset=1.0)]}
+PstaPattern{period=2.0, themeIndex=3, abs offset=1.0, locationTrajectory=[(loc:Connecticut, US, offset=1.0)]}
+PstaPattern{period=2.0, themeIndex=6, abs offset=1.0, locationTrajectory=[(loc:Ohio, US, offset=1.0)]}
+PstaPattern{period=2.0, themeIndex=8, abs offset=1.0, locationTrajectory=[(loc:California, US, offset=1.0)]}
+PstaPattern{period=5.0, themeIndex=8, abs offset=3.0, locationTrajectory=[(loc:Iowa, US, offset=3.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={lit: 0.0161, share: 0.0113, success: 0.0109, willingness: 0.0107, greater: 0.0102, wait: 0.0068, yep: 0.0057, angels: 0.0055, firesark: 0.0054, owl: 0.0052}}
+p(w|z){z=1, [word:prob]={lil: 0.0095, lmao: 0.0091, thx: 0.0075, throw: 0.0072, chris: 0.0065, ash: 0.0059, hogan: 0.0055, abt: 0.0050, johnson: 0.0050, ashraf: 0.0048}}
+p(w|z){z=2, [word:prob]={thanks: 0.0702, thank: 0.0543, addvalue: 0.0301, difference: 0.0294, making: 0.0290, thewalkingdead: 0.0092, chuck: 0.0068, sharing: 0.0065, revivechuck: 0.0063, saturday: 0.0056}}
+p(w|z){z=3, [word:prob]={tweet: 0.0194, apple: 0.0168, retweet: 0.0110, giving: 0.0102, wings: 0.0096, value: 0.0095, adds: 0.0083, encourage: 0.0081, alert: 0.0080, inspire: 0.0079}}
+p(w|z){z=4, [word:prob]={abrams: 0.0173, inspiration: 0.0100, mtv: 0.0087, home: 0.0084, source: 0.0080, contaminations: 0.0062, persian: 0.0054, doctor: 0.0053, coverup: 0.0051, member: 0.0046}}
+p(w|z){z=5, [word:prob]={katy: 0.0552, super: 0.0531, place: 0.0429, beautiful: 0.0208, heavenly: 0.0165, silky: 0.0124, hug: 0.0123, sexy: 0.0115, floyd: 0.0104, hero: 0.0098}}
+p(w|z){z=6, [word:prob]={morning: 0.0202, birthday: 0.0185, happy: 0.0177, tomorrow: 0.0083, forfor: 0.0070, yall: 0.0062, art: 0.0058, laws: 0.0047, future: 0.0047, monday: 0.0045}}
+p(w|z){z=7, [word:prob]={appreciated: 0.0070, tami: 0.0054, lmfao: 0.0051, mike: 0.0046, hotat: 0.0046, weather: 0.0045, keem: 0.0045, theis: 0.0044, niggas: 0.0043, getyours: 0.0041}}
+p(w|z){z=8, [word:prob]={check: 0.0152, trade: 0.0137, link: 0.0119, table: 0.0117, daily: 0.0101, purchase: 0.0096, forex: 0.0092, payments: 0.0091, euro: 0.0090, product: 0.0090}}
+p(w|z){z=9, [word:prob]={ben: 0.0337, dave: 0.0244, iframe: 0.0194, width: 0.0101, src: 0.0097, bitch: 0.0083, ohio: 0.0066, cuz: 0.0049, bart: 0.0044, jim: 0.0043}}
+
+------------------
+Iteration 11
+------------------
+RESULTS:
+PstaPattern{period=4.0, themeIndex=0, abs offset=2.0, locationTrajectory=[(loc:Pennsylvania, US, offset=2.0)]}
+PstaPattern{period=5.0, themeIndex=5, abs offset=3.0, locationTrajectory=[(loc:Alabama, US, offset=3.0)]}
+PstaPattern{period=5.0, themeIndex=7, abs offset=3.0, locationTrajectory=[(loc:Indiana, US, offset=3.0)]}
+PstaPattern{period=3.0, themeIndex=8, abs offset=0.0, locationTrajectory=[(loc:New York, US, offset=0.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={hate: 0.0113, cubs: 0.0074, revivechuck: 0.0069, chuck: 0.0065, alive: 0.0063, missed: 0.0063, gavin: 0.0060, series: 0.0052, hes: 0.0051, photo: 0.0047}}
+p(w|z){z=1, [word:prob]={abrams: 0.0212, home: 0.0205, lit: 0.0126, capital: 0.0119, los: 0.0106, fake: 0.0095, safety: 0.0094, encino: 0.0093, doctor: 0.0082, city: 0.0070}}
+p(w|z){z=2, [word:prob]={place: 0.0609, und: 0.0117, children: 0.0094, retweet: 0.0081, sad: 0.0078, court: 0.0069, geo: 0.0064, oklahoma: 0.0063, nyc: 0.0058, contact: 0.0056}}
+p(w|z){z=3, [word:prob]={forfor: 0.0082, rubio: 0.0057, alex: 0.0051, kim: 0.0045, pretty: 0.0044, idiot: 0.0044, mike: 0.0044, blazers: 0.0042, absolutely: 0.0040, freshman: 0.0039}}
+p(w|z){z=4, [word:prob]={thanks: 0.0775, thank: 0.0388, addvalue: 0.0282, making: 0.0265, difference: 0.0251, iframe: 0.0177, apple: 0.0124, trade: 0.0105, table: 0.0098, width: 0.0092}}
+p(w|z){z=5, [word:prob]={super: 0.0605, katy: 0.0601, beautiful: 0.0223, heavenly: 0.0180, silky: 0.0136, hug: 0.0127, sexy: 0.0126, floyd: 0.0121, hero: 0.0113, kiss: 0.0100}}
+p(w|z){z=6, [word:prob]={fav: 0.0137, inspiration: 0.0098, source: 0.0094, fuck: 0.0077, white: 0.0066, jesus: 0.0063, luck: 0.0063, aren: 0.0053, happens: 0.0053, congratulations: 0.0053}}
+p(w|z){z=7, [word:prob]={owl: 0.0055, bro: 0.0054, seats: 0.0053, protect: 0.0050, football: 0.0049, bruh: 0.0048, replay: 0.0046, anniversary: 0.0045, keem: 0.0045, cap: 0.0040}}
+p(w|z){z=8, [word:prob]={giving: 0.0125, reach: 0.0108, dance: 0.0103, wings: 0.0099, inspire: 0.0091, adds: 0.0086, encourage: 0.0085, lives: 0.0084, alert: 0.0074, value: 0.0074}}
+p(w|z){z=9, [word:prob]={share: 0.0124, success: 0.0109, link: 0.0103, available: 0.0096, willingness: 0.0096, check: 0.0095, purchase: 0.0094, product: 0.0091, greater: 0.0091, sleep: 0.0088}}
+

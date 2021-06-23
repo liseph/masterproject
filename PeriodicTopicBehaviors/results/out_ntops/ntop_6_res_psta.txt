@@ -1,0 +1,83 @@
+------------------
+Iteration 1
+------------------
+RESULTS:
+PstaPattern{period=67.0, themeIndex=0, abs offset=2.0, locationTrajectory=[(loc:Indiana, US, offset=2.0)]}
+PstaPattern{period=2.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:Kansas, US, offset=1.0)]}
+PstaPattern{period=79.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:Tennessee, US, offset=1.0)]}
+PstaPattern{period=89.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:Tennessee, US, offset=1.0)]}
+PstaPattern{period=12.0, themeIndex=1, abs offset=11.0, locationTrajectory=[(loc:New Mexico, US, offset=11.0)]}
+PstaPattern{period=67.0, themeIndex=2, abs offset=4.0, locationTrajectory=[(loc:Washington, D.C., US, offset=4.0)]}
+PstaPattern{period=82.0, themeIndex=3, abs offset=5.0, locationTrajectory=[(loc:Georgia, US, offset=5.0)]}
+PstaPattern{period=49.0, themeIndex=3, abs offset=3.0, locationTrajectory=[(loc:New Jersey, US, offset=3.0)]}
+PstaPattern{period=66.0, themeIndex=4, abs offset=2.0, locationTrajectory=[(loc:New York, US, offset=2.0)]}
+PstaPattern{period=79.0, themeIndex=4, abs offset=7.0, locationTrajectory=[(loc:New York, US, offset=7.0)]}
+PstaPattern{period=94.0, themeIndex=5, abs offset=1.0, locationTrajectory=[(loc:Arizona, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={retweet: 0.0415, vote: 0.0354, appreciate: 0.0324, encourage: 0.0244, inspire: 0.0244, success: 0.0231, motivate: 0.0217, greater: 0.0215, goes: 0.0176, rao: 0.0129}}
+p(w|z){z=1, [word:prob]={place: 0.0795, und: 0.0193, omg: 0.0055, difference: 0.0055, que: 0.0050, pictures: 0.0040, ugly: 0.0038, tbh: 0.0036, bless: 0.0035, football: 0.0031}}
+p(w|z){z=2, [word:prob]={okc: 0.0091, lit: 0.0062, oklahoma: 0.0059, liked: 0.0055, holtzclaw: 0.0047, nyc: 0.0047, rape: 0.0046, city: 0.0039, bored: 0.0038, gun: 0.0037}}
+p(w|z){z=3, [word:prob]={happy: 0.0255, guys: 0.0215, hey: 0.0194, hope: 0.0155, fav: 0.0148, win: 0.0138, song: 0.0130, trade: 0.0113, daily: 0.0111, table: 0.0110}}
+p(w|z){z=4, [word:prob]={katy: 0.0612, super: 0.0379, jewelry: 0.0201, beautiful: 0.0186, plz: 0.0133, feel: 0.0130, gifts: 0.0125, face: 0.0120, etsygifts: 0.0117, etsymntt: 0.0116}}
+p(w|z){z=5, [word:prob]={thanks: 0.0283, dave: 0.0195, ben: 0.0161, music: 0.0087, share: 0.0075, tweet: 0.0072, blessings: 0.0064, jim: 0.0059, link: 0.0056, offer: 0.0051}}
+
+------------------
+Iteration 2
+------------------
+RESULTS:
+PstaPattern{period=68.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:Indiana, US, offset=1.0)]}
+PstaPattern{period=78.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:Tennessee, US, offset=1.0)]}
+PstaPattern{period=81.0, themeIndex=0, abs offset=5.0, locationTrajectory=[(loc:Georgia, US, offset=5.0)]}
+PstaPattern{period=87.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:Arizona, US, offset=1.0)]}
+PstaPattern{period=7.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+PstaPattern{period=67.0, themeIndex=1, abs offset=1.0, locationTrajectory=[(loc:New York, US, offset=1.0)]}
+PstaPattern{period=66.0, themeIndex=1, abs offset=2.0, locationTrajectory=[(loc:Indiana, US, offset=2.0)]}
+PstaPattern{period=81.0, themeIndex=1, abs offset=1.0, locationTrajectory=[(loc:New York, US, offset=1.0), (loc:California, US, offset=2.0)]}
+PstaPattern{period=80.0, themeIndex=1, abs offset=5.0, locationTrajectory=[(loc:Oregon, US, offset=5.0)]}
+PstaPattern{period=95.0, themeIndex=1, abs offset=15.0, locationTrajectory=[(loc:Oregon, US, offset=15.0)]}
+PstaPattern{period=50.0, themeIndex=2, abs offset=6.0, locationTrajectory=[(loc:California, US, offset=6.0)]}
+PstaPattern{period=44.0, themeIndex=3, abs offset=0.0, locationTrajectory=[(loc:New York, US, offset=0.0)]}
+PstaPattern{period=51.0, themeIndex=3, abs offset=1.0, locationTrajectory=[(loc:New Jersey, US, offset=1.0)]}
+PstaPattern{period=68.0, themeIndex=4, abs offset=2.0, locationTrajectory=[(loc:Georgia, US, offset=2.0)]}
+PstaPattern{period=44.0, themeIndex=4, abs offset=19.0, locationTrajectory=[(loc:Vermont, US, offset=19.0)]}
+PstaPattern{period=52.0, themeIndex=4, abs offset=6.0, locationTrajectory=[(loc:Oklahoma, US, offset=6.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={retweet: 0.0449, appreciate: 0.0292, encourage: 0.0230, inspire: 0.0230, success: 0.0218, motivate: 0.0202, greater: 0.0201, dave: 0.0152, trade: 0.0127, song: 0.0123}}
+p(w|z){z=1, [word:prob]={vote: 0.0295, jewelry: 0.0231, goes: 0.0159, follow: 0.0158, plz: 0.0157, gifts: 0.0145, etsygifts: 0.0134, etsymntt: 0.0132, etsy: 0.0130, rao: 0.0122}}
+p(w|z){z=2, [word:prob]={thanks: 0.0334, happy: 0.0266, guys: 0.0254, thank: 0.0189, hey: 0.0188, hope: 0.0152, win: 0.0120, birthday: 0.0094, notice: 0.0091, okc: 0.0075}}
+p(w|z){z=3, [word:prob]={place: 0.0798, und: 0.0193, difference: 0.0052, mood: 0.0051, que: 0.0050, share: 0.0050, america: 0.0046, google: 0.0045, peep: 0.0043, morning: 0.0042}}
+p(w|z){z=4, [word:prob]={cute: 0.0099, allah: 0.0080, blessings: 0.0068, ready: 0.0058, clinton: 0.0058, hello: 0.0046, bored: 0.0046, benghazi: 0.0042, votes: 0.0041, bruh: 0.0033}}
+p(w|z){z=5, [word:prob]={katy: 0.0620, super: 0.0390, feel: 0.0215, beautiful: 0.0148, face: 0.0119, sexy: 0.0110, silky: 0.0108, heavenly: 0.0098, gorgeous: 0.0098, yes: 0.0093}}
+
+------------------
+Iteration 3
+------------------
+RESULTS:
+PstaPattern{period=65.0, themeIndex=2, abs offset=2.0, locationTrajectory=[(loc:Georgia, US, offset=2.0)]}
+PstaPattern{period=44.0, themeIndex=2, abs offset=37.0, locationTrajectory=[(loc:New York, US, offset=37.0)]}
+PstaPattern{period=49.0, themeIndex=2, abs offset=7.0, locationTrajectory=[(loc:New Jersey, US, offset=7.0)]}
+PstaPattern{period=3.0, themeIndex=2, abs offset=15.0, locationTrajectory=[(loc:Idaho, US, offset=0.0)]}
+PstaPattern{period=67.0, themeIndex=3, abs offset=1.0, locationTrajectory=[(loc:New York, US, offset=1.0)]}
+PstaPattern{period=65.0, themeIndex=3, abs offset=5.0, locationTrajectory=[(loc:South Carolina, US, offset=5.0)]}
+PstaPattern{period=79.0, themeIndex=3, abs offset=3.0, locationTrajectory=[(loc:New York, US, offset=3.0)]}
+PstaPattern{period=80.0, themeIndex=3, abs offset=8.0, locationTrajectory=[(loc:South Carolina, US, offset=8.0)]}
+PstaPattern{period=44.0, themeIndex=3, abs offset=1.0, locationTrajectory=[(loc:New York, US, offset=1.0)]}
+PstaPattern{period=79.0, themeIndex=4, abs offset=2.0, locationTrajectory=[(loc:California, US, offset=2.0)]}
+PstaPattern{period=81.0, themeIndex=4, abs offset=6.0, locationTrajectory=[(loc:Texas, US, offset=6.0), (loc:Massachusetts, US, offset=61.0)]}
+PstaPattern{period=7.0, themeIndex=4, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+PstaPattern{period=79.0, themeIndex=5, abs offset=1.0, locationTrajectory=[(loc:Arizona, US, offset=1.0)]}
+PstaPattern{period=92.0, themeIndex=5, abs offset=14.0, locationTrajectory=[(loc:California, US, offset=14.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={bump: 0.0065, lit: 0.0065, liked: 0.0054, sleep: 0.0053, cute: 0.0051, seconds: 0.0050, hello: 0.0049, bored: 0.0043, minutes: 0.0040, website: 0.0040}}
+p(w|z){z=1, [word:prob]={thanks: 0.0356, happy: 0.0333, guys: 0.0300, thank: 0.0291, hope: 0.0227, hey: 0.0211, win: 0.0183, fav: 0.0145, song: 0.0109, notice: 0.0095}}
+p(w|z){z=2, [word:prob]={place: 0.0855, und: 0.0206, allah: 0.0070, hurt: 0.0060, que: 0.0054, mood: 0.0046, peep: 0.0045, emabiggestfansd: 0.0042, retweeting: 0.0039, balistenup: 0.0038}}
+p(w|z){z=3, [word:prob]={retweet: 0.0381, appreciate: 0.0265, jewelry: 0.0212, inspire: 0.0212, encourage: 0.0212, success: 0.0201, motivate: 0.0188, greater: 0.0186, plz: 0.0142, gifts: 0.0132}}
+p(w|z){z=4, [word:prob]={katy: 0.0630, super: 0.0394, feel: 0.0197, beautiful: 0.0194, face: 0.0125, want: 0.0117, sexy: 0.0112, silky: 0.0110, trade: 0.0109, table: 0.0105}}
+p(w|z){z=5, [word:prob]={vote: 0.0291, dave: 0.0200, goes: 0.0158, ben: 0.0129, rao: 0.0117, preetika: 0.0117, lovely: 0.0088, jim: 0.0060, cnn: 0.0054, miss: 0.0047}}
+
+------------------
+Iteration 4
+------------------
+RESULTS:
+PstaPattern{period=68.0, themeIndex=0, abs offset=1.0, locationTrajectory=[(loc:Georgia, US, offset=1.0)]}
+PstaPattern{period=80.0, themeIndex=0, abs offset=3.0, l

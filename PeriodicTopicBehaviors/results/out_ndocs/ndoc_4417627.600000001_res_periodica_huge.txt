@@ -1,0 +1,90 @@
+------------------
+Iteration 1
+------------------
+NO RESULTS
+------------------
+Iteration 2
+------------------
+NO RESULTS
+------------------
+Iteration 3
+------------------
+NO RESULTS
+------------------
+Iteration 4
+------------------
+NO RESULTS
+------------------
+Iteration 5
+------------------
+NO RESULTS
+------------------
+Iteration 6
+------------------
+NO RESULTS
+------------------
+Iteration 7
+------------------
+RESULTS:
+PeriodicaResult{period=13.0, topic=0{job: 260438.0, hiring: 223290.0, jobs: 110724.0, careerarc: 103853.0, latest: 70105.0, today: 65890.0, day: 63929.0, great: 63485.0, amp: 61117.0, work: 60718.0, }, #clusters=1, movement=[[t1:3(0.25), t3:3(0.25), ]], segments=[[0, 1, 2, 3]]}
+Ref points:
+0[]
+1[Hawaii, US]
+2[Oregon, US]
+3[Nevada, US]
+4[California, US]
+5[]
+6[Idaho, US]
+7[Arizona, US]
+8[Utah, US]
+9[Colorado, US]
+10[New Mexico, US]
+11[Missouri, US, Iowa, US, Oklahoma, US, Kansas, US, Nebraska, US]
+12[Texas, US]
+13[]
+14[]
+15[New York, US, Maryland, US, Georgia, US, Indiana, US, Pennsylvania, US, Illinois, US, Virginia, US, Connecticut, US, Michigan, US, New Jersey, US, Ohio, US, Tennessee, US, South Carolina, US, West Virginia, US, Kentucky, US, Washington, D.C., US, Louisiana, US, North Carolina, US, Massachusetts, US, Alabama, US, Arkansas, US, Vermont, US, Mississippi, US, New Hampshire, US, Rhode Island, US, Delaware, US]
+16[Minnesota, US]
+17[]
+18[Wisconsin, US]
+19[]
+20[Florida, US]
+------------------
+Iteration 8
+------------------
+RESULTS:
+PeriodicaResult{period=13.0, topic=0{job: 260438.0, hiring: 223290.0, jobs: 110724.0, careerarc: 103853.0, latest: 70105.0, today: 65890.0, day: 63929.0, great: 63485.0, amp: 61117.0, work: 60718.0, }, #clusters=1, movement=[[t1:3(0.25), t3:3(0.25), ]], segments=[[0, 1, 2, 3]]}
+Ref points:
+0[]
+1[Hawaii, US]
+2[Oregon, US]
+3[Nevada, US]
+4[California, US]
+5[]
+6[Idaho, US]
+7[Arizona, US]
+8[Utah, US]
+9[Colorado, US]
+10[New Mexico, US]
+11[Missouri, US, Iowa, US, Oklahoma, US, Kansas, US, Nebraska, US]
+12[Texas, US]
+13[]
+14[]
+15[New York, US, Maryland, US, Georgia, US, Indiana, US, Pennsylvania, US, Illinois, US, Virginia, US, Connecticut, US, Michigan, US, New Jersey, US, Ohio, US, Tennessee, US, South Carolina, US, West Virginia, US, Kentucky, US, Washington, D.C., US, Louisiana, US, North Carolina, US, Massachusetts, US, Alabama, US, Arkansas, US, Vermont, US, Mississippi, US, New Hampshire, US, Rhode Island, US, Delaware, US]
+16[Minnesota, US]
+17[]
+18[Wisconsin, US]
+19[]
+20[Florida, US]
+------------------
+Iteration 9
+------------------
+NO RESULTS
+------------------
+Iteration 10
+------------------
+NO RESULTS
+------------------
+Iteration 11
+------------------
+NO RESULTS

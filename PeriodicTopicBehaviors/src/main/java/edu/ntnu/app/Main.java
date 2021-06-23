@@ -8,6 +8,11 @@ import java.io.PrintWriter;
 public class Main {
 
     public static int nITERATIONS = 1;
+    private static final long MEGABYTE = 1024L * 1024L;
+
+    public static long bytesToMegabytes(long bytes) {
+        return bytes / MEGABYTE;
+    }
 
     public static void main(String[] args) {
 
@@ -74,7 +79,7 @@ public class Main {
                 }
                 case 2: {
                     System.out.println("Run type: varying the number of documents.");
-                    for (double docShare : new double[]{0.01, 0.1, 0.2, 0.5, 0.7, 1.0}) {
+                    for (double docShare : new double[]{0.01, 0.2, 0.5, 1.0}) {
                         alg.run(nDocs, in, out, docShare);
                     }
                     break;
@@ -107,5 +112,14 @@ public class Main {
             e.printStackTrace();
         }
         System.out.println("Finished!");
+        // Get the Java runtime
+        Runtime runtime = Runtime.getRuntime();
+        // Run the garbage collector
+        runtime.gc();
+        // Calculate the used memory
+        long memory = runtime.totalMemory() - runtime.freeMemory();
+        System.out.format("Used memory is bytes: %d / %d \n", memory, runtime.totalMemory());
+        System.out.println("Used memory is megabytes: "
+                + bytesToMegabytes(memory));
     }
 }

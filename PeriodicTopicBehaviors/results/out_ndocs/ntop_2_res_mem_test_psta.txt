@@ -1,0 +1,14 @@
+------------------
+Iteration 1
+------------------
+RESULTS:
+PstaPattern{period=79.0, themeIndex=0, abs offset=22.0, locationTrajectory=[(loc:Georgia, US, offset=22.0)]}
+PstaPattern{period=29.0, themeIndex=0, abs offset=5.0, locationTrajectory=[(loc:Nevada, US, offset=5.0)]}
+PstaPattern{period=68.0, themeIndex=1, abs offset=5.0, locationTrajectory=[(loc:Oregon, US, offset=5.0)]}
+PstaPattern{period=78.0, themeIndex=1, abs offset=3.0, locationTrajectory=[(loc:Oregon, US, offset=3.0)]}
+PstaPattern{period=48.0, themeIndex=1, abs offset=2.0, locationTrajectory=[(loc:New York, US, offset=2.0)]}
+PstaPattern{period=7.0, themeIndex=1, abs offset=1.0, locationTrajectory=[(loc:South Carolina, US, offset=1.0)]}
+THEMES:
+p(w|z){z=0, [word:prob]={katy: 0.0193, super: 0.0119, want: 0.0090, retweet: 0.0085, love: 0.0084, thanks: 0.0083, appreciate: 0.0083, feel: 0.0075, good: 0.0074, beautiful: 0.0070}}
+p(w|z){z=1, [word:prob]={place: 0.0222, jewelry: 0.0067, und: 0.0057, win: 0.0056, guys: 0.0048, plz: 0.0044, follow: 0.0042, america: 0.0042, gifts: 0.0041, daily: 0.0040}}
+

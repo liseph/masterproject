@@ -1,0 +1,236 @@
+------------------
+Iteration 1
+------------------
+RESULTS:
+PeriodicaResult{period=22.0, topic=1{dave: 467.0, ben: 349.0, right: 226.0, jim: 165.0, said: 102.0, iframe: 84.0, rip: 69.0, tell: 68.0, jpg: 64.0, hear: 62.0, }, #clusters=1, movement=[[t0:3(0.25), t1:3(0.25), t7:3(0.13), t8:3(0.13), t9:3(0.13), t12:3(0.13), t15:3(0.13), t18:3(0.13), t19:3(0.13), t21:3(0.13), ]], segments=[[0, 1, 2, 3, 4, 5, 6, 7]]}
+PeriodicaResult{period=30.0, topic=2{amp: 639.0, isis: 190.0, war: 118.0, media: 99.0, gun: 83.0, use: 81.0, refugees: 78.0, law: 75.0, syria: 72.0, control: 71.0, }, #clusters=1, movement=[[t4:7(0.25), t5:7(0.25), t12:7(0.25), t14:7(0.25), t16:7(0.25), t17:7(0.25), t20:7(0.25), ]], segments=[[2, 3, 4, 5]]}
+PeriodicaResult{period=38.0, topic=3{thank: 393.0, happy: 334.0, need: 271.0, guys: 265.0, win: 259.0, hope: 237.0, hey: 236.0, love: 181.0, notice: 179.0, smallzyssosguitar: 146.0, }, #clusters=1, movement=[[t30:3(0.20), t31:3(0.20), t33:3(0.20), t37:3(0.20), ]], segments=[[0, 1, 2, 3, 4]]}
+PeriodicaResult{period=27.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(0.86), t2:7(0.86), t3:7(1.00), t4:7(0.86), t5:7(0.86), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(0.86), t12:7(1.00), t13:7(0.71), t14:7(0.86), t15:7(0.71), t16:7(0.71), t17:7(0.71), t18:7(0.57), t19:7(0.71), t20:7(0.57), t21:7(0.86), t22:7(0.57), t23:7(0.71), t24:7(0.86), t25:7(0.71), t26:7(0.57), ]], segments=[[0, 1, 2, 3, 4, 5, 6]]}
+PeriodicaResult{period=30.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(0.75), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(0.75), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(0.75), t17:7(0.75), t18:7(1.00), t19:7(1.00), t20:7(0.75), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), t29:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]
+------------------
+Iteration 2
+------------------
+RESULTS:
+PeriodicaResult{period=22.0, topic=1{dave: 467.0, ben: 349.0, right: 226.0, jim: 165.0, said: 102.0, iframe: 84.0, rip: 69.0, tell: 68.0, jpg: 64.0, hear: 62.0, }, #clusters=1, movement=[[t0:3(0.25), t1:3(0.25), t7:3(0.13), t8:3(0.13), t9:3(0.13), t12:3(0.13), t15:3(0.13), t18:3(0.13), t19:3(0.13), t21:3(0.13), ]], segments=[[0, 1, 2, 3, 4, 5, 6, 7]]}
+PeriodicaResult{period=30.0, topic=2{amp: 639.0, isis: 190.0, war: 118.0, media: 99.0, gun: 83.0, use: 81.0, refugees: 78.0, law: 75.0, syria: 72.0, control: 71.0, }, #clusters=1, movement=[[t4:7(0.25), t5:7(0.25), t12:7(0.25), t14:7(0.25), t16:7(0.25), t17:7(0.25), t20:7(0.25), ]], segments=[[2, 3, 4, 5]]}
+PeriodicaResult{period=38.0, topic=3{thank: 393.0, happy: 334.0, need: 271.0, guys: 265.0, win: 259.0, hope: 237.0, hey: 236.0, love: 181.0, notice: 179.0, smallzyssosguitar: 146.0, }, #clusters=1, movement=[[t30:3(0.20), t31:3(0.20), t33:3(0.20), t37:3(0.20), ]], segments=[[0, 1, 2, 3, 4]]}
+PeriodicaResult{period=27.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(0.86), t2:7(0.86), t3:7(1.00), t4:7(0.86), t5:7(0.86), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(0.86), t12:7(1.00), t13:7(0.71), t14:7(0.86), t15:7(0.71), t16:7(0.71), t17:7(0.71), t18:7(0.57), t19:7(0.71), t20:7(0.57), t21:7(0.86), t22:7(0.57), t23:7(0.71), t24:7(0.86), t25:7(0.71), t26:7(0.57), ]], segments=[[0, 1, 2, 3, 4, 5, 6]]}
+PeriodicaResult{period=30.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(0.75), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(0.75), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(0.75), t17:7(0.75), t18:7(1.00), t19:7(1.00), t20:7(0.75), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), t29:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]
+------------------
+Iteration 3
+------------------
+RESULTS:
+PeriodicaResult{period=22.0, topic=1{dave: 467.0, ben: 349.0, right: 226.0, jim: 165.0, said: 102.0, iframe: 84.0, rip: 69.0, tell: 68.0, jpg: 64.0, hear: 62.0, }, #clusters=1, movement=[[t0:3(0.25), t1:3(0.25), t7:3(0.13), t8:3(0.13), t9:3(0.13), t12:3(0.13), t15:3(0.13), t18:3(0.13), t19:3(0.13), t21:3(0.13), ]], segments=[[0, 1, 2, 3, 4, 5, 6, 7]]}
+PeriodicaResult{period=30.0, topic=2{amp: 639.0, isis: 190.0, war: 118.0, media: 99.0, gun: 83.0, use: 81.0, refugees: 78.0, law: 75.0, syria: 72.0, control: 71.0, }, #clusters=1, movement=[[t4:7(0.25), t5:7(0.25), t12:7(0.25), t14:7(0.25), t16:7(0.25), t17:7(0.25), t20:7(0.25), ]], segments=[[2, 3, 4, 5]]}
+PeriodicaResult{period=38.0, topic=3{thank: 393.0, happy: 334.0, need: 271.0, guys: 265.0, win: 259.0, hope: 237.0, hey: 236.0, love: 181.0, notice: 179.0, smallzyssosguitar: 146.0, }, #clusters=1, movement=[[t30:3(0.20), t31:3(0.20), t33:3(0.20), t37:3(0.20), ]], segments=[[0, 1, 2, 3, 4]]}
+PeriodicaResult{period=30.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(0.75), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(0.75), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(0.75), t17:7(0.75), t18:7(1.00), t19:7(1.00), t20:7(0.75), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), t29:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]
+------------------
+Iteration 4
+------------------
+RESULTS:
+PeriodicaResult{period=22.0, topic=1{dave: 467.0, ben: 349.0, right: 226.0, jim: 165.0, said: 102.0, iframe: 84.0, rip: 69.0, tell: 68.0, jpg: 64.0, hear: 62.0, }, #clusters=1, movement=[[t0:3(0.25), t1:3(0.25), t7:3(0.13), t8:3(0.13), t9:3(0.13), t12:3(0.13), t15:3(0.13), t18:3(0.13), t19:3(0.13), t21:3(0.13), ]], segments=[[0, 1, 2, 3, 4, 5, 6, 7]]}
+PeriodicaResult{period=30.0, topic=2{amp: 639.0, isis: 190.0, war: 118.0, media: 99.0, gun: 83.0, use: 81.0, refugees: 78.0, law: 75.0, syria: 72.0, control: 71.0, }, #clusters=1, movement=[[t4:7(0.25), t5:7(0.25), t12:7(0.25), t14:7(0.25), t16:7(0.25), t17:7(0.25), t20:7(0.25), ]], segments=[[2, 3, 4, 5]]}
+PeriodicaResult{period=38.0, topic=3{thank: 393.0, happy: 334.0, need: 271.0, guys: 265.0, win: 259.0, hope: 237.0, hey: 236.0, love: 181.0, notice: 179.0, smallzyssosguitar: 146.0, }, #clusters=1, movement=[[t30:3(0.20), t31:3(0.20), t33:3(0.20), t37:3(0.20), ]], segments=[[0, 1, 2, 3, 4]]}
+PeriodicaResult{period=27.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(0.86), t2:7(0.86), t3:7(1.00), t4:7(0.86), t5:7(0.86), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(0.86), t12:7(1.00), t13:7(0.71), t14:7(0.86), t15:7(0.71), t16:7(0.71), t17:7(0.71), t18:7(0.57), t19:7(0.71), t20:7(0.57), t21:7(0.86), t22:7(0.57), t23:7(0.71), t24:7(0.86), t25:7(0.71), t26:7(0.57), ]], segments=[[0, 1, 2, 3, 4, 5, 6]]}
+PeriodicaResult{period=30.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(0.75), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(0.75), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(0.75), t17:7(0.75), t18:7(1.00), t19:7(1.00), t20:7(0.75), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), t29:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]
+------------------
+Iteration 5
+------------------
+RESULTS:
+PeriodicaResult{period=22.0, topic=1{dave: 467.0, ben: 349.0, right: 226.0, jim: 165.0, said: 102.0, iframe: 84.0, rip: 69.0, tell: 68.0, jpg: 64.0, hear: 62.0, }, #clusters=1, movement=[[t0:3(0.25), t1:3(0.25), t7:3(0.13), t8:3(0.13), t9:3(0.13), t12:3(0.13), t15:3(0.13), t18:3(0.13), t19:3(0.13), t21:3(0.13), ]], segments=[[0, 1, 2, 3, 4, 5, 6, 7]]}
+PeriodicaResult{period=28.0, topic=2{amp: 639.0, isis: 190.0, war: 118.0, media: 99.0, gun: 83.0, use: 81.0, refugees: 78.0, law: 75.0, syria: 72.0, control: 71.0, }, #clusters=1, movement=[[t8:7(0.25), t9:7(0.25), t16:7(0.25), t18:7(0.25), t20:7(0.25), t21:7(0.25), t24:7(0.25), ]], segments=[[2, 3, 4, 5]]}
+PeriodicaResult{period=30.0, topic=2{amp: 639.0, isis: 190.0, war: 118.0, media: 99.0, gun: 83.0, use: 81.0, refugees: 78.0, law: 75.0, syria: 72.0, control: 71.0, }, #clusters=1, movement=[[t4:7(0.25), t5:7(0.25), t12:7(0.25), t14:7(0.25), t16:7(0.25), t17:7(0.25), t20:7(0.25), ]], segments=[[2, 3, 4, 5]]}
+PeriodicaResult{period=38.0, topic=3{thank: 393.0, happy: 334.0, need: 271.0, guys: 265.0, win: 259.0, hope: 237.0, hey: 236.0, love: 181.0, notice: 179.0, smallzyssosguitar: 146.0, }, #clusters=1, movement=[[t30:3(0.20), t31:3(0.20), t33:3(0.20), t37:3(0.20), ]], segments=[[0, 1, 2, 3, 4]]}
+PeriodicaResult{period=27.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(0.86), t2:7(0.86), t3:7(1.00), t4:7(0.86), t5:7(0.86), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(0.86), t12:7(1.00), t13:7(0.71), t14:7(0.86), t15:7(0.71), t16:7(0.71), t17:7(0.71), t18:7(0.57), t19:7(0.71), t20:7(0.57), t21:7(0.86), t22:7(0.57), t23:7(0.71), t24:7(0.86), t25:7(0.71), t26:7(0.57), ]], segments=[[0, 1, 2, 3, 4, 5, 6]]}
+PeriodicaResult{period=30.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(0.75), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(0.75), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(0.75), t17:7(0.75), t18:7(1.00), t19:7(1.00), t20:7(0.75), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), t29:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]
+------------------
+Iteration 6
+------------------
+RESULTS:
+PeriodicaResult{period=22.0, topic=1{dave: 467.0, ben: 349.0, right: 226.0, jim: 165.0, said: 102.0, iframe: 84.0, rip: 69.0, tell: 68.0, jpg: 64.0, hear: 62.0, }, #clusters=1, movement=[[t0:3(0.25), t1:3(0.25), t7:3(0.13), t8:3(0.13), t9:3(0.13), t12:3(0.13), t15:3(0.13), t18:3(0.13), t19:3(0.13), t21:3(0.13), ]], segments=[[0, 1, 2, 3, 4, 5, 6, 7]]}
+PeriodicaResult{period=30.0, topic=2{amp: 639.0, isis: 190.0, war: 118.0, media: 99.0, gun: 83.0, use: 81.0, refugees: 78.0, law: 75.0, syria: 72.0, control: 71.0, }, #clusters=1, movement=[[t4:7(0.25), t5:7(0.25), t12:7(0.25), t14:7(0.25), t16:7(0.25), t17:7(0.25), t20:7(0.25), ]], segments=[[2, 3, 4, 5]]}
+PeriodicaResult{period=38.0, topic=3{thank: 393.0, happy: 334.0, need: 271.0, guys: 265.0, win: 259.0, hope: 237.0, hey: 236.0, love: 181.0, notice: 179.0, smallzyssosguitar: 146.0, }, #clusters=1, movement=[[t30:3(0.20), t31:3(0.20), t33:3(0.20), t37:3(0.20), ]], segments=[[0, 1, 2, 3, 4]]}
+PeriodicaResult{period=27.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(0.86), t2:7(0.86), t3:7(1.00), t4:7(0.86), t5:7(0.86), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(0.86), t12:7(1.00), t13:7(0.71), t14:7(0.86), t15:7(0.71), t16:7(0.71), t17:7(0.71), t18:7(0.57), t19:7(0.71), t20:7(0.57), t21:7(0.86), t22:7(0.57), t23:7(0.71), t24:7(0.86), t25:7(0.71), t26:7(0.57), ]], segments=[[0, 1, 2, 3, 4, 5, 6]]}
+PeriodicaResult{period=30.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(0.75), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(0.75), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(0.75), t17:7(0.75), t18:7(1.00), t19:7(1.00), t20:7(0.75), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), t29:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]
+------------------
+Iteration 7
+------------------
+RESULTS:
+PeriodicaResult{period=22.0, topic=1{dave: 467.0, ben: 349.0, right: 226.0, jim: 165.0, said: 102.0, iframe: 84.0, rip: 69.0, tell: 68.0, jpg: 64.0, hear: 62.0, }, #clusters=1, movement=[[t0:3(0.25), t1:3(0.25), t7:3(0.13), t8:3(0.13), t9:3(0.13), t12:3(0.13), t15:3(0.13), t18:3(0.13), t19:3(0.13), t21:3(0.13), ]], segments=[[0, 1, 2, 3, 4, 5, 6, 7]]}
+PeriodicaResult{period=30.0, topic=2{amp: 639.0, isis: 190.0, war: 118.0, media: 99.0, gun: 83.0, use: 81.0, refugees: 78.0, law: 75.0, syria: 72.0, control: 71.0, }, #clusters=1, movement=[[t4:7(0.25), t5:7(0.25), t12:7(0.25), t14:7(0.25), t16:7(0.25), t17:7(0.25), t20:7(0.25), ]], segments=[[2, 3, 4, 5]]}
+PeriodicaResult{period=38.0, topic=3{thank: 393.0, happy: 334.0, need: 271.0, guys: 265.0, win: 259.0, hope: 237.0, hey: 236.0, love: 181.0, notice: 179.0, smallzyssosguitar: 146.0, }, #clusters=1, movement=[[t30:3(0.20), t31:3(0.20), t33:3(0.20), t37:3(0.20), ]], segments=[[0, 1, 2, 3, 4]]}
+PeriodicaResult{period=27.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(0.86), t2:7(0.86), t3:7(1.00), t4:7(0.86), t5:7(0.86), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(0.86), t12:7(1.00), t13:7(0.71), t14:7(0.86), t15:7(0.71), t16:7(0.71), t17:7(0.71), t18:7(0.57), t19:7(0.71), t20:7(0.57), t21:7(0.86), t22:7(0.57), t23:7(0.71), t24:7(0.86), t25:7(0.71), t26:7(0.57), ]], segments=[[0, 1, 2, 3, 4, 5, 6]]}
+PeriodicaResult{period=30.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(0.75), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(0.75), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(0.75), t17:7(0.75), t18:7(1.00), t19:7(1.00), t20:7(0.75), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), t29:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]
+------------------
+Iteration 8
+------------------
+RESULTS:
+PeriodicaResult{period=22.0, topic=1{dave: 467.0, ben: 349.0, right: 226.0, jim: 165.0, said: 102.0, iframe: 84.0, rip: 69.0, tell: 68.0, jpg: 64.0, hear: 62.0, }, #clusters=1, movement=[[t0:3(0.25), t1:3(0.25), t7:3(0.13), t8:3(0.13), t9:3(0.13), t12:3(0.13), t15:3(0.13), t18:3(0.13), t19:3(0.13), t21:3(0.13), ]], segments=[[0, 1, 2, 3, 4, 5, 6, 7]]}
+PeriodicaResult{period=30.0, topic=2{amp: 639.0, isis: 190.0, war: 118.0, media: 99.0, gun: 83.0, use: 81.0, refugees: 78.0, law: 75.0, syria: 72.0, control: 71.0, }, #clusters=1, movement=[[t4:7(0.25), t5:7(0.25), t12:7(0.25), t14:7(0.25), t16:7(0.25), t17:7(0.25), t20:7(0.25), ]], segments=[[2, 3, 4, 5]]}
+PeriodicaResult{period=38.0, topic=3{thank: 393.0, happy: 334.0, need: 271.0, guys: 265.0, win: 259.0, hope: 237.0, hey: 236.0, love: 181.0, notice: 179.0, smallzyssosguitar: 146.0, }, #clusters=1, movement=[[t30:3(0.20), t31:3(0.20), t33:3(0.20), t37:3(0.20), ]], segments=[[0, 1, 2, 3, 4]]}
+PeriodicaResult{period=30.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(0.75), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(0.75), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(0.75), t17:7(0.75), t18:7(1.00), t19:7(1.00), t20:7(0.75), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), t29:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]
+------------------
+Iteration 9
+------------------
+RESULTS:
+PeriodicaResult{period=22.0, topic=1{dave: 467.0, ben: 349.0, right: 226.0, jim: 165.0, said: 102.0, iframe: 84.0, rip: 69.0, tell: 68.0, jpg: 64.0, hear: 62.0, }, #clusters=1, movement=[[t0:3(0.25), t1:3(0.25), t7:3(0.13), t8:3(0.13), t9:3(0.13), t12:3(0.13), t15:3(0.13), t18:3(0.13), t19:3(0.13), t21:3(0.13), ]], segments=[[0, 1, 2, 3, 4, 5, 6, 7]]}
+PeriodicaResult{period=38.0, topic=3{thank: 393.0, happy: 334.0, need: 271.0, guys: 265.0, win: 259.0, hope: 237.0, hey: 236.0, love: 181.0, notice: 179.0, smallzyssosguitar: 146.0, }, #clusters=1, movement=[[t30:3(0.20), t31:3(0.20), t33:3(0.20), t37:3(0.20), ]], segments=[[0, 1, 2, 3, 4]]}
+PeriodicaResult{period=30.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(0.75), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(0.75), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(0.75), t17:7(0.75), t18:7(1.00), t19:7(1.00), t20:7(0.75), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), t29:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]
+------------------
+Iteration 10
+------------------
+RESULTS:
+PeriodicaResult{period=22.0, topic=1{dave: 467.0, ben: 349.0, right: 226.0, jim: 165.0, said: 102.0, iframe: 84.0, rip: 69.0, tell: 68.0, jpg: 64.0, hear: 62.0, }, #clusters=1, movement=[[t0:3(0.25), t1:3(0.25), t7:3(0.13), t8:3(0.13), t9:3(0.13), t12:3(0.13), t15:3(0.13), t18:3(0.13), t19:3(0.13), t21:3(0.13), ]], segments=[[0, 1, 2, 3, 4, 5, 6, 7]]}
+PeriodicaResult{period=38.0, topic=3{thank: 393.0, happy: 334.0, need: 271.0, guys: 265.0, win: 259.0, hope: 237.0, hey: 236.0, love: 181.0, notice: 179.0, smallzyssosguitar: 146.0, }, #clusters=1, movement=[[t30:3(0.20), t31:3(0.20), t33:3(0.20), t37:3(0.20), ]], segments=[[0, 1, 2, 3, 4]]}
+PeriodicaResult{period=30.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(0.75), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(0.75), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(0.75), t17:7(0.75), t18:7(1.00), t19:7(1.00), t20:7(0.75), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), t29:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]
+------------------
+Iteration 11
+------------------
+RESULTS:
+PeriodicaResult{period=22.0, topic=1{dave: 467.0, ben: 349.0, right: 226.0, jim: 165.0, said: 102.0, iframe: 84.0, rip: 69.0, tell: 68.0, jpg: 64.0, hear: 62.0, }, #clusters=1, movement=[[t0:3(0.25), t1:3(0.25), t7:3(0.13), t8:3(0.13), t9:3(0.13), t12:3(0.13), t15:3(0.13), t18:3(0.13), t19:3(0.13), t21:3(0.13), ]], segments=[[0, 1, 2, 3, 4, 5, 6, 7]]}
+PeriodicaResult{period=30.0, topic=2{amp: 639.0, isis: 190.0, war: 118.0, media: 99.0, gun: 83.0, use: 81.0, refugees: 78.0, law: 75.0, syria: 72.0, control: 71.0, }, #clusters=1, movement=[[t4:7(0.25), t5:7(0.25), t12:7(0.25), t14:7(0.25), t16:7(0.25), t17:7(0.25), t20:7(0.25), ]], segments=[[2, 3, 4, 5]]}
+PeriodicaResult{period=27.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(0.86), t2:7(0.86), t3:7(1.00), t4:7(0.86), t5:7(0.86), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(0.86), t12:7(1.00), t13:7(0.71), t14:7(0.86), t15:7(0.71), t16:7(0.71), t17:7(0.71), t18:7(0.57), t19:7(0.71), t20:7(0.57), t21:7(0.86), t22:7(0.57), t23:7(0.71), t24:7(0.86), t25:7(0.71), t26:7(0.57), ]], segments=[[0, 1, 2, 3, 4, 5, 6]]}
+PeriodicaResult{period=30.0, topic=4{like: 4602.0, amp: 3381.0, love: 2511.0, know: 2287.0, good: 2233.0, people: 2175.0, time: 1842.0, think: 1785.0, want: 1621.0, got: 1567.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(0.75), t6:7(1.00), t7:7(1.00), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(0.75), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(0.75), t17:7(0.75), t18:7(1.00), t19:7(1.00), t20:7(0.75), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), t29:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]

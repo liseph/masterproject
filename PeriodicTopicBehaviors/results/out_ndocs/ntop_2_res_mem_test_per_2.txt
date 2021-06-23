@@ -1,0 +1,18 @@
+------------------
+Iteration 1
+------------------
+RESULTS:
+PeriodicaResult{period=29.0, topic=1{like: 4647.0, amp: 3545.0, love: 2759.0, know: 2304.0, people: 2185.0, good: 2066.0, time: 1834.0, think: 1785.0, need: 1703.0, thanks: 1565.0, }, #clusters=1, movement=[[t0:7(1.00), t1:7(1.00), t2:7(1.00), t3:7(1.00), t4:7(1.00), t5:7(1.00), t6:7(1.00), t7:7(0.75), t8:7(1.00), t9:7(1.00), t10:7(1.00), t11:7(1.00), t12:7(1.00), t13:7(1.00), t14:7(0.75), t15:7(1.00), t16:7(1.00), t17:7(0.75), t18:7(1.00), t19:7(0.75), t20:7(1.00), t21:7(1.00), t22:7(1.00), t23:7(1.00), t24:7(1.00), t25:7(1.00), t26:7(1.00), t27:7(1.00), t28:7(1.00), ]], segments=[[2, 3, 4, 5]]}
+Ref points:
+0[]
+1[California, US]
+2[Oregon, US, Washington, US]
+3[Nevada, US, Arizona, US]
+4[Colorado, US]
+5[Texas, US, Oklahoma, US, Kansas, US]
+6[Minnesota, US]
+7[Arkansas, US]
+8[New York, US, Illinois, US, Massachusetts, US, Virginia, US, Missouri, US, Michigan, US, South Carolina, US, Florida, US, Maryland, US, North Carolina, US, Georgia, US, Tennessee, US, New Jersey, US, West Virginia, US, Pennsylvania, US, Ohio, US, Indiana, US, Connecticut, US, New Hampshire, US, Washington, D.C., US, Rhode Island, US, Delaware, US, Vermont, US]
+9[Louisiana, US]
+10[Kentucky, US]
+11[]
